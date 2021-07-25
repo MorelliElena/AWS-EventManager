@@ -1,0 +1,30 @@
+{
+  "name": "aws-eventmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "node server/index.js",
+    "dev": "nodemon ./server/index.js localhost 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MorelliElena/AWS-EventManager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MorelliElena/AWS-EventManager/issues"
+  },
+  "homepage": "https://github.com/MorelliElena/AWS-EventManager#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "expess": "^0.0.1-security",
+    "mongoose": "^5.13.3"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  }
+}
