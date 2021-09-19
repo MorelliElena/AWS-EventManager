@@ -18,8 +18,16 @@ class EventInfo extends React.Component {
                                 {this.props.item.location.city} <br />
                                 {this.props.item.location.province}
                             </section>
+                            <section>
+                                {this.props.item.tag.map((tag)=>
+                                    <span className="badge rounded-pill bg-info text-dark"
+                                          style={{marginLeft: .65, marginRight:.65}}>
+                                        {tag}
+                                    </span>
+                                )}
+                            </section>
                         </p>
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                        <a href="#" className="btn btn-primary">Show more</a>
                     </div>
                 </div>
             </div>
