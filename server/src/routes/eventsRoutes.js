@@ -1,7 +1,9 @@
 module.exports = function(app) {
-    var eventsController = require('../controllers/eventsController');
+    const eventsController = require('../controllers/eventsController');
 
     app.route('/api/events')
         .get(eventsController.list_events);
 
+    app.route('/api/events/:id')
+        .get(eventsController.read_event)
 };
