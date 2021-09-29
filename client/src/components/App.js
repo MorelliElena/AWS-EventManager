@@ -1,66 +1,23 @@
 import React, { Component } from 'react';
-import {InputGroup, FormControl, Button, Dropdown, DropdownButton, Container, Row, Col} from 'react-bootstrap';
 import './App.css';
-import Events from './Events.js';
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Home from './Home.js';
+import EventInfo from './events/EventInfo'
+let routes = require("./routes/Routes")
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-    }
-
-    render() {
+       render() {
         return (
-            <div className= "home">
-                <h1> Event Hub </h1>
-                <Container>
-                    <Row>
-                        <Col  xs={6} md={4}>
-                           <div className= "side-bar">
-                               <InputGroup className="mb-3">
-                                   <FormControl
-                                       placeholder="Recipient's username"
-                                       aria-label="Recipient's username"
-                                       aria-describedby="basic-addon2"
-                                   />
-                                   <Button variant="outline-secondary" id="button-addon2">
-                                       Search
-                                   </Button>
-                               </InputGroup>
-                               <InputGroup className="mb-4">
-                                   <DropdownButton
-                                       variant="outline-secondary"
-                                       title="Dropdown"
-                                       id="input-group-dropdown-2">
-                                       <Dropdown.Item href="#">Action</Dropdown.Item>
-                                   </DropdownButton>
-                                   <FormControl aria-label="Text input with dropdown button" readOnly={true}/>
-                               </InputGroup>
-                               <InputGroup className="mb-5">
-                                   <DropdownButton
-                                       variant="outline-secondary"
-                                       title="Dropdown"
-                                       id="input-group-dropdown-1">
-                                       <Dropdown.Item href="#">Action</Dropdown.Item>
-                                   </DropdownButton>
-                                   <FormControl aria-label="Text input with dropdown button" readOnly={true}/>
-                               </InputGroup>
-                               <div className="form-group">
-                                   <label htmlFor="formGroupExampleInput">Example label</label>
-                                   <div className="form-check">
-                                       <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"/>
-                                       <label className="form-check-label" htmlFor="inlineCheckbox1">1</label>
-                                   </div>
-                               </div>
-                           </div>
-                        </Col>
-                        <Col  xs={12} md={8}>
-                            <div className="show-events" >
-                                    <Events />
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
+            <div>
+            <Router>
+                <div>
+                <Switch>
+                    <Route exact path = {routes.home} component = {Home} />
+                    <Route path = {routes.event} exact render = {(props) =>
+                        <EventInfo {...props}/>} />
+                        </Switch>
+                </div>
+            </Router>
             </div>
         );
     }
