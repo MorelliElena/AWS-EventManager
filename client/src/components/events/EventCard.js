@@ -1,8 +1,6 @@
 import React from "react";
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Api from '../api/Api'
-import {event} from "../routes/Routes";
-const moment = require('moment');
 let routes = require("../routes/Routes")
 
 class EventCard extends React.Component {
@@ -18,7 +16,7 @@ class EventCard extends React.Component {
         Api.getEvents(
             error => {
                 console.log(error)
-                this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
             }, events => {
                 this.setState({events:events})
             }

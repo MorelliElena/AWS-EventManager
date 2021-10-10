@@ -24,7 +24,7 @@ app.use(bodyParser.json());
     res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });*/
 
-var routes = require('./src/routes/eventsRoutes');
+var routes = require('./src/routes/routes');
 routes(app);
 
 app.use(function(req, res) {

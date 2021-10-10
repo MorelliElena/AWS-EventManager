@@ -1,6 +1,14 @@
 import Axios from "axios";
 const moment = require('moment');
 
+let mapTag = (tag) =>{
+    return{
+        name: tag.name,
+        desc: tag.desc,
+        _id: tag._id,
+    }
+}
+
 let mapEvent = (event) => {
     let location = event.location ? {
         address: event.location.address,
@@ -15,7 +23,7 @@ let mapEvent = (event) => {
         max_participants: event.max_participants,
         name: event.name,
         n_participants: event.n ? event.n_participants.length : 0,
-        tags: event.tags || [],
+        tags: event.tag || [],
         _id: event._id,
         location: location,
         img: event.img
@@ -55,7 +63,15 @@ let getEvents = (onError, onSuccess) => {
         response => onSuccess(response.data.map( mapEvent)))
 }
 
+let getTags = (onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/tags/`),
+        [200],
+        onError,
+        response => onSuccess(response.data.map(mapTag)))
+}
+
 export default {
     getEventInformation,
-    getEvents
+    getEvents,
+    getTags
 }
