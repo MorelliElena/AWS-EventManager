@@ -10,7 +10,7 @@ global.appRoot = path.resolve(__dirname);
 const PORT = 5000;
 
 
-mongoose.connect('mongodb://localhost/EventsDB', {useNewUrlParser: true, useFindAndModify: false}).then();
+mongoose.connect('mongodb://localhost/EventsDB', {useNewUrlParser: true, useUnifiedTopology: true}).then();
 
 app.use(cors())
 

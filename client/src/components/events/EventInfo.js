@@ -1,7 +1,6 @@
 import React from 'react';
 import Api from '../api/Api'
 import '../events/EventInfo.css'
-import {Link} from "react-router-dom";
 import {Button} from "react-bootstrap";
 
 let routes = require("../routes/Routes")
@@ -57,6 +56,7 @@ class EventInfo extends React.Component {
                                     <section>
                                         {this.state.eventInfo.tags.map((tag) =>
                                                 <span className="badge rounded-pill bg-info text-dark"
+                                                      key = {"tag" + tag + this.state.eventInfo._id}
                                                       style={{marginLeft: .65, marginRight: .65}}>
                                         {tag}
                                     </span>

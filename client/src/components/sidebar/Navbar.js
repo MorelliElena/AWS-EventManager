@@ -1,16 +1,18 @@
 import React from "react";
 import {Button, Dropdown, DropdownButton, FormControl, InputGroup} from "react-bootstrap";
 import Api from "../api/Api";
-
+import update from 'react-addons-update';
 
 
 class Navbar extends React.Component{
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            tags: []
+            tags: [],
+            checked:[],
         }
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +24,16 @@ class Navbar extends React.Component{
                 this.setState({tags:tags})
             }
         )
+    }
+
+    handleInputChange = (event) => {
+        if(event.target.checked){
+            this.setState({checked:this.state.checked.concat(event.target.id)})
+        } else {
+            this.setState(prevState => ({
+                checked: update(prevState.checked, {$splice: [[event.target.id, 1]]})
+            }));
+        }
     }
 
     render() {
@@ -55,15 +67,13 @@ class Navbar extends React.Component{
                         <div className="form-check">
                             { this.state.tags.map(tag => {
                                 return <div key={tag._id}>
-                                    <input className="form-check-input" type="checkbox" id={tag._id}/>
+                                    <input className="form-check-input" type="checkbox" id={tag._id} onChange={ e => this.handleInputChange(e)}/>
                                     <label className="form-check-label" htmlFor="inlineCheckbox1">{tag.name}</label>
                                 </div>
                             })}
                         </div>
                     </div>
-                    <Button variant="outline-secondary" id="button-addon2">
-                        Filter
-                    </Button>
+                    <Button className="btn btn-primary" onClick = {() =>  this.props.handler(this.state.checked)} > Filter </Button>
                 </div>
 
             );
