@@ -16,8 +16,7 @@ class EventCard extends React.Component {
             <div>
                 <div className="card text-center h-100">
                     {this.state.eventInfo.img ?
-                        <img className="card-img-top" src={this.state.eventInfo.img}
-                             alt="Card image cap"/> : null}
+                        <img className="card-img-top" alt="Card image cap" src={this.state.eventInfo.img}/> : null}
                     <div className="card-body">
                         <h5 className="card-title">{this.state.eventInfo.name}</h5>
                         <section className="card-text">

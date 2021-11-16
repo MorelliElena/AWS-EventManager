@@ -9,6 +9,14 @@ let mapTag = (tag) =>{
     }
 }
 
+let mapPlaces = (place) =>{
+    return{
+        name: place.name,
+        desc: place.desc,
+        _id: place._id,
+    }
+}
+
 let mapEvent = (event) => {
     let location = event.location ? {
         address: event.location.address,
@@ -70,8 +78,16 @@ let getTags = (onError, onSuccess) => {
         response => onSuccess(response.data.map(mapTag)))
 }
 
+let getPlaces = (onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/places/`),
+        [200],
+        onError,
+        response => onSuccess(response.data.map(mapPlaces)))
+}
+
 export default {
     getEventInformation,
     getEvents,
-    getTags
+    getTags,
+    getPlaces
 }

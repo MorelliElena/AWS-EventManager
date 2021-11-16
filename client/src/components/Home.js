@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Col, Container, Row} from "react-bootstrap";
 import EventCard from "./events/EventCard";
 import Navbar from "./sidebar/Navbar";
 import Api from "./api/Api";
+import Header from "./headerbar/Header";
 
 let filteredTags = [];
+let locFilter;
 
 class Home extends Component {
     constructor(props) {
@@ -12,13 +13,14 @@ class Home extends Component {
         this.state = {
             events: [],
             tags: [],
-            filter: false
+            filter: false,
+            loc: false
         }
         this.filterHandler = this.filterHandler.bind(this)
+        this.locHandler = this.locHandler.bind(this)
     }
 
     filterHandler(event){
-        console.log("evento: "+ event);
         if (event != null) {
             this.setState({filter: true});
             filteredTags = event.map(t => this.state.tags.find(el => el._id === t)).map(e => e.name)
@@ -27,6 +29,18 @@ class Home extends Component {
             this.setState({filter: false});
         }
 
+    }
+
+    locHandler(event){
+        if (event != null) {
+            if(event !== "Tutte le province"){
+               this.setState({loc:true})
+               locFilter = event
+            } else {
+               this.setState({loc:false})
+            }
+            console.log(event)
+        }
     }
 
     componentDidMount() {
@@ -57,16 +71,19 @@ class Home extends Component {
         } else {
             let eventsList = this.state.events;
             if (this.state.filter) {
-                eventsList = this.state.events.filter(e => filteredTags.every(t => e.tags.includes(t)));
-                console.log(eventsList);
+                eventsList = eventsList.filter(e => filteredTags.every(t => e.tags.includes(t)));
             }
-            if (eventsList.length === 0 && this.state.filter) {
+            if(this.state.loc) {
+                eventsList = eventsList.filter(e => e.location.province === locFilter)
+                console.log(eventsList)
+            }
+            if (eventsList.length === 0 && (this.state.filter || this.state.loc)) {
                 return (
                     <div> Nessun risultato per la tua ricerca </div>
                 )
             } else {
                 return (
-                    <div className="row row-cols-1 row-cols-md-3 g-4" key={"event-card-container"}>
+                    <div className="row row-cols-1 row-cols-xl-5 row-cols-md-3 g-4" key={"event-card-container"}>
                         {
                             eventsList.map(event =>
                                 <div className="col" key={"col" + event._id}>
@@ -82,20 +99,20 @@ class Home extends Component {
 
     render() {
         return(
+            <div className="container-fluid">
             <div className= "home">
-                <h1> Event Hub </h1>
-                <Container>
-                   <Row>
-                        <Col  xs={6} md={4}>
-                            <Navbar handler = {this.filterHandler}/>
-                        </Col>
-                        <Col  xs={12} md={8}>
+                    <div className="row">
+                        <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                            <Navbar handler = {this.filterHandler} state = {true} handler1 ={this.locHandler}/>
+                        </div>
+                        <div className="col-md-9 col-7 offset-md-3 offset-5" id="main">
+                            <Header/>
                             <div className="show-events" >
                                 {this.renderEvents()}
                             </div>
-                        </Col>
-                    </Row>
-                </Container>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
