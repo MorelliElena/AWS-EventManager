@@ -15,7 +15,8 @@ class App extends Component {
                     <Route exact path = {routes.home} component = {Home} />
                     <Route path = {routes.event} exact render = {(props) =>
                         <EventInfo {...props}/>} />
-                        </Switch>
+
+                </Switch>
                 </div>
             </Router>
             </div>

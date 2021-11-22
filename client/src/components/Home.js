@@ -6,6 +6,7 @@ import Header from "./headerbar/Header";
 
 let filteredTags = [];
 let locFilter;
+let searchString;
 
 class Home extends Component {
     constructor(props) {
@@ -14,10 +15,12 @@ class Home extends Component {
             events: [],
             tags: [],
             filter: false,
+            search: false,
             loc: false
         }
         this.filterHandler = this.filterHandler.bind(this)
         this.locHandler = this.locHandler.bind(this)
+        this.searchHandler = this.searchHandler.bind(this)
     }
 
     filterHandler(event){
@@ -28,7 +31,6 @@ class Home extends Component {
         } else {
             this.setState({filter: false});
         }
-
     }
 
     locHandler(event){
@@ -39,7 +41,15 @@ class Home extends Component {
             } else {
                this.setState({loc:false})
             }
-            console.log(event)
+        }
+    }
+
+    searchHandler(event) {
+        if(event !== ""){
+           this.setState({search:true})
+            searchString = event
+        } else {
+           this.setState({search:false})
         }
     }
 
@@ -75,9 +85,18 @@ class Home extends Component {
             }
             if(this.state.loc) {
                 eventsList = eventsList.filter(e => e.location.province === locFilter)
+            }
+            if(this.state.search){
+                console.log(eventsList)
+                console.log(searchString)
+                const str = searchString.toLowerCase()
+                eventsList = eventsList.filter(e => e.location.city.toLowerCase().includes(str)
+                    || e.name.toLowerCase().includes(str)
+                    || e.description.toLowerCase().includes(str))
                 console.log(eventsList)
             }
-            if (eventsList.length === 0 && (this.state.filter || this.state.loc)) {
+
+            if (eventsList.length === 0 && (this.state.filter || this.state.loc || this.state.search)) {
                 return (
                     <div> Nessun risultato per la tua ricerca </div>
                 )
@@ -100,10 +119,12 @@ class Home extends Component {
     render() {
         return(
             <div className="container-fluid">
-            <div className= "home">
+                <div className= "home">
                     <div className="row">
                         <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
-                            <Navbar handler = {this.filterHandler} state = {true} handler1 ={this.locHandler}/>
+                            <Navbar handler = {this.filterHandler} state = {true}
+                                    handler1 ={this.locHandler}
+                                    handler2 ={this.searchHandler}/>
                         </div>
                         <div className="col-md-9 col-7 offset-md-3 offset-5" id="main">
                             <Header/>

@@ -3,7 +3,6 @@ import {Button, Dropdown, DropdownButton, FormControl, InputGroup} from "react-b
 import Api from "../api/Api";
 import update from 'react-addons-update';
 import "./Navbar.css"
-import {event} from "../routes/Routes";
 
 
 class Navbar extends React.Component{
@@ -15,10 +14,12 @@ class Navbar extends React.Component{
             checked:[],
             places: [],
             show: props.state,
+            search: "",
             selected: "Tutte le province"
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleSearch = this.handleSearch.bind(this)
     }
 
     componentDidMount() {
@@ -52,25 +53,28 @@ class Navbar extends React.Component{
        this.setState({selected:event})
     }
 
+    handleSearch = () => {
+        this.props.handler2(this.state.search)
+    }
+
     render() {
         if(!this.state.tags){
             return <div> Loading ... </div>
         } else {
             return (
                 <div className="side-bar nav flex-column flex-nowrap vh-100 overflow-auto text-white p-2">
-                    <InputGroup className="mb-3">
-                        <FormControl
-                            placeholder="Recipient's username"
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                        />
-                        <Button className="btn-md" variant="primary" id="button-addon2">
-                            Search
-                        </Button>
-                    </InputGroup>
-
                     {this.state.show ?
                         <div>
+                            <InputGroup className="mb-3">
+                                <FormControl
+                                    onChange= {e => this.setState({search: e.target.value})}
+                                    aria-label="Recipient's username"
+                                    aria-describedby="basic-addon2"
+                                />
+                                <Button className="btn-md" variant="primary" id="button-addon2 " onClick={this.handleSearch}>
+                                    Search
+                                </Button>
+                            </InputGroup>
                             <div>
                                 <InputGroup>
                                     <DropdownButton variant="primary"
