@@ -102,7 +102,7 @@ class Home extends Component {
                 )
             } else {
                 return (
-                    <div className="row row-cols-1 row-cols-xl-5 row-cols-md-3 g-4" key={"event-card-container"}>
+                    <div className="row row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 g-4" key={"event-card-container"}>
                         {
                             eventsList.map(event =>
                                 <div className="col" key={"col" + event._id}>

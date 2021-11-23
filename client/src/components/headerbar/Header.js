@@ -1,5 +1,9 @@
 import React from "react";
+import {BsFillHouseFill,BsFillBellFill, BsPersonSquare} from "react-icons/bs";
 import "./Header.css"
+import {Link} from "react-router-dom";
+import routes from "../routes/Routes";
+
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -11,16 +15,16 @@ class Header extends React.Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-sm header">
+            <nav className="navbar navbar-expand-md header">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link 1</a>
+                        <Link to={routes.home}> <BsFillHouseFill className="text-white" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link 2</a>
+                        <Link to={routes.home}> <BsPersonSquare className="text-white mx-3" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link 3</a>
+                        <Link to={routes.home}> <BsFillBellFill className="text-white" size={36}/> </Link>
                     </li>
                 </ul>
             </nav>

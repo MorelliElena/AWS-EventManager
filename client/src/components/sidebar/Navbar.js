@@ -63,6 +63,8 @@ class Navbar extends React.Component{
         } else {
             return (
                 <div className="side-bar nav flex-column flex-nowrap vh-100 overflow-auto text-white p-2">
+                    <h1> Event Hub</h1>
+                    <h4> Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
                     {this.state.show ?
                         <div>
                             <InputGroup className="mb-3">
