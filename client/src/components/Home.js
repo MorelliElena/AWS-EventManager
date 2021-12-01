@@ -102,16 +102,17 @@ class Home extends Component {
                 )
             } else {
                 return (
-                    <div className="row row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 g-4" key={"event-card-container"}>
+                    <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 mt-3" key={"event-card-container"} >
                         {
                             eventsList.map(event =>
-                                <div className="col" key={"col" + event._id}>
+                                <div className= "d-flex" key={"col" + event._id}>
                                     <EventCard {...this.props} key={"event-card" + event._id}
                                                eventInfo={event}/>
                                 </div>)
                         }
                     </div>
                 )
+
             }
         }
     }
@@ -120,7 +121,7 @@ class Home extends Component {
         return(
             <div className="container-fluid">
                 <div className= "home">
-                    <div className="row">
+                    <div className="row" >
                         <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
                             <Navbar handler = {this.filterHandler} state = {true}
                                     handler1 ={this.locHandler}

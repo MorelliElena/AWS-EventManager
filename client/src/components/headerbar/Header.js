@@ -15,16 +15,16 @@ class Header extends React.Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-md header">
-                <ul className="navbar-nav">
+            <nav className="navbar navbar-expand header">
+                <ul className="nav navbar-nav m-auto me-md-5">
                     <li className="nav-item">
                         <Link to={routes.home}> <BsFillHouseFill className="text-white" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={routes.home}> <BsPersonSquare className="text-white mx-3" size={36}/> </Link>
+                        <Link to={routes.profile}> <BsPersonSquare className="text-white mx-4" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={routes.home}> <BsFillBellFill className="text-white" size={36}/> </Link>
+                        <Link to={routes.notification}> <BsFillBellFill className="text-white" size={36}/> </Link>
                     </li>
                 </ul>
             </nav>

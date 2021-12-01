@@ -3,6 +3,8 @@ import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './Home.js';
 import EventInfo from './events/EventInfo'
+import Profile from "./profile/Profile";
+import Notification from "./notification/Notification";
 let routes = require("./routes/Routes")
 
 class App extends Component {
@@ -15,7 +17,8 @@ class App extends Component {
                     <Route exact path = {routes.home} component = {Home} />
                     <Route path = {routes.event} exact render = {(props) =>
                         <EventInfo {...props}/>} />
-                    <Route exact path = {routes.home} component = {Home} />
+                    <Route path = {routes.notification} component = {Notification}/>
+                    <Route path = {routes.profile} component = {Profile} />
                 </Switch>
                 </div>
             </Router>
