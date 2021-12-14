@@ -1,6 +1,22 @@
 import Axios from "axios";
 const moment = require('moment');
 
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date (currentDate));
+        currentDate = currentDate.addDays(1);
+    }
+    return dateArray;
+}
+
 let mapTag = (tag) =>{
     return{
         name: tag.name,
@@ -38,6 +54,17 @@ let mapEvent = (event) => {
     }
 }
 
+let mapProfile = (user) => {
+    return {
+        _id: user._id,
+        username: user.username,
+        password: user.password,
+        name: user.name,
+        surname: user.surname,
+        birthday: moment(user.birthday).format("DD/MM/YYYY")
+    }
+}
+
 let managePromise = (promise, httpSuccessfulCodes, onError, onSuccess) => {
     promise
         .then(response => {
@@ -68,7 +95,7 @@ let getEvents = (onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/events/`),
         [200],
         onError,
-        response => onSuccess(response.data.map( mapEvent)))
+        response => onSuccess(response.data.map(mapEvent)))
 }
 
 let getTags = (onError, onSuccess) => {
@@ -82,12 +109,21 @@ let getPlaces = (onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/places/`),
         [200],
         onError,
-        response => onSuccess(response.data.map(mapPlaces)))
+        response => console.log(response))
+}
+
+let checkAuthentication = (username, password, onError, onSuccess) => {
+    managePromise(Axios.post(`http://localhost:5000/api/login/`, {username, password}),
+        [200],
+        error => onError(error.response.data.description),
+        response => onSuccess(mapProfile(response.data)))
+
 }
 
 export default {
     getEventInformation,
     getEvents,
     getTags,
-    getPlaces
+    getPlaces,
+    checkAuthentication
 }

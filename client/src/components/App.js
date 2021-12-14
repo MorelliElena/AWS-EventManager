@@ -5,9 +5,11 @@ import Home from './Home.js';
 import EventInfo from './events/EventInfo'
 import Profile from "./profile/Profile";
 import Notification from "./notification/Notification";
+import Login from "./login/Login";
 let routes = require("./routes/Routes")
 
 class App extends Component {
+
        render() {
         return (
             <div>
@@ -19,6 +21,7 @@ class App extends Component {
                         <EventInfo {...props}/>} />
                     <Route path = {routes.notification} component = {Notification}/>
                     <Route path = {routes.profile} component = {Profile} />
+                    <Route path = {routes.login } component = {Login} />
                 </Switch>
                 </div>
             </Router>
