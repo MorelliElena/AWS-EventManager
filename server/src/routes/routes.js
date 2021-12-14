@@ -2,6 +2,7 @@ module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
     const placesController = require('../controllers/placesController');
+    const usersController = require('../controllers/usersController');
 
     app.route('/api/tags')
         .get(tagsController.tag_list);
@@ -14,4 +15,7 @@ module.exports = function(app) {
 
     app.route('/api/events/:id')
         .get(eventsController.read_event)
+
+    app.route('/api/login')
+        .post(usersController.checkAuthentication)
 };
