@@ -1,3 +1,4 @@
+const usersController = require("../controllers/usersController");
 module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
@@ -18,4 +19,7 @@ module.exports = function(app) {
 
     app.route('/api/login')
         .post(usersController.checkAuthentication)
+
+    app.route('/api/login/:id')
+        .get(usersController.getProfileData)
 };

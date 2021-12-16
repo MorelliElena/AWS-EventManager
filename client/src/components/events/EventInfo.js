@@ -48,7 +48,7 @@ class EventInfo extends React.Component {
                             <div className="text-center h-100 mt-3">
                                 {this.state.eventInfo.img ?
                                 <img className="card-img-top size"
-                                     src={this.state.eventInfo.img} alt="Card image cap"/> : null}
+                                     src={this.state.eventInfo.img} alt="Event"/> : null}
                                 <div className="card-body">
                                     <h5 className="card-title">{this.state.eventInfo.name}</h5>
                                     <section className="card-text">

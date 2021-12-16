@@ -109,7 +109,7 @@ let getPlaces = (onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/places/`),
         [200],
         onError,
-        response => console.log(response))
+        response => onSuccess(response.data.map(mapPlaces)))
 }
 
 let checkAuthentication = (username, password, onError, onSuccess) => {
@@ -120,10 +120,19 @@ let checkAuthentication = (username, password, onError, onSuccess) => {
 
 }
 
+let getProfileData = (userId, onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/login/`+ userId),
+        [200],
+        onError,
+        response => onSuccess(mapProfile(response.data)))
+
+}
+
 export default {
     getEventInformation,
     getEvents,
     getTags,
     getPlaces,
-    checkAuthentication
+    checkAuthentication,
+    getProfileData
 }
