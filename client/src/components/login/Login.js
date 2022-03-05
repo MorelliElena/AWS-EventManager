@@ -71,7 +71,7 @@ class Login extends React.Component{
                                                           }}/>
                                         </Form.Group>
                                     </Form>
-                                    <section className="d-flex flex-column justify-content-end mt-5">
+                                    <section className="d-grid gap-2 col-6 mx-auto mt-5">
                                         <Button className="" variant="primary" type="submit"
                                                 onClick={this.handleSubmit}>
                                             Submit

@@ -22,4 +22,7 @@ module.exports = function(app) {
 
     app.route('/api/login/:id')
         .get(usersController.getProfileData)
+
+    app.route('/api/update')
+        .post(usersController.updateUserData)
 };

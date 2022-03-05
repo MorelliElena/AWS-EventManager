@@ -128,11 +128,21 @@ let getProfileData = (userId, onError, onSuccess) => {
 
 }
 
+let updateProfileData = (userId, name, surname, birthdate, username, password, onError, onSuccess) => {
+    const birthday = moment(birthdate, "DD/MM/YYYY").format('YYYY-MM-DD');
+    managePromise(Axios.post(`http://localhost:5000/api/update/`,
+        {userId, name, surname, birthday , username, password}),
+        [200],
+        error =>  onError(error.response.data.description),
+        resp => {onSuccess(resp.data.description)})
+}
+
 export default {
     getEventInformation,
     getEvents,
     getTags,
     getPlaces,
     checkAuthentication,
-    getProfileData
+    getProfileData,
+    updateProfileData
 }
