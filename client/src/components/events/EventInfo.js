@@ -4,6 +4,9 @@ import '../events/EventInfo.css'
 import {Button} from "react-bootstrap";
 import Navbar from "../sidebar/Navbar";
 import Header from "../headerbar/Header";
+import {BsFillExclamationCircleFill} from "react-icons/bs";
+import {Redirect} from "react-router-dom";
+import Spinner from "../spinner/Spinner";
 let routes = require("../routes/Routes")
 
 class EventInfo extends React.Component {
@@ -14,9 +17,11 @@ class EventInfo extends React.Component {
             idEvent: props.match.params.id,
             eventInfo: undefined,
             showDefaultMessage: false,
+            redirection: false
         }
 
     }
+
     componentDidMount() {
 
         Api.getEventInformation(
@@ -33,10 +38,22 @@ class EventInfo extends React.Component {
 
     }
 
+    bookInfo = e => {
+        if (!sessionStorage.getItem("token")){
+            console.log("entra")
+            this.setState({redirection: true})
+        } else {
+            console.log(e)
+        }
+    }
+
     render() {
         if (!this.state.showDefaultMessage && !this.state.eventInfo) {
-            return <div> Loading ... </div>
+            return <Spinner/>
         } else if(!this.state.showDefaultMessage && this.state.eventInfo) {
+            if(this.state.redirection){
+                return <Redirect to={routes.login}/>
+            }
             return (
                 <div className="container-fluid">
                     <div className="row">
@@ -54,11 +71,11 @@ class EventInfo extends React.Component {
                                     <section className="card-text">
                                         <p>{this.state.eventInfo.description}</p>
                                         <section>
-                                            {this.state.eventInfo.date_start} - {this.state.eventInfo.date_finish} <br/>
+                                            {this.state.eventInfo.date_start} - {this.state.eventInfo.date_finish}<br/>
                                             {this.state.eventInfo.location.address} <br/>
                                             {this.state.eventInfo.location.city} <br/>
                                             {this.state.eventInfo.location.province}
-                                        </section>
+                                        </section><br/>
                                         <section>
                                             {this.state.eventInfo.tags.map((tag) =>
                                                 <span className="badge rounded-pill bg-info text-dark"
@@ -67,13 +84,37 @@ class EventInfo extends React.Component {
                                                 {tag}
                                                 </span>
                                             )}
+                                        </section><br/>
+                                        <section>
+                                            {this.state.eventInfo.full ?
+                                                <div style={{color: "red"}}>
+                                                    Posti Terminati
+                                                    <BsFillExclamationCircleFill
+                                                        className="text-danger mx-3" size={26}/>
+                                                </div>:<div/>
+                                            }
+                                        </section><br/>
+                                        <section className="d-flex flex-column align-items-center">
+                                            <ul className="list-group text-start col-8">
+                                                { this.state.eventInfo.booking.map(day =>
+                                                    <li className="list-group-item text-center "
+                                                        key = {"booking"+ day.id}>
+                                                        <div className="">
+                                                            Data: {Api.mapDate(day.date)} <br/>
+                                                            Posti Occupati: {day.n_participants}/{day.max_participants}
+                                                        </div>
+                                                        <div className="">
+                                                            <div className="">
+                                                                <Button className="btn btn-primary mt-3"
+                                                                        onClick={()=> this.bookInfo(day)}>
+                                                                    Prenota
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                )}
+                                            </ul>
                                         </section>
-                                    </section><br/>
-                                    <section>
-                                        {this.state.eventInfo.n_participants}/{this.state.eventInfo.max_participants}
-                                    </section><br/>
-                                    <section>
-                                        <Button className="btn btn-primary"> Participate </Button>
                                     </section>
                                 </div>
                             </div>
@@ -82,6 +123,7 @@ class EventInfo extends React.Component {
                 </div>
             );
         }
+
     }
 }
 export default EventInfo

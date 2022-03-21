@@ -1,20 +1,9 @@
 import Axios from "axios";
+
 const moment = require('moment');
 
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-}
-
-function getDates(startDate, stopDate) {
-    var dateArray = [];
-    var currentDate = startDate;
-    while (currentDate <= stopDate) {
-        dateArray.push(new Date (currentDate));
-        currentDate = currentDate.addDays(1);
-    }
-    return dateArray;
+let mapDate = (date) =>{
+    return moment(date).format("DD/MM/YYYY")
 }
 
 let mapTag = (tag) =>{
@@ -41,16 +30,16 @@ let mapEvent = (event) => {
     } : {}
 
     return {
-        date_start: moment(event.date_start).format("DD/MM/YYYY"),
-        date_finish: moment(event.date_finish).format("DD/MM/YYYY"),
+        date_start: mapDate(event.date_start),
+        date_finish: mapDate(event.date_finish),
         description: event.desc ? event.desc : "",
-        max_participants: event.max_participants,
         name: event.name,
-        n_participants: event.n ? event.n_participants.length : 0,
         tags: event.tag || [],
         _id: event._id,
         location: location,
-        img: event.img
+        img: event.img,
+        booking: event.booking || [],
+        full: event.full
     }
 }
 
@@ -61,7 +50,7 @@ let mapProfile = (user) => {
         password: user.password,
         name: user.name,
         surname: user.surname,
-        birthday: moment(user.birthday).format("DD/MM/YYYY")
+        birthday: mapDate(user.birthday)
     }
 }
 
@@ -144,5 +133,6 @@ export default {
     getPlaces,
     checkAuthentication,
     getProfileData,
-    updateProfileData
+    updateProfileData,
+    mapDate
 }

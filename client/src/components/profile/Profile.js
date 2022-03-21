@@ -49,8 +49,8 @@ class Profile extends React.Component{
             this.state.user.birthday,
             this.state.user.username,
             this.state.user.password,
-            error => {console.log("stampa" + error), this.setState(() =>({error: true, message: error}))},
-            success => {console.log("stampa" + success), this.setState(() =>({error: false, message: success, readOnly:true}))})
+            error => {this.setState(() =>({error: true, message: error}))},
+            success => {this.setState(() =>({error: false, message: success, readOnly:true}))})
     }
 
     renderMessage() {
