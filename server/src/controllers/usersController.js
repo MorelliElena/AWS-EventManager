@@ -50,7 +50,6 @@ exports.updateUserData = function(req, res) {
                         description: 'Update failed. Try again later'
                     });
                 else {
-                    console.log("entra")
                     res.status(200).send({
                         description: 'User updated successfully'
                     })

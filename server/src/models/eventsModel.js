@@ -1,12 +1,10 @@
 module.exports = function(mongoose) {
-    var Schema = mongoose.Schema;
-    var EventSchema = new Schema({
-        name:  String, // String is shorthand for {type: String}
+    const Schema = mongoose.Schema;
+    const EventSchema = new Schema({
+        name: String, // String is shorthand for {type: String}
         desc: String,
         date_start: Date,
         date_finish: Date,
-        n_participants: Number,
-        max_participants: Number,
         img: String,
         location: {
             address: String,
@@ -14,6 +12,12 @@ module.exports = function(mongoose) {
             province: String
         },
         tag: [String],
+        booking: [{
+            date: Date,
+            n_participants: Number,
+            max_participants: Number,
+        }],
+        full: Boolean
     });
     return mongoose.model('eventmodel', EventSchema, 'events');
 };
