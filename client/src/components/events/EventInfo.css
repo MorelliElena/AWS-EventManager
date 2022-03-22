@@ -5,3 +5,7 @@
     max-height: 600px;
     max-width: 600px;
 }
+.padding {
+    padding: 0 !important;
+    margin: 0 !important;
+}

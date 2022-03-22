@@ -99,10 +99,11 @@ class Home extends Component {
                 )
             } else {
                 return (
-                    <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 mt-3" key={"event-card-container"} >
+                    <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 pt-3 mx-1"
+                         key={"event-card-container"} >
                         {
                             eventsList.map(event =>
-                                <div className= "d-flex" key={"col" + event._id}>
+                                <div className= "d-flex px-1" key={"col" + event._id}>
                                     <EventCard {...this.props} key={"event-card" + event._id}
                                                eventInfo={event}/>
                                 </div>)
@@ -124,7 +125,7 @@ class Home extends Component {
                                     handler1 ={this.locHandler}
                                     handler2 ={this.searchHandler}/>
                         </div>
-                        <div className="col-md-9 col-7 offset-md-3 offset-5 " id="main">
+                        <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                             <Header/>
                             <div className="show-events">
                                 {

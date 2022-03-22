@@ -23,7 +23,6 @@ class EventInfo extends React.Component {
     }
 
     componentDidMount() {
-
         Api.getEventInformation(
             this.state.idEvent,
             error => {
@@ -35,7 +34,6 @@ class EventInfo extends React.Component {
                 this.setState({eventInfo:event})
             }
         )
-
     }
 
     bookInfo = e => {
@@ -60,13 +58,13 @@ class EventInfo extends React.Component {
                         <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
                             <Navbar state = {false}/>
                         </div>
-                        <div className="col-md-9 col-7 offset-md-3 offset-5">
+                        <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                             <Header/>
-                            <div className="text-center h-100 mt-3">
+                            <div className="text-center h-100 pt-3">
                                 {this.state.eventInfo.img ?
                                 <img className="card-img-top size"
                                      src={this.state.eventInfo.img} alt="Event"/> : null}
-                                <div className="card-body">
+                                <div className="card-body p-2">
                                     <h5 className="card-title">{this.state.eventInfo.name}</h5>
                                     <section className="card-text">
                                         <p>{this.state.eventInfo.description}</p>
@@ -94,10 +92,10 @@ class EventInfo extends React.Component {
                                                 </div>:<div/>
                                             }
                                         </section><br/>
-                                        <section className="d-flex flex-column align-items-center">
-                                            <ul className="list-group text-start col-8">
+                                        <section className="d-flex flex-column justify-content-center">
+                                            <ul className="list-group text-start">
                                                 { this.state.eventInfo.booking.map(day =>
-                                                    <li className="list-group-item text-center "
+                                                    <li className="list-group-item text-center px-5"
                                                         key = {"booking"+ day.id}>
                                                         <div className="">
                                                             Data: {Api.mapDate(day.date)} <br/>

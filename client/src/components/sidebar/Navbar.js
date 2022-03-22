@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Dropdown, DropdownButton, FormControl, InputGroup} from "react-bootstrap";
 import Api from "../api/Api";
 import update from 'react-addons-update';
@@ -15,7 +15,8 @@ class Navbar extends React.Component{
             places: [],
             show: props.state,
             search: "",
-            selected: "Tutte le province"
+            selected: "Tutte le province",
+            isOpen: false
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
