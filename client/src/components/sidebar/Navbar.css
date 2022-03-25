@@ -1,5 +1,4 @@
 .side-bar {
-
     background-color: cornflowerblue;
 }
 
@@ -13,6 +12,10 @@ h4 {
     margin-top: 10px;
 }
 
+.dropdown-menu.show {
+    text-align: center;
+    width: 100%;
+}
 
 
 

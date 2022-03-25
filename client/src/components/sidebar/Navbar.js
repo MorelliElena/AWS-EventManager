@@ -1,10 +1,9 @@
-import React, {useState} from "react";
-import {Button, Dropdown, DropdownButton, FormControl, InputGroup} from "react-bootstrap";
+import React from "react";
+import {Button, Dropdown, DropdownButton, FormControl} from "react-bootstrap";
 import Api from "../api/Api";
 import update from 'react-addons-update';
 import "./Navbar.css"
-
-
+import {BsSearch} from "react-icons/bs";
 class Navbar extends React.Component{
 
     constructor(props) {
@@ -16,7 +15,6 @@ class Navbar extends React.Component{
             show: props.state,
             search: "",
             selected: "Tutte le province",
-            isOpen: false
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -24,6 +22,7 @@ class Navbar extends React.Component{
     }
 
     componentDidMount() {
+
         Api.getTags(
             error => {
                 console.log(error)
@@ -68,34 +67,32 @@ class Navbar extends React.Component{
                     <h4> Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
                     {this.state.show ?
                         <div>
-                            <InputGroup className="mb-3">
-                                <FormControl
+                            <div className="input-group input mb-3 search" >
+                                <input type="text" className="form-control"
                                     onChange= {e => this.setState({search: e.target.value})}
                                     aria-label="Recipient's username"
-                                    aria-describedby="basic-addon2"
+                                    aria-describedby="inputGroup-sizing-sm"
                                 />
-                                <Button className="btn-md" variant="primary" id="button-addon2 " onClick={this.handleSearch}>
-                                    Search
-                                </Button>
-                            </InputGroup>
+                                <button className={"btn btn-md btn-primary"} onClick={this.handleSearch}>
+                                    <BsSearch className="text-white" size={22}/>
+                                </button>
+                            </div>
                             <div>
-                                <InputGroup>
-                                    <DropdownButton variant="primary"
-                                                    title="Località"
-                                                    id="input-group-dropdown"
+                                <div>
+                                    <DropdownButton className="d-flex flex-column justify-content-end" variant="primary"
+                                                    title="Province" id="input-group-dropdown" align="end"
                                                     onSelect={this.handleSelect}>
                                         <Dropdown.Item key = "Empty" value = "Empty" eventKey="Tutte le province">
                                             Tutte le province </Dropdown.Item>
                                         {this.state.places.map(place => {
                                                 return <Dropdown.Item key={place._id} eventKey={place.name}>
                                                     {place.name}</Dropdown.Item>
-
-                                            }
-                                        )}
+                                                })
+                                        }
                                     </DropdownButton>
-                                    <FormControl onChange= {this.handleSelect} value={this.state.selected}
-                                                 readOnly={true}/>
-                                </InputGroup>
+                                </div>
+                                <FormControl className="text-center" onChange= {this.handleSelect}
+                                             value={this.state.selected} readOnly={true}/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="formGroupExampleInput">Filtra per tipologia</label>
@@ -111,7 +108,7 @@ class Navbar extends React.Component{
                                 </div>
                             </div>
                             <div className="d-grid gap-2">
-                                <Button className="btn btn-primary btn-block"
+                                <Button className="btn btn-primary btn-block mt-2"
                                     onClick={() => this.props.handler(this.state.checked)}> Filter </Button>
                             </div>
                         </div>
