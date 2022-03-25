@@ -2,6 +2,7 @@ import React from 'react'
 import {Alert, Button, Form} from "react-bootstrap";
 import Navbar from "../sidebar/Navbar";
 import Header from "../headerbar/Header";
+import "./Login.css"
 import {Link, Redirect} from 'react-router-dom';
 import Api from '../api/Api'
 let routes = require("../routes/Routes")
@@ -55,7 +56,7 @@ class Login extends React.Component{
                                 }
                                 <div className=" col-md-7 offset-md-3 d-flex flex-column">
                                     <Form className="mt-4 justify-content-center">
-                                        <h1 className="text-center" style={{backgroundColor: "white"}}> Log in </h1>
+                                        <h1 className="text-center log" style={{backgroundColor: "white"}}> Log in </h1>
                                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                             <Form.Label>Email address</Form.Label>
                                             <Form.Control type="email" placeholder="Enter email"
@@ -71,15 +72,15 @@ class Login extends React.Component{
                                                           }}/>
                                         </Form.Group>
                                     </Form>
-                                    <section className="d-grid gap-2 col-6 mx-auto mt-5">
-                                        <Button className="" variant="primary" type="submit"
+                                    <div className="d-grid gap-2 mt-3 submit justify-content-center">
+                                        <Button className="button" variant="primary" type="submit"
                                                 onClick={this.handleSubmit}>
                                             Submit
                                         </Button>
-                                        <Link className="d-flex justify-content-center mt-3" to="">
+                                        <Link className="d-flex justify-content-center mt-3 registration" to="">
                                             Sei un nuovo utente? Registrati subito cliccando qui!
                                         </Link>
-                                    </section>
+                                    </div>
                                 </div>
                             </div>
                         </div>

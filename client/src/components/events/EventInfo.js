@@ -1,6 +1,6 @@
 import React from 'react';
 import Api from '../api/Api'
-import '../events/EventInfo.css'
+import './EventInfo.css'
 import {Button} from "react-bootstrap";
 import Navbar from "../sidebar/Navbar";
 import Header from "../headerbar/Header";
@@ -74,7 +74,7 @@ class EventInfo extends React.Component {
                                             {this.state.eventInfo.location.city} <br/>
                                             {this.state.eventInfo.location.province}
                                         </section><br/>
-                                        <section>
+                                        <section className="mb-4">
                                             {this.state.eventInfo.tags.map((tag) =>
                                                 <span className="badge rounded-pill bg-info text-dark"
                                                       key = {"tag" + tag + this.state.eventInfo._id}
@@ -82,7 +82,7 @@ class EventInfo extends React.Component {
                                                 {tag}
                                                 </span>
                                             )}
-                                        </section><br/>
+                                        </section>
                                         <section>
                                             {this.state.eventInfo.full ?
                                                 <div style={{color: "red"}}>
@@ -91,19 +91,20 @@ class EventInfo extends React.Component {
                                                         className="text-danger mx-3" size={26}/>
                                                 </div>:<div/>
                                             }
-                                        </section><br/>
-                                        <section className="d-flex flex-column justify-content-center">
-                                            <ul className="list-group text-start">
+                                        </section>
+                                        <div className="d-flex flex-column justify-content-center">
+                                            <ul className="list-group text-start book">
                                                 { this.state.eventInfo.booking.map(day =>
-                                                    <li className="list-group-item text-center px-5"
+                                                    <li className="list-group-item text-center"
                                                         key = {"booking"+ day.id}>
-                                                        <div className="">
-                                                            Data: {Api.mapDate(day.date)} <br/>
-                                                            Posti Occupati: {day.n_participants}/{day.max_participants}
-                                                        </div>
-                                                        <div className="">
-                                                            <div className="">
-                                                                <Button className="btn btn-primary mt-3"
+                                                        <div>
+                                                            <div>
+                                                                Data: {Api.mapDate(day.date)} <br/>
+                                                                Posti Occupati: {day.n_participants}/
+                                                                {day.max_participants}
+                                                            </div>
+                                                            <div>
+                                                                <Button className="btn btn-primary mt-3 button"
                                                                         onClick={()=> this.bookInfo(day)}>
                                                                     Prenota
                                                                 </Button>
@@ -112,7 +113,7 @@ class EventInfo extends React.Component {
                                                     </li>
                                                 )}
                                             </ul>
-                                        </section>
+                                        </div>
                                     </section>
                                 </div>
                             </div>

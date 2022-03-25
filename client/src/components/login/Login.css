@@ -1,0 +1,15 @@
+.submit {
+    max-width: inherit;
+    width: 100%;
+}
+@media only screen and (max-width: 430px) {
+    .log {
+        font-size: 20px !important;
+    }
+    .submit {
+        font-size: 14px !important;
+    }
+    .button {
+        font-size: 14px !important;
+    }
+}

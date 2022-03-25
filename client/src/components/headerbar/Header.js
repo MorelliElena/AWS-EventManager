@@ -18,13 +18,13 @@ class Header extends React.Component {
             <nav className="navbar navbar-expand header">
                 <ul className="nav navbar-nav m-auto me-md-5">
                     <li className="nav-item">
-                        <Link to={routes.home}> <BsFillHouseFill className="text-white" size={36}/> </Link>
+                        <Link to={routes.home}> <BsFillHouseFill className="text-white icon" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={routes.profile}> <BsPersonSquare className="text-white mx-4" size={36}/> </Link>
+                        <Link to={routes.profile}> <BsPersonSquare className="text-white mx-4 icon " size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={routes.notification}> <BsFillBellFill className="text-white" size={36}/> </Link>
+                        <Link to={routes.notification}> <BsFillBellFill className="text-white icon" size={36}/> </Link>
                     </li>
                 </ul>
             </nav>

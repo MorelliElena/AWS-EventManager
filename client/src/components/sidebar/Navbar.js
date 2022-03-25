@@ -64,17 +64,18 @@ class Navbar extends React.Component{
             return (
                 <div className="side-bar nav flex-column flex-nowrap vh-100 overflow-auto text-white p-2">
                     <h1> Event Hub</h1>
-                    <h4> Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
+                    <h4 className="desc">
+                        Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
                     {this.state.show ?
                         <div>
-                            <div className="input-group input mb-3 search" >
-                                <input type="text" className="form-control"
+                            <div className="input-group input mb-3" >
+                                <input type="text" className="form-control px-1"
                                     onChange= {e => this.setState({search: e.target.value})}
                                     aria-label="Recipient's username"
                                     aria-describedby="inputGroup-sizing-sm"
                                 />
-                                <button className={"btn btn-md btn-primary"} onClick={this.handleSearch}>
-                                    <BsSearch className="text-white" size={22}/>
+                                <button className={"btn btn-md btn-primary py-1 px-2"} onClick={this.handleSearch}>
+                                    <BsSearch className="search text-white" size={20}/>
                                 </button>
                             </div>
                             <div>
@@ -91,15 +92,15 @@ class Navbar extends React.Component{
                                         }
                                     </DropdownButton>
                                 </div>
-                                <FormControl className="text-center" onChange= {this.handleSelect}
-                                             value={this.state.selected} readOnly={true}/>
+                                <FormControl className="text-center px-0" style={{backgroundColor:"white"}}
+                                             onChange= {this.handleSelect} value={this.state.selected} readOnly={true}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="formGroupExampleInput">Filtra per tipologia</label>
+                                <label className="f-title" htmlFor="formGroupExampleInput">Filtra per tipologia</label>
                                 <div className="form-check">
                                     {this.state.tags.map(tag => {
                                         return <div key={tag._id}>
-                                            <input className="form-check-input" type="checkbox" id={tag._id}
+                                            <input className="form-check-input " type="checkbox" id={tag._id}
                                                    onChange={e => this.handleInputChange(e)}/>
                                             <label className="form-check-label"
                                                    htmlFor="inlineCheckbox1">{tag.name}</label>
@@ -109,7 +110,7 @@ class Navbar extends React.Component{
                             </div>
                             <div className="d-grid gap-2">
                                 <Button className="btn btn-primary btn-block mt-2"
-                                    onClick={() => this.props.handler(this.state.checked)}> Filter </Button>
+                                    onClick={() => this.props.handler(this.state.checked)}> Filtra </Button>
                             </div>
                         </div>
                        :  null }

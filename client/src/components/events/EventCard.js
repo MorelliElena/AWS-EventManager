@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
+import "./EventCard.css"
 let routes = require("../routes/Routes")
 
 class EventCard extends React.Component {
@@ -37,7 +38,7 @@ class EventCard extends React.Component {
                                 )}
                             </section>
                         </div><br/>
-                        <section className=" d-flex flex-column justify-content-end">
+                        <section className="filter d-flex flex-column justify-content-end">
                             <Link className="btn btn-primary "
                                   to={routes.eventFromId(this.state.eventInfo._id)}> Show more </Link>
                         </section>
