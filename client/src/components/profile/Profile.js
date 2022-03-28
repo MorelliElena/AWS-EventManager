@@ -5,6 +5,8 @@ import {Redirect} from 'react-router-dom';
 import Api from "../api/Api";
 import {Alert, Button, Form} from "react-bootstrap";
 import {BsPencilSquare, BsPersonCircle} from "react-icons/bs";
+import Spinner from "../spinner/Spinner"
+import "./Profile.css"
 let routes = require("../routes/Routes")
 
 class Profile extends React.Component{
@@ -74,16 +76,16 @@ class Profile extends React.Component{
                             <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
                                 <Navbar state={false}/>
                             </div>
-                            <div className="col-md-9 col-7 offset-md-3 offset-5" id="main">
+                            <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>
                                 {!this.state.user ?
-                                    <div> Loading ... </div> :
+                                    <Spinner/> :
                                     <div className="d-flex flex-column">
                                         { this.state.message ? this.renderMessage() : null}
-                                        <BsPencilSquare className="align-self-end me-1 mt-3 text-primary" size={36}
+                                        <BsPencilSquare className="align-self-end me-1 mt-3 text-primary edit" size={36}
                                                         onClick={this.handleEdit}/>
                                         <div className="text-center mt-3">
-                                            <BsPersonCircle className="card-img-top text-primary" size={200}/>
+                                            <BsPersonCircle className="profile card-img-top text-primary" size={200}/>
                                             <div className="card-body col-md-6 offset-md-3">
                                                 <section>
                                                     <Form.Group className="text-start mb-5">

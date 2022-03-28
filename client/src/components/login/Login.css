@@ -2,14 +2,28 @@
     max-width: inherit;
     width: 100%;
 }
+
+div.fade{
+    padding-right: 4px;
+    padding-left: 4px;
+    margin-bottom: 8px;
+}
+
 @media only screen and (max-width: 430px) {
     .log {
         font-size: 20px !important;
     }
+
     .submit {
         font-size: 14px !important;
+        text-align: center;
     }
+
     .button {
         font-size: 14px !important;
+    }
+
+    div.fade {
+        font-size: 14px;
     }
 }

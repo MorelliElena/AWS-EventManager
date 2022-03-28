@@ -2,3 +2,43 @@
     max-height: 250px;
     max-width: 250px;
 }
+
+div.card-body{
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+div.fade{
+    padding-right: 4px;
+    padding-left: 4px;
+    margin-bottom: 8px;
+}
+
+@media only screen and (max-width: 430px) {
+    .edit {
+        width: 26px ;
+        height: 26px ;
+    }
+
+    .profile {
+        width: 100px ;
+        height: 100px ;
+    }
+
+    div.text-start {
+        font-size: 14px;
+    }
+
+    input.form-control {
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+
+    button.btn {
+        font-size: 14px;
+    }
+
+    div.fade {
+        font-size: 14px;
+    }
+}
