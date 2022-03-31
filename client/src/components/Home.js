@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import EventCard from "./events/EventCard";
-import Navbar from "./sidebar/Navbar";
+import Sidebar from "./sidebar/Sidebar";
 import Api from "./api/Api";
 import Header from "./headerbar/Header";
 import Spinner from "./spinner/Spinner";
-
+import Choice from "../common/Choice";
 let filteredTags = [];
 let locFilter;
 let searchString;
@@ -121,9 +121,9 @@ class Home extends Component {
                 <div className= "home">
                     <div className="row" >
                         <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
-                            <Navbar handler = {this.filterHandler} state = {true}
-                                    handler1 ={this.locHandler}
-                                    handler2 ={this.searchHandler}/>
+                            <Sidebar handler = {this.filterHandler} state = {Choice.HOME}
+                                     handler1 ={this.locHandler}
+                                     handler2 ={this.searchHandler}/>
                         </div>
                         <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                             <Header/>

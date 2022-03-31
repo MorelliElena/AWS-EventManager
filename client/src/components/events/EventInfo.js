@@ -2,7 +2,7 @@ import React from 'react';
 import Api from '../api/Api'
 import './EventInfo.css'
 import {Button} from "react-bootstrap";
-import Navbar from "../sidebar/Navbar";
+import Sidebar from "../sidebar/Sidebar";
 import Header from "../headerbar/Header";
 import {BsFillExclamationCircleFill} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
@@ -50,7 +50,7 @@ class EventInfo extends React.Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
-                        <Navbar state = {false}/>
+                        <Sidebar state = {false}/>
                     </div>
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>

@@ -2,9 +2,13 @@ import React from "react";
 import {Button, Dropdown, DropdownButton, FormControl} from "react-bootstrap";
 import Api from "../api/Api";
 import update from 'react-addons-update';
-import "./Navbar.css"
+import "./Sidebar.css"
 import {BsSearch} from "react-icons/bs";
-class Navbar extends React.Component{
+import Choice from "../../common/Choice";
+import {Link} from "react-router-dom";
+import routes from "../routes/Routes"
+
+class Sidebar extends React.Component{
 
     constructor(props) {
         super(props);
@@ -66,7 +70,7 @@ class Navbar extends React.Component{
                     <h1> Event Hub</h1>
                     <h4 className="desc">
                         Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
-                    {this.state.show ?
+                    {this.state.show === Choice.HOME ?
                         <div>
                             <div className="input-group input mb-3" >
                                 <input type="text" className="form-control px-1"
@@ -113,7 +117,22 @@ class Navbar extends React.Component{
                                     onClick={() => this.props.handler(this.state.checked)}> Filtra </Button>
                             </div>
                         </div>
-                       :  null }
+                        :  this.state.show === Choice.PROFILE ?
+                            <div className="mb-3">
+                                <div className="btn-group-vertical">
+                                    <Link className="btn btn-light btn-outline-primary profile-menu"
+                                          to={routes.bookingUserId(sessionStorage.getItem("token"))}> Prenotazioni
+                                    </Link>
+                                    <Link className="btn btn-light btn-outline-primary profile-menu"
+                                          to={routes.likesUserId(sessionStorage.getItem("token"))}> Likes </Link>
+                                    <Link className="btn btn-light btn-outline-primary profile-menu"
+                                          to={routes.profile}> Profilo </Link>
+                                    <Link className="btn btn-light btn-outline-primary profile-menu"> Log out </Link>
+                                </div>
+
+                            </div>
+                        : null}
+
                 </div>
 
             );
@@ -122,4 +141,4 @@ class Navbar extends React.Component{
 
 }
 
-export default Navbar
+export default Sidebar

@@ -1,10 +1,11 @@
 import React from 'react'
 import {Alert, Button, Form} from "react-bootstrap";
-import Navbar from "../sidebar/Navbar";
+import Sidebar from "../sidebar/Sidebar";
 import Header from "../headerbar/Header";
 import "./Login.css"
 import {Link, Redirect} from 'react-router-dom';
 import Api from '../api/Api'
+import Choice from "../../common/Choice";
 let routes = require("../routes/Routes")
 
 class Login extends React.Component{
@@ -45,7 +46,7 @@ class Login extends React.Component{
                     <div className="home">
                         <div className="row">
                             <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
-                                <Navbar state={false}/>
+                                <Sidebar state={Choice.NULL}/>
                             </div>
                             <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>

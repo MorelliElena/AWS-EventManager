@@ -126,6 +126,20 @@ let updateProfileData = (userId, name, surname, birthdate, username, password, o
         resp => {onSuccess(resp.data.description)})
 }
 
+let getUserBookings = (userId, onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/login/`+ userId + `/bookings/` ),
+        [200],
+        onError,
+        response => onSuccess(response.data.bookings))
+}
+
+let getUserLikes = (userId, onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/login/`+ userId + `/likes/` ),
+        [200],
+        onError,
+        response => onSuccess(response.data.likes))
+}
+
 export default {
     getEventInformation,
     getEvents,
@@ -134,5 +148,7 @@ export default {
     checkAuthentication,
     getProfileData,
     updateProfileData,
-    mapDate
+    mapDate,
+    getUserBookings,
+    getUserLikes
 }

@@ -40,7 +40,7 @@ class EventCard extends React.Component {
                         </div><br/>
                         <section className="filter d-flex flex-column justify-content-end">
                             <Link className="btn btn-primary "
-                                  to={routes.eventFromId(this.state.eventInfo._id)}> Show more </Link>
+                                  to={routes.eventFromId(this.state.eventInfo._id)}> Mostra di più </Link>
                         </section>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import EventInfo from './events/EventInfo'
 import Profile from "./profile/Profile";
 import Notification from "./notification/Notification";
 import Login from "./login/Login";
+import Bookings from "./booking/Bookings";
+import Likes from "./likes/Likes";
 let routes = require("./routes/Routes")
 
 class App extends Component {
@@ -22,6 +24,8 @@ class App extends Component {
                     <Route path = {routes.notification} component = {Notification}/>
                     <Route path = {routes.profile} component = {Profile} />
                     <Route path = {routes.login } component = {Login} />
+                    <Route path = {routes.booking} component = {Bookings} />
+                    <Route path = {routes.likes} component = {Likes} />
                 </Switch>
                 </div>
             </Router>

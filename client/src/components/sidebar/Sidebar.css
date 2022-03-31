@@ -1,6 +1,10 @@
  .side-bar {
-    background-color: cornflowerblue;
+    background-color: #0044c9;
 }
+
+ h1{
+     background-color: #0044c9;
+ }
 
  .desc {
     position: relative;
@@ -24,6 +28,17 @@
 
  .f-title {
      text-decoration: underline;
+ }
+
+ .btn-group-vertical {
+     width: 100%;
+ }
+
+ .profile-menu {
+     margin-bottom: 3px;
+ }
+ div.btn.btn-light{
+     font-weight: bold;
  }
 
  @media only screen and (max-width: 430px) {
