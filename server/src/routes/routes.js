@@ -1,4 +1,4 @@
-const usersController = require("../controllers/usersController");
+
 module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
@@ -22,6 +22,12 @@ module.exports = function(app) {
 
     app.route('/api/login/:id')
         .get(usersController.getProfileData)
+
+    app.route('/api/login/:id/bookings')
+        .get(usersController.getUserBookings)
+
+    app.route('/api/login/:id/likes')
+        .get(usersController.getUserLikes)
 
     app.route('/api/update')
         .post(usersController.updateUserData)

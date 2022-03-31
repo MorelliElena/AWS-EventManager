@@ -5,7 +5,26 @@ module.exports = function(mongoose) {
         password: String,
         name: String,
         surname: String,
-        birthday: Date
+        birthday: Date,
+        bookings:[{
+           name: String,
+           date: Date,
+           location: {
+               address: String,
+               city: String,
+               province: String
+           }
+        }],
+        likes:[{
+            name: String,
+            date_start: Date,
+            date_finish: Date,
+            location: {
+                address: String,
+                city: String,
+                province: String
+            }
+        }]
     });
     return mongoose.model('usermodel', userSchema, 'users');
 };
