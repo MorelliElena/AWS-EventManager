@@ -1,0 +1,17 @@
+@media only screen and (max-width: 430px) {
+    li.list-group-item {
+        font-size: 14px;
+    }
+
+    div.btn.btn-danger {
+        width: 30px;
+        height: 30px;
+        margin-right: 4px;
+        padding: 3px 2px 3px 2px;
+    }
+
+    .trash {
+        width: 18px ;
+        height: 18px ;
+    }
+}

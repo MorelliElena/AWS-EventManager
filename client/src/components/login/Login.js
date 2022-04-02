@@ -10,8 +10,8 @@ let routes = require("../routes/Routes")
 
 class Login extends React.Component{
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: "",
             password: "",

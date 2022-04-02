@@ -1,7 +1,17 @@
- const Choice = {
+ const SidebarChoice = {
     HOME: 'home',
     PROFILE: 'profile',
     NULL : 'null'
 }
 
-export default Choice
+const UserComponents =  {
+    PROFILE: 'profile',
+    LIKES : 'likes',
+    LOGOUT: 'logout',
+    BOOKING: 'Booking'
+}
+
+export default {
+    SidebarChoice,
+    UserComponents
+}

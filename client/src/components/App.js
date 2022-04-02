@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Home from './Home.js';
+import Home from './home/Home.js';
 import EventInfo from './events/EventInfo'
-import Profile from "./profile/Profile";
 import Notification from "./notification/Notification";
 import Login from "./login/Login";
-import Bookings from "./booking/Bookings";
-import Likes from "./likes/Likes";
+import Bookings from "./user/booking/Bookings";
+import Likes from "./user/likes/Likes";
+import UserManager from "./user/UserManager";
 let routes = require("./routes/Routes")
 
 class App extends Component {
@@ -22,7 +21,7 @@ class App extends Component {
                     <Route path = {routes.event} exact render = {(props) =>
                         <EventInfo {...props}/>} />
                     <Route path = {routes.notification} component = {Notification}/>
-                    <Route path = {routes.profile} component = {Profile} />
+                    <Route path = {routes.profile} component = {UserManager} />
                     <Route path = {routes.login } component = {Login} />
                     <Route path = {routes.booking} component = {Bookings} />
                     <Route path = {routes.likes} component = {Likes} />

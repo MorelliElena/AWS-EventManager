@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import EventCard from "./events/EventCard";
-import Sidebar from "./sidebar/Sidebar";
-import Api from "./api/Api";
-import Header from "./headerbar/Header";
-import Spinner from "./spinner/Spinner";
-import Choice from "../common/Choice";
+import EventCard from "../events/EventCard";
+import Sidebar from "../sidebar/Sidebar";
+import Api from "../api/Api";
+import Header from "../headerbar/Header";
+import Spinner from "../spinner/Spinner";
+import Choice from "../../common/Choice";
 let filteredTags = [];
 let locFilter;
 let searchString;
+let eventsList = [];
 
 class Home extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -76,7 +78,7 @@ class Home extends Component {
 
     renderEvents = () => {
         if(this.state.events){
-            let eventsList = this.state.events;
+            eventsList = this.state.events;
             if (this.state.filter) {
                 eventsList = eventsList.filter(e => filteredTags.every(t => e.tags.includes(t)));
             }
@@ -95,7 +97,7 @@ class Home extends Component {
 
             if (eventsList.length === 0 && (this.state.filter || this.state.loc || this.state.search)) {
                 return (
-                    <div> Nessun risultato per la tua ricerca </div>
+                    <div className="text-center"> Nessun risultato per la tua ricerca </div>
                 )
             } else {
                 return (
@@ -121,7 +123,7 @@ class Home extends Component {
                 <div className= "home">
                     <div className="row" >
                         <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
-                            <Sidebar handler = {this.filterHandler} state = {Choice.HOME}
+                            <Sidebar handler = {this.filterHandler} state = {Choice.SidebarChoice.HOME}
                                      handler1 ={this.locHandler}
                                      handler2 ={this.searchHandler}/>
                         </div>

@@ -5,8 +5,6 @@ import update from 'react-addons-update';
 import "./Sidebar.css"
 import {BsSearch} from "react-icons/bs";
 import Choice from "../../common/Choice";
-import {Link} from "react-router-dom";
-import routes from "../routes/Routes"
 
 class Sidebar extends React.Component{
 
@@ -19,10 +17,12 @@ class Sidebar extends React.Component{
             show: props.state,
             search: "",
             selected: "Tutte le province",
+            logout: false
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.handleSearch = this.handleSearch.bind(this)
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleUserChoice = this.handleUserChoice.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +52,10 @@ class Sidebar extends React.Component{
         }
     }
 
+    handleUserChoice = (event) => {
+        this.props.handler4(event.target.value)
+    }
+
     handleSelect = (event) => {
        this.props.handler1(event)
        this.setState({selected:event})
@@ -59,6 +63,10 @@ class Sidebar extends React.Component{
 
     handleSearch = () => {
         this.props.handler2(this.state.search)
+    }
+
+    logout = () => {
+        this.setState({logout: true})
     }
 
     render() {
@@ -70,7 +78,7 @@ class Sidebar extends React.Component{
                     <h1> Event Hub</h1>
                     <h4 className="desc">
                         Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
-                    {this.state.show === Choice.HOME ?
+                    {this.state.show === Choice.SidebarChoice.HOME ?
                         <div>
                             <div className="input-group input mb-3" >
                                 <input type="text" className="form-control px-1"
@@ -117,22 +125,25 @@ class Sidebar extends React.Component{
                                     onClick={() => this.props.handler(this.state.checked)}> Filtra </Button>
                             </div>
                         </div>
-                        :  this.state.show === Choice.PROFILE ?
+                        :  this.state.show === Choice.SidebarChoice.PROFILE ?
                             <div className="mb-3">
                                 <div className="btn-group-vertical">
-                                    <Link className="btn btn-light btn-outline-primary profile-menu"
-                                          to={routes.bookingUserId(sessionStorage.getItem("token"))}> Prenotazioni
-                                    </Link>
-                                    <Link className="btn btn-light btn-outline-primary profile-menu"
-                                          to={routes.likesUserId(sessionStorage.getItem("token"))}> Likes </Link>
-                                    <Link className="btn btn-light btn-outline-primary profile-menu"
-                                          to={routes.profile}> Profilo </Link>
-                                    <Link className="btn btn-light btn-outline-primary profile-menu"> Log out </Link>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.BOOKING}
+                                            onClick={e => this.handleUserChoice(e)}> Prenotazioni
+                                    </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.LIKES}
+                                            onClick={e => this.handleUserChoice(e)}> Likes </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.PROFILE}
+                                            onClick={e => this.handleUserChoice(e)}> Profilo </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.LOGOUT}
+                                            onClick={e => this.handleUserChoice(e)}> Logout </Button>
                                 </div>
-
                             </div>
                         : null}
-
                 </div>
 
             );
