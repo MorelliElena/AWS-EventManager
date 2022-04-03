@@ -7,6 +7,8 @@ import Likes from "./likes/Likes";
 import Bookings from "./booking/Bookings";
 import LogOutDialog from "./logout/Logout";
 import {Redirect} from "react-router-dom";
+import Api from "../api/Api";
+import Spinner from "../spinner/Spinner";
 let routes = require("../routes/Routes");
 
 class UserManager extends React.Component {
@@ -15,11 +17,21 @@ class UserManager extends React.Component {
         this.state = {
             selection : "",
             show:true,
-            logout: false
+            logout: false,
+            user: undefined
         }
         this.userSelection = this.userSelection.bind(this)
         this.hide = this.hide.bind(this)
         this.logOut = this.logOut.bind(this)
+    }
+
+    componentDidMount() {
+        if(sessionStorage.getItem("token")){
+            Api.getProfileData(sessionStorage.getItem("token"),
+                error => console.log(error),
+                user => this.setState({user: user}))
+
+        }
     }
 
     hide = () => {
@@ -41,13 +53,13 @@ class UserManager extends React.Component {
     renderSwitch(param) {
         switch(param) {
             case Choice.UserComponents.PROFILE:
-                return <Profile/>;
+                return <Profile user={this.state.user}/>;
             case Choice.UserComponents.LIKES:
-                return <Likes id={sessionStorage.getItem("token")}/>;
+                return <Likes id={sessionStorage.getItem("token")} likes={this.state.user.likes}/>;
             case Choice.UserComponents.BOOKING:
-                return <Bookings id={sessionStorage.getItem("token")}/>;
+                return <Bookings id={sessionStorage.getItem("token")} bookings={this.state.user.bookings}/>;
             default:
-                return <Profile/>;
+                return <Profile user={this.state.user}/>;
         }
     }
 
@@ -64,7 +76,9 @@ class UserManager extends React.Component {
                             </div>
                             <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>
-                                {this.renderSwitch(this.state.selection)}
+                                {!this.state.user ?  <div className="h-100"><Spinner/></div> :
+                                    this.renderSwitch(this.state.selection)
+                                }
                                 {
                                     this.state.selection === Choice.UserComponents.LOGOUT ?
                                         this.state.show ?

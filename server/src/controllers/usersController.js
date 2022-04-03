@@ -57,39 +57,3 @@ exports.updateUserData = function(req, res) {
         }
     )
 }
-
-exports.getUserBookings = function (req, res) {
-    let id = mongoose.Types.ObjectId(req.params.id)
-    Users.findById(id, {bookings: 1}, {useFindAndModify: false},
-        function (err, bookings) {
-        if (err)
-            res.send(err);
-        else {
-            if (bookings == null) {
-                res.status(404).send({
-                    description: 'Bookings not found'
-                });
-            } else {
-                res.json(bookings);
-            }
-        }
-    });
-}
-
-exports.getUserLikes = function (req, res) {
-    let id = mongoose.Types.ObjectId(req.params.id)
-    Users.findById(id, {likes: 1}, {useFindAndModify: false},
-        function (err, bookings) {
-            if (err)
-                res.send(err);
-            else {
-                if (bookings == null) {
-                    res.status(404).send({
-                        description: 'Likes not found'
-                    });
-                } else {
-                    res.json(bookings);
-                }
-            }
-        });
-}
