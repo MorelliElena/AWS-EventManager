@@ -19,10 +19,6 @@ class Sidebar extends React.Component{
             selected: "Tutte le province",
             logout: false
         }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleUserChoice = this.handleUserChoice.bind(this);
     }
 
     componentDidMount() {
@@ -86,16 +82,19 @@ class Sidebar extends React.Component{
                                     aria-label="Recipient's username"
                                     aria-describedby="inputGroup-sizing-sm"
                                 />
-                                <button className={"btn btn-md btn-primary py-1 px-2"} onClick={this.handleSearch}>
+                                <button className={"btn btn-md btn-primary py-1 px-2"}
+                                        onClick={this.handleSearch}>
                                     <BsSearch className="search text-white" size={20}/>
                                 </button>
                             </div>
                             <div>
                                 <div>
-                                    <DropdownButton className="d-flex flex-column justify-content-end" variant="primary"
+                                    <DropdownButton className="d-flex flex-column justify-content-end"
+                                                    variant="primary"
                                                     title="Province" id="input-group-dropdown" align="end"
                                                     onSelect={this.handleSelect}>
-                                        <Dropdown.Item key = "Empty" value = "Empty" eventKey="Tutte le province">
+                                        <Dropdown.Item key = "Empty" value = "Empty"
+                                                       eventKey="Tutte le province">
                                             Tutte le province </Dropdown.Item>
                                         {this.state.places.map(place => {
                                                 return <Dropdown.Item key={place._id} eventKey={place.name}>
@@ -105,14 +104,16 @@ class Sidebar extends React.Component{
                                     </DropdownButton>
                                 </div>
                                 <FormControl className="text-center px-0" style={{backgroundColor:"white"}}
-                                             onChange= {this.handleSelect} value={this.state.selected} readOnly={true}/>
+                                             onChange= {this.handleSelect} value={this.state.selected}
+                                             readOnly={true}/>
                             </div>
                             <div className="form-group">
-                                <label className="f-title" htmlFor="formGroupExampleInput">Filtra per tipologia</label>
+                                <label className="f-title" htmlFor="formGroupExampleInput">
+                                    Filtra per tipologia</label>
                                 <div className="form-check">
                                     {this.state.tags.map(tag => {
                                         return <div key={tag._id}>
-                                            <input className="form-check-input " type="checkbox" id={tag._id}
+                                            <input className="form-check-input" type="checkbox" id={tag._id}
                                                    onChange={e => this.handleInputChange(e)}/>
                                             <label className="form-check-label"
                                                    htmlFor="inlineCheckbox1">{tag.name}</label>

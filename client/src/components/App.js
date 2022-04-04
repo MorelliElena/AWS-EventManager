@@ -18,8 +18,8 @@ class App extends Component {
                 <div>
                 <Switch>
                     <Route exact path = {routes.home} component = {Home} />
-                    <Route path = {routes.event} exact render = {(props) =>
-                        <EventInfo {...props}/>} />
+                    <Route path = {routes.event} exact render = {
+                        (props) => <EventInfo {...props}/>} />
                     <Route path = {routes.notification} component = {Notification}/>
                     <Route path = {routes.profile} component = {UserManager} />
                     <Route path = {routes.login } component = {Login} />

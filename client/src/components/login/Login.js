@@ -57,11 +57,12 @@ class Login extends React.Component{
                                 }
                                 <div className=" col-md-7 offset-md-3 d-flex flex-column">
                                     <Form className="mt-4 justify-content-center">
-                                        <h1 className="text-center log" style={{backgroundColor: "white"}}> Log in </h1>
+                                        <h1 className="text-center log"> Log in </h1>
                                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                             <Form.Label>Email address</Form.Label>
                                             <Form.Control type="email" placeholder="Enter email"
-                                                          onChange={e => this.setState({username: e.target.value})}/>
+                                                          onChange={e => this.setState({
+                                                              username: e.target.value})}/>
                                             <Form.Text className="text-muted"/>
                                         </Form.Group>
 

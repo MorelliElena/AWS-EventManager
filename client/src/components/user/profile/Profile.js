@@ -15,11 +15,13 @@ class Profile extends React.Component{
             message: undefined,
             readOnly: true
         }
+
     }
 
     componentDidMount() {
 
     }
+
 
     handleEdit = () => {
         this.setState({readOnly: false})
@@ -32,6 +34,7 @@ class Profile extends React.Component{
                 [e.target.name]: e.target.value
             }
         }))
+        this.props.handler(e)
     }
 
     handleSubmission = () => {

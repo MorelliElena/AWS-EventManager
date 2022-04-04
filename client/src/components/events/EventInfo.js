@@ -68,7 +68,8 @@ class EventInfo extends React.Component {
                                         <section className="card-text">
                                             <p>{this.state.eventInfo.description}</p>
                                             <section>
-                                                {this.state.eventInfo.date_start} - {this.state.eventInfo.date_finish}<br/>
+                                                {this.state.eventInfo.date_start} - {this.state.eventInfo.date_finish}
+                                                <br/>
                                                 {this.state.eventInfo.location.address} <br/>
                                                 {this.state.eventInfo.location.city} <br/>
                                                 {this.state.eventInfo.location.province}

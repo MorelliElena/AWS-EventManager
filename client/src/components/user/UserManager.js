@@ -23,6 +23,7 @@ class UserManager extends React.Component {
         this.userSelection = this.userSelection.bind(this)
         this.hide = this.hide.bind(this)
         this.logOut = this.logOut.bind(this)
+        this.userUpdate = this.userUpdate.bind(this)
     }
 
     componentDidMount() {
@@ -32,6 +33,15 @@ class UserManager extends React.Component {
                 user => this.setState({user: user}))
 
         }
+    }
+
+    userUpdate = (e) => {
+        this.setState(prevState =>({
+            user: {
+                ...prevState.user,
+                [e.target.name]: e.target.value
+            }
+        }))
     }
 
     hide = () => {
@@ -53,13 +63,13 @@ class UserManager extends React.Component {
     renderSwitch(param) {
         switch(param) {
             case Choice.UserComponents.PROFILE:
-                return <Profile user={this.state.user}/>;
+                return <Profile user={this.state.user} handler={this.userUpdate}/>;
             case Choice.UserComponents.LIKES:
                 return <Likes id={sessionStorage.getItem("token")} likes={this.state.user.likes}/>;
             case Choice.UserComponents.BOOKING:
                 return <Bookings id={sessionStorage.getItem("token")} bookings={this.state.user.bookings}/>;
             default:
-                return <Profile user={this.state.user}/>;
+                return <Profile user={this.state.user} handler={this.userUpdate}/>;
         }
     }
 
