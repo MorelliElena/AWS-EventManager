@@ -128,6 +128,23 @@ let updateProfileData = (userId, name, surname, birthdate, username, password, o
         resp => {onSuccess(resp.data.description)})
 }
 
+let addUserBooking = (userId, eventId, bookingId, name, date, location, participants, old_part, onError, onSuccess) => {
+    console.log(eventId)
+    managePromise(Axios.post(`http://localhost:5000/api/booking/`,
+            {userId, eventId, bookingId, name, date, location, participants}),
+        [200, 202],
+        error =>  console.log(error.response.data.description),
+        resp => {
+        if(resp.status === 200){
+            managePromise(Axios.post(`http://localhost:5000/api/events/`,
+                    {eventId, bookingId, participants, old_part}),
+                [200],
+                error =>  onError(error.response.data.description),
+                resp => {onSuccess(resp.data.description)})
+        }
+            console.log(resp.data.description)
+    })
+}
 export default {
     getEventInformation,
     getEvents,
@@ -136,5 +153,6 @@ export default {
     checkAuthentication,
     getProfileData,
     updateProfileData,
-    mapDate
+    mapDate,
+    addUserBooking
 }

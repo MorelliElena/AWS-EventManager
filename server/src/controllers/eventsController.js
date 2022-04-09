@@ -13,7 +13,6 @@ exports.list_events = function(req, res) {
 exports.read_event = function(req, res) {
     let id = mongoose.Types.ObjectId(req.params.id)
     Events.findById(id, function (err, event) {
-        console.log("stampa:" + req.params.id)
         if (err)
             res.send(err);
         else {
@@ -27,3 +26,20 @@ exports.read_event = function(req, res) {
         }
     });
 };
+
+exports.updateParticipants = function (req, res) {
+    const p = req.body.old_part + req.body.participants
+    Events.findOneAndUpdate( {_id:req.body.eventId, "booking.id": req.body.bookingId},
+        {$set:{"booking.$.n_participants":p}}, {useFindAndModify:false},function (err){
+            if (err) {
+                res.status(451).send({
+                    description: 'Event participants update failed. Try again later'
+                });
+            } else {
+                res.send({
+                    description: 'Event participants updated successfully'
+                });
+            }
+        }
+    )
+}

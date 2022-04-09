@@ -86,7 +86,9 @@ class UserManager extends React.Component {
                             </div>
                             <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>
-                                {!this.state.user ?  <div className="h-100"><Spinner/></div> :
+                                {!sessionStorage.getItem("token") ?
+                                    <Redirect to={routes.login}/> :
+                                    !this.state.user ? <div className="h-100"><Spinner/></div> :
                                     this.renderSwitch(this.state.selection)
                                 }
                                 {

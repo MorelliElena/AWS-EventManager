@@ -1,4 +1,3 @@
-
 module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
@@ -9,10 +8,11 @@ module.exports = function(app) {
         .get(tagsController.tag_list);
 
     app.route('/api/events')
-        .get(eventsController.list_events);
+        .get(eventsController.list_events)
+        .post(eventsController.updateParticipants);
 
     app.route('/api/places')
-        .get(placesController.places_list);
+        .get(placesController.places_list)
 
     app.route('/api/events/:id')
         .get(eventsController.read_event)
@@ -25,4 +25,9 @@ module.exports = function(app) {
 
     app.route('/api/update')
         .post(usersController.updateUserData)
+
+    app.route('/api/booking')
+        .post(usersController.updateUserBooking)
+
+
 };

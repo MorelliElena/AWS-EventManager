@@ -7,8 +7,10 @@ module.exports = function(mongoose) {
         surname: String,
         birthday: Date,
         bookings:[{
+           id_event: String,
            name: String,
            date: Date,
+           participants: Number,
            location: {
                address: String,
                city: String,

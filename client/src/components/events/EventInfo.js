@@ -1,12 +1,14 @@
 import React from 'react';
 import Api from '../api/Api'
 import './EventInfo.css'
-import {Button} from "react-bootstrap";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../headerbar/Header";
-import {BsFillExclamationCircleFill} from "react-icons/bs";
+import {BsFillExclamationCircleFill, BsStar} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
+import PeopleCounter from "../user/booking/PeopleCounter";
+import {Alert} from "react-bootstrap";
+
 let routes = require("../routes/Routes")
 
 class EventInfo extends React.Component {
@@ -17,8 +19,11 @@ class EventInfo extends React.Component {
             idEvent: props.match.params.id,
             eventInfo: undefined,
             showDefaultMessage: false,
-            redirection: false
+            redirection: false,
+            error: false,
+            message: undefined
         }
+        this.bookingHandler = this.bookingHandler.bind(this)
 
     }
 
@@ -31,18 +36,71 @@ class EventInfo extends React.Component {
                 //this.onError("Errore nel caricare le informazioni dell'evento. Ricaricare la pagina.")
             },
             event => {
-                this.setState({eventInfo:event})
+                this.setState({eventInfo:event,
+                counter: Array(event.booking.length).fill(0)})
             }
         )
     }
 
-    bookInfo = e => {
+    bookingHandler = (e, participants) => {
         if (!sessionStorage.getItem("token")){
-            console.log("entra")
+            console.log("entra book")
             this.setState({redirection: true})
         } else {
             console.log(e)
+            console.log(participants)
+            Api.addUserBooking(
+                sessionStorage.getItem("token"),
+                this.state.idEvent,
+                e.id,
+                this.state.eventInfo.name,
+                e.date,
+                this.state.eventInfo.location,
+                participants,
+                e.n_participants,
+                error =>{
+                    this.setState({error:true, message: error})
+                },
+                response => {
+                    this.updateParticipantsField(e, participants)
+                    this.setState({error:false, message: response})
+                })
         }
+    }
+
+    updateParticipantsField(e, participants){
+        let pos = this.state.eventInfo.booking.findIndex(i => i.id === e.id)
+        let items = [...this.state.eventInfo.booking]
+        items[pos] = {
+            ...items[pos],
+            n_participants: e.n_participants + participants
+        }
+        this.setState(prevState =>({
+            eventInfo: {
+                ...prevState.eventInfo,
+                booking: items
+            }
+        }))
+    }
+
+    like = () => {
+        if (!sessionStorage.getItem("token")){
+            console.log("entra like")
+            this.setState({redirection: true})
+        } else {
+            console.log("like")
+        }
+    }
+
+    renderMessage() {
+        return this.state.error ?
+            <Alert className="text-center mt-2" variant="danger">
+                {this.state.message}
+            </Alert>
+            :
+            <Alert className="text-center mt-2" variant="success">
+                {this.state.message}
+            </Alert>
     }
 
     render() {
@@ -54,15 +112,23 @@ class EventInfo extends React.Component {
                     </div>
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>
+                        { this.state.message ? this.renderMessage() : null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>
                             </div> :
                             this.state.redirection ? <Redirect to={routes.login}/> :
-                                <div className="text-center h-100 pt-3">
-                                    {this.state.eventInfo.img ?
-                                        <img className="card-img-top size"
-                                             src={this.state.eventInfo.img} alt="Event"/> : null}
+                                <div className="text-center h-100 pt-3 ">
+                                    <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
+                                         onClick={this.like}>
+                                        <BsStar className="text-primary star" size={32}/>
+                                    </div>
+                                    <div>
+                                        {this.state.eventInfo.img ?
+                                            <img className="card-img-top size"
+                                                 src={this.state.eventInfo.img} alt="Event"/> : null}
+
+                                    </div>
                                     <div className="card-body p-2">
                                         <h5 className="card-title">{this.state.eventInfo.name}</h5>
                                         <section className="card-text">
@@ -92,28 +158,9 @@ class EventInfo extends React.Component {
                                                     </div>:<div/>
                                                 }
                                             </section>
-                                            <div className="d-flex flex-column justify-content-center">
-                                                <ul className="list-group text-start book">
-                                                    { this.state.eventInfo.booking.map(day =>
-                                                        <li className="list-group-item text-center"
-                                                            key = {"booking"+ day.id}>
-                                                            <div>
-                                                                <div>
-                                                                    Data: {Api.mapDate(day.date)} <br/>
-                                                                    Posti Occupati: {day.n_participants}/
-                                                                    {day.max_participants}
-                                                                </div>
-                                                                <div>
-                                                                    <Button className="btn btn-primary mt-3 button"
-                                                                            onClick={()=> this.bookInfo(day)}>
-                                                                        Prenota
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    )}
-                                                </ul>
-                                            </div>
+                                            <PeopleCounter booking={this.state.eventInfo.booking}
+                                                           handler={(e,participants) =>
+                                                               this.bookingHandler(e, participants)}/>
                                     </section>
                                 </div>
                             </div>
