@@ -1,10 +1,11 @@
-import Api from "../../api/Api";
+import Api from "../api/Api";
 import {Button, InputGroup} from "react-bootstrap";
 import React, {useState} from "react";
 
 function PeopleCounter(props) {
 
     const [counter, setCounter] = useState(props.booking.map(() => 0));
+    let [alert, setAlert] = useState(false)
 
     function minus(i) {
         if(counter[i] > 0) {
@@ -24,15 +25,34 @@ function PeopleCounter(props) {
 
 
     function book(e, participants, i) {
-        console.log(participants)
-        counter[i] = 0
-        setCounter([...counter])
-        props.handler(e, participants)
+        if(counter[i] > 0 && e.n_participants + counter[i]<= e.max_participants) {
+            console.log(participants)
+            counter[i] = 0
+            setCounter([...counter])
+            props.handler(e, participants)
+        } else {
+            setAlert(alert => !alert)
+        }
+    }
+
+    function renderAlert (){
+        return (
+            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                <div className="ps-2 pe-1 text-start col-10">
+                    Il valore scelto risulta non essere valido: modificalo per continuare
+                </div>
+                <button type="col-2 button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                        onClick={()=>setAlert(alert => !alert)}/>
+            </div>
+        )
     }
 
     return(
         <div className="d-flex flex-column justify-content-center">
             <ul className="list-group text-start book">
+                <div>
+                    {alert ? renderAlert(): null}
+                </div>
                 { props.booking.map((day, i) =>
                     <li className="list-group-item text-center"
                         key = {"booking"+ day.id}>
@@ -50,8 +70,8 @@ function PeopleCounter(props) {
                                                     type="submit"
                                                     onClick={() => minus(i)}>-
                                             </button>
-                                            <input type="number"
-                                                   className="form text-center form-control"
+                                            <input type="text"
+                                                   className="form form-control m-0 text-center"
                                                    key={i}
                                                    value={counter[i]}
                                                    readOnly={true}/>

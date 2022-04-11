@@ -105,7 +105,8 @@ exports.updateUserBooking = function(req, res) {
 
                 } else {
                     res.status(202).send({
-                        description: 'Already booked this event in the date you chose. Check your bookings'
+                        description: 'Hai già una penotazione effettuata per questo evento nella data desiderata. ' +
+                            'Controlla le tue penotazioni nella sezione personale'
                     });
                 }
             }

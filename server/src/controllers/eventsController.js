@@ -33,11 +33,11 @@ exports.updateParticipants = function (req, res) {
         {$set:{"booking.$.n_participants":p}}, {useFindAndModify:false},function (err){
             if (err) {
                 res.status(451).send({
-                    description: 'Event participants update failed. Try again later'
+                    description: 'Prenotazione fallita. Riprova più tardi'
                 });
             } else {
                 res.send({
-                    description: 'Event participants updated successfully'
+                    description: 'Prenotazione avvenuta con successo'
                 });
             }
         }

@@ -1,6 +1,6 @@
 import React from "react";
 import Api from "../../api/Api";
-import {Alert, Button, Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {BsPencilSquare, BsPersonCircle} from "react-icons/bs";
 import "./Profile.css"
 
@@ -11,7 +11,8 @@ class Profile extends React.Component{
             user: props.user,
             error: false,
             message: undefined,
-            readOnly: true
+            readOnly: true,
+            hide: true
         }
 
     }
@@ -49,20 +50,25 @@ class Profile extends React.Component{
     }
 
     renderMessage() {
-       return this.state.error ?
-                <Alert className="text-center mt-2" variant="danger">
-                    {this.state.message}
-                </Alert>
-                :
-                <Alert className="text-center mt-2" variant="success">
-                    {this.state.message}
-                </Alert>
+        return this.state.error ?
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
+                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
+            </div>
+            :
+            <div className="alert alert-success alert-dismissible fade show" role="alert">
+                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
+                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
+            </div>
     }
+
     render() {
         return (
             <div>
                 <div className="d-flex flex-column">
-                    { this.state.message ? this.renderMessage() : null}
+                    { !this.state.hide ? this.renderMessage() : null}
                     <BsPencilSquare className="align-self-end me-1 mt-3 text-primary edit" size={32}
                                     onClick={this.handleEdit}/>
                     <div className="text-center mt-3">

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Alert, Button, Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../headerbar/Header";
 import "./Login.css"
@@ -51,9 +51,11 @@ class Login extends React.Component{
                             <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>
                                 {this.state.error ?
-                                    <Alert className="text-center mt-2" variant="danger">
+                                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
                                         {this.state.message}
-                                    </Alert> : null
+                                        <button type="button" className="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close" onClick={()=> this.setState({error: false})}/>
+                                    </div> : null
                                 }
                                 <div className=" col-md-7 offset-md-3 d-flex flex-column">
                                     <Form className="mt-4 justify-content-center">

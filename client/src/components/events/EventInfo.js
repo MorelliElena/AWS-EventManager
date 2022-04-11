@@ -6,8 +6,7 @@ import Header from "../headerbar/Header";
 import {BsFillExclamationCircleFill, BsStar} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
-import PeopleCounter from "../user/booking/PeopleCounter";
-import {Alert} from "react-bootstrap";
+import PeopleCounter from "./PeopleCounter";
 
 let routes = require("../routes/Routes")
 
@@ -21,7 +20,8 @@ class EventInfo extends React.Component {
             showDefaultMessage: false,
             redirection: false,
             error: false,
-            message: undefined
+            message: undefined,
+            hide: true
         }
         this.bookingHandler = this.bookingHandler.bind(this)
 
@@ -59,11 +59,11 @@ class EventInfo extends React.Component {
                 participants,
                 e.n_participants,
                 error =>{
-                    this.setState({error:true, message: error})
+                    this.setState({error:true, message: error, hide: false})
                 },
                 response => {
                     this.updateParticipantsField(e, participants)
-                    this.setState({error:false, message: response})
+                    this.setState({error:false, message: response, hide:false})
                 })
         }
     }
@@ -94,13 +94,17 @@ class EventInfo extends React.Component {
 
     renderMessage() {
         return this.state.error ?
-            <Alert className="text-center mt-2" variant="danger">
-                {this.state.message}
-            </Alert>
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
+                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
+            </div>
             :
-            <Alert className="text-center mt-2" variant="success">
-                {this.state.message}
-            </Alert>
+            <div className="alert alert-success alert-dismissible fade show" role="alert">
+                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
+                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
+            </div>
     }
 
     render() {
@@ -112,7 +116,7 @@ class EventInfo extends React.Component {
                     </div>
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>
-                        { this.state.message ? this.renderMessage() : null}
+                        { !this.state.hide ? this.renderMessage() : null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>
@@ -160,7 +164,7 @@ class EventInfo extends React.Component {
                                             </section>
                                             <PeopleCounter booking={this.state.eventInfo.booking}
                                                            handler={(e,participants) =>
-                                                               this.bookingHandler(e, participants)}/>
+                                                               this.bookingHandler(e, participants,)}/>
                                     </section>
                                 </div>
                             </div>

@@ -133,16 +133,18 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
     managePromise(Axios.post(`http://localhost:5000/api/booking/`,
             {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
-        error =>  console.log(error.response.data.description),
+        error =>  onError(error.data.description),
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
                     {eventId, bookingId, participants, old_part}),
                 [200],
-                error =>  onError(error.response.data.description),
-                resp => {onSuccess(resp.data.description)})
+                error =>  onError(error.data.description),
+                resp => onSuccess(resp.data.description))
+        } else {
+           onError(resp.data.description)
         }
-            console.log(resp.data.description)
+
     })
 }
 export default {
