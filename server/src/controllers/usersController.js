@@ -73,7 +73,7 @@ exports.updateUserBooking = function(req, res) {
                 console.log(isDuplicated)
                 if (!isDuplicated) {
                     const book = {
-                        "id_booking": req.body.bookingId,
+                        "_id": req.body.bookingId,
                         "id_event": req.body.eventId,
                         "name": req.body.name,
                         "date":req.body.date,
@@ -114,4 +114,20 @@ exports.updateUserBooking = function(req, res) {
         }
 
     )
+}
+
+exports.deleteUserBooking = function(req, res) {
+    Users.findByIdAndUpdate(req.body.userId,
+        {$pull: { "bookings": {_id:req.body.bookingId}}},
+        {useFindAndModify:false}, function (err) {
+        if (err){
+            console.log(err)
+            res.send(err);
+        } else {
+            console.log("entra")
+            res.status(200).send({
+                description: 'Prenotazione eliminata correttamente'
+            });
+        }
+    })
 }

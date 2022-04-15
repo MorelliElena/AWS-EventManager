@@ -29,7 +29,7 @@ exports.read_event = function(req, res) {
 
 exports.updateParticipants = function (req, res) {
     const p = req.body.old_part + req.body.participants
-    Events.findOneAndUpdate( {_id:req.body.eventId, "booking.id": req.body.bookingId},
+    Events.findOneAndUpdate({_id:req.body.eventId, "booking.id": req.body.bookingId},
         {$set:{"booking.$.n_participants":p}}, {useFindAndModify:false},function (err){
             if (err) {
                 res.status(451).send({
@@ -42,4 +42,32 @@ exports.updateParticipants = function (req, res) {
             }
         }
     )
+}
+
+exports.deleteParticipants = function (req, res) {
+    console.log(req.body)
+    Events.findOne({"_id":req.body.eventId, "booking.id": req.body.bookingId}, {"booking.$":1},
+        function (err, booking){
+        if(err){
+            res.send(err);
+        } else {
+            const old = booking.booking[0].n_participants
+            console.log(old)
+            Events.findOneAndUpdate({_id:req.body.eventId, "booking.id": req.body.bookingId},
+                {$set:{"booking.$.n_participants": old - req.body.participants}},
+                {useFindAndModify:false},function (err){
+                    if (err) {
+                        res.status(451).send({
+                            description: 'Eliminazione fallita. Riprova più tardi'
+                        });
+                    } else {
+                        res.send({
+                            description: 'Eliminazione avvenuta con successo'
+                        });
+                    }
+                }
+            )
+        }
+    })
+
 }

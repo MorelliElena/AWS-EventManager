@@ -5,11 +5,12 @@ module.exports = function(app) {
     const usersController = require('../controllers/usersController');
 
     app.route('/api/tags')
-        .get(tagsController.tag_list);
+        .get(tagsController.tag_list)
 
     app.route('/api/events')
         .get(eventsController.list_events)
-        .post(eventsController.updateParticipants);
+        .post(eventsController.updateParticipants)
+        .delete(eventsController.deleteParticipants)
 
     app.route('/api/places')
         .get(placesController.places_list)
@@ -28,6 +29,7 @@ module.exports = function(app) {
 
     app.route('/api/booking')
         .post(usersController.updateUserBooking)
+        .delete(usersController.deleteUserBooking)
 
 
 };

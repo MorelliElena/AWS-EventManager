@@ -7,6 +7,7 @@ import {BsFillExclamationCircleFill, BsStar} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 import PeopleCounter from "./PeopleCounter";
+import Alert from "../alert/Alert";
 
 let routes = require("../routes/Routes")
 
@@ -92,21 +93,6 @@ class EventInfo extends React.Component {
         }
     }
 
-    renderMessage() {
-        return this.state.error ?
-            <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
-                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
-            </div>
-            :
-            <div className="alert alert-success alert-dismissible fade show" role="alert">
-                <div className="ps-2 pe-1 text-start col-10">{this.state.message}</div>
-                <button type="button col-2" className="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close" onClick={()=> this.setState({hide:true})}/>
-            </div>
-    }
-
     render() {
         return (
             <div className="container-fluid">
@@ -116,7 +102,7 @@ class EventInfo extends React.Component {
                     </div>
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>
-                        { !this.state.hide ? this.renderMessage() : null}
+                        { !this.state.hide ? <Alert error={this.state.error} message={this.state.message}/>:null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>

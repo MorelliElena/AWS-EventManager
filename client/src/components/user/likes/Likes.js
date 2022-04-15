@@ -22,7 +22,7 @@ class Likes extends React.Component {
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
                     <ul className="list-group">
-                        {this.state.likes.map(likes =>
+                        {this.state.likes.length !== 0 ?this.state.likes.map(likes =>
                             <li className="list-group-item d-flex justify-content-between align-items-center"
                                 key={"tag" + likes.id}>
                                 <div>
@@ -40,7 +40,7 @@ class Likes extends React.Component {
                                     <BsFillTrashFill className="text-white trash" size={20}/>
                                 </div>
                             </li>
-                        )
+                        ): <div className="text-center"> Nessun evento d'interesse presente </div>
                         }
                     </ul>
                 </div>
