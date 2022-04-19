@@ -3,7 +3,7 @@ import Api from '../api/Api'
 import './EventInfo.css'
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../headerbar/Header";
-import {BsFillExclamationCircleFill, BsStar} from "react-icons/bs";
+import {BsFillExclamationCircleFill, BsStar, BsStarFill} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 import PeopleCounter from "./PeopleCounter";
@@ -22,7 +22,8 @@ class EventInfo extends React.Component {
             redirection: false,
             error: false,
             message: undefined,
-            hide: true
+            hide: true,
+            like: false
         }
         this.bookingHandler = this.bookingHandler.bind(this)
 
@@ -41,6 +42,13 @@ class EventInfo extends React.Component {
                 counter: Array(event.booking.length).fill(0)})
             }
         )
+        if (sessionStorage.getItem("token")) {
+            Api.getIfEventIsLiked(sessionStorage.getItem("token"), this.state.idEvent,
+                () => console.log(),
+                () => this.setState({like:true}))
+
+        }
+
     }
 
     bookingHandler = (e, participants) => {
@@ -86,10 +94,19 @@ class EventInfo extends React.Component {
 
     like = () => {
         if (!sessionStorage.getItem("token")){
-            console.log("entra like")
             this.setState({redirection: true})
         } else {
-            console.log("like")
+            Api.addUserLike(
+                sessionStorage.getItem("token"),
+                this.state.idEvent,
+                this.state.eventInfo.name,
+                this.state.eventInfo.date_start,
+                this.state.eventInfo.date_finish,
+                this.state.eventInfo.location,
+                error => this.setState({error:true, message: error, hide: false}),
+                response => {
+                    this.setState({error:false, message: response, hide:false, like:true})
+                })
         }
     }
 
@@ -111,7 +128,10 @@ class EventInfo extends React.Component {
                                 <div className="text-center h-100 pt-3 ">
                                     <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
                                          onClick={this.like}>
-                                        <BsStar className="text-primary star" size={32}/>
+                                        {!this.state.like ?
+                                        <BsStar className="text-primary star" size={32}/>:
+                                        <BsStarFill className="text-primary star" size={32}/>
+                                        }
                                     </div>
                                     <div>
                                         {this.state.eventInfo.img ?

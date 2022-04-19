@@ -24,7 +24,7 @@ class Likes extends React.Component {
                     <ul className="list-group">
                         {this.state.likes.length !== 0 ?this.state.likes.map(likes =>
                             <li className="list-group-item d-flex justify-content-between align-items-center"
-                                key={"tag" + likes.id}>
+                                key={"tag" + likes._id}>
                                 <div>
                                     <div className="fw-bold">
                                         {likes.name}

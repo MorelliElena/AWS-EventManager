@@ -131,3 +131,79 @@ exports.deleteUserBooking = function(req, res) {
         }
     })
 }
+
+exports.updateUserLike = function(req, res) {
+    let userId = mongoose.Types.ObjectId(req.body.userId)
+    let likeId = mongoose.Types.ObjectId()
+    console.log(req.body)
+    Users.findById(userId, function (err, user){
+            if(err){
+                res.send(err);
+            } else {
+                const isDuplicated = user.likes.some(function (like) {
+                    return like.id_event=== req.body.eventId;
+                });
+
+                console.log(isDuplicated)
+                if (!isDuplicated) {
+                    const like = {
+                        "_id": likeId,
+                        "id_event": req.body.eventId,
+                        "name": req.body.name,
+                        "date_start": new Date(req.body.ds),
+                        "date_finish":new Date(req.body.df),
+                        "location": {
+                            "address": req.body.location.address,
+                            "city": req.body.location.city,
+                            "province": req.body.location.province
+                        }
+                    }
+
+                    Users.findByIdAndUpdate(
+                        req.body.userId,
+                        {$push : {likes: like}},
+                        {useFindAndModify: false},
+                        function(err){
+                            if (err) {
+                                res.send({
+                                    description: 'Like creation failed. Try again later'
+                                });
+                            } else {
+                                res.status(200).send({
+                                    description: 'Like created successfully'
+                                })
+                            }
+                        })
+
+
+                } else {
+                    res.status(202).send({
+                        description: 'Hai già espresso un interesse per questo evento' +
+                            'Controlla le tue penotazioni nella sezione personale'
+                    });
+                }
+            }
+
+        }
+
+    )
+}
+
+exports.deleteUserLike = function(req, res) {
+
+}
+
+exports.isEventLiked = function (req,res) {
+    console.log(req.body)
+    Users.findOne({"_id":req.body.userId, "likes.id_event": req.body.eventId}, {"likes.$":1},
+        function (err, like) {
+            console.log(like)
+        if (err)
+            res.send(err);
+        else {
+            if (like != null) {
+                res.status(200).send()
+            }
+        }
+    });
+}

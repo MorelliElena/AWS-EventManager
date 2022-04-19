@@ -18,6 +18,7 @@ module.exports = function(mongoose) {
            }
         }],
         likes:[{
+            id_event: String,
             name: String,
             date_start: Date,
             date_finish: Date,

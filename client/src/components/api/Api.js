@@ -161,7 +161,24 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
                     resp => onSuccess(resp.data.description))
             }
     })
+}
 
+let addUserLike = (userId, eventId, name, date_start, date_finish, location, onError, onSuccess) => {
+    const ds = moment(date_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+    const df = moment(date_finish, "DD/MM/YYYY").format('YYYY-MM-DD');
+    managePromise(Axios.post(`http://localhost:5000/api/like/`,
+        {userId, eventId, name, ds, df, location}),
+        [200, 202],
+        error =>  onError(error.data.description),
+        resp => {if(resp.status === 200){onSuccess(resp.data.description)}})
+}
+
+let getIfEventIsLiked = (userId, eventId, onError, onSuccess) =>{
+    managePromise(Axios.post(`http://localhost:5000/api/like/check`,
+        {userId, eventId}),
+        [200],
+        error =>  onError(),
+        resp => onSuccess())
 }
 
 
@@ -175,5 +192,7 @@ export default {
     updateProfileData,
     mapDate,
     addUserBooking,
-    removeBooking
+    removeBooking,
+    addUserLike,
+    getIfEventIsLiked
 }

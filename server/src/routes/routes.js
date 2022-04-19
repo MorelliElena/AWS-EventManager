@@ -1,3 +1,4 @@
+const usersController = require("../controllers/usersController");
 module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
@@ -31,5 +32,11 @@ module.exports = function(app) {
         .post(usersController.updateUserBooking)
         .delete(usersController.deleteUserBooking)
 
+    app.route('/api/like')
+        .post(usersController.updateUserLike)
+        .delete(usersController.deleteUserLike)
+
+    app.route('/api/like/check')
+        .post(usersController.isEventLiked)
 
 };
