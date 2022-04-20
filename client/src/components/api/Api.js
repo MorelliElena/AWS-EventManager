@@ -181,6 +181,14 @@ let getIfEventIsLiked = (userId, eventId, onError, onSuccess) =>{
         resp => onSuccess())
 }
 
+let removeLike = (userId, likeId, onError, onSuccess) =>{
+    managePromise(Axios.delete(`http://localhost:5000/api/like/`,
+        {data:{userId, likeId}}),
+        [200],
+        error =>  onError(error.data.description),
+        resp => onSuccess(resp.data.description))
+}
+
 
 export default {
     getEventInformation,
@@ -194,5 +202,6 @@ export default {
     addUserBooking,
     removeBooking,
     addUserLike,
-    getIfEventIsLiked
+    getIfEventIsLiked,
+    removeLike
 }

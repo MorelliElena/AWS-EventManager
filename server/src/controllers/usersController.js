@@ -60,7 +60,7 @@ exports.updateUserData = function(req, res) {
 
 exports.updateUserBooking = function(req, res) {
     let userId = mongoose.Types.ObjectId(req.body.userId)
-    console.log(req.body)
+
     Users.findById(userId, function (err, user){
             if(err){
                 res.send(err);
@@ -69,8 +69,6 @@ exports.updateUserBooking = function(req, res) {
                 const isDuplicated = user.bookings.some(function (booking) {
                     return (booking.date.getTime() === date.getTime() && booking.id_event=== req.body.eventId);
                 });
-
-                console.log(isDuplicated)
                 if (!isDuplicated) {
                     const book = {
                         "_id": req.body.bookingId,
@@ -92,12 +90,11 @@ exports.updateUserBooking = function(req, res) {
                         function(err){
                             if (err) {
                                 res.send({
-                                    description: 'Booking creation failed. Try again later'
+                                    description: 'Creazione prenotazione fallita. Riprova più tardi'
                                 });
                             } else {
-                                console.log("added in user")
                                 res.status(200).send({
-                                    description: 'Booking created successfully'
+                                    description: 'Prenotazione creata correttamente'
                                 })
                             }
                         })
@@ -121,10 +118,8 @@ exports.deleteUserBooking = function(req, res) {
         {$pull: { "bookings": {_id:req.body.bookingId}}},
         {useFindAndModify:false}, function (err) {
         if (err){
-            console.log(err)
             res.send(err);
         } else {
-            console.log("entra")
             res.status(200).send({
                 description: 'Prenotazione eliminata correttamente'
             });
@@ -135,7 +130,7 @@ exports.deleteUserBooking = function(req, res) {
 exports.updateUserLike = function(req, res) {
     let userId = mongoose.Types.ObjectId(req.body.userId)
     let likeId = mongoose.Types.ObjectId()
-    console.log(req.body)
+
     Users.findById(userId, function (err, user){
             if(err){
                 res.send(err);
@@ -143,8 +138,6 @@ exports.updateUserLike = function(req, res) {
                 const isDuplicated = user.likes.some(function (like) {
                     return like.id_event=== req.body.eventId;
                 });
-
-                console.log(isDuplicated)
                 if (!isDuplicated) {
                     const like = {
                         "_id": likeId,
@@ -166,11 +159,12 @@ exports.updateUserLike = function(req, res) {
                         function(err){
                             if (err) {
                                 res.send({
-                                    description: 'Like creation failed. Try again later'
+                                    description: "L'Evento d'interesse non è " +
+                                        "stato aggiunto correttamente. Riprova più tardi"
                                 });
                             } else {
                                 res.status(200).send({
-                                    description: 'Like created successfully'
+                                    description: 'Evento d\'interesse aggiunto correttamente'
                                 })
                             }
                         })
@@ -190,14 +184,22 @@ exports.updateUserLike = function(req, res) {
 }
 
 exports.deleteUserLike = function(req, res) {
-
+    Users.findByIdAndUpdate(req.body.userId,
+        {$pull: { "likes": {_id:req.body.likeId}}},
+        {useFindAndModify:false}, function (err) {
+            if (err){
+                res.send(err);
+            } else {
+                res.status(200).send({
+                    description: "Evento d'interesse eliminato correttamente"
+                });
+            }
+        })
 }
 
 exports.isEventLiked = function (req,res) {
-    console.log(req.body)
     Users.findOne({"_id":req.body.userId, "likes.id_event": req.body.eventId}, {"likes.$":1},
         function (err, like) {
-            console.log(like)
         if (err)
             res.send(err);
         else {

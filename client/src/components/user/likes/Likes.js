@@ -2,13 +2,17 @@ import React from "react";
 import Api from "../../api/Api";
 import {BsFillTrashFill} from "react-icons/bs";
 import "../booking/Booking.css"
+import Alert from "../../alert/Alert";
 
 class Likes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             userId : props.id,
-            likes : props.likes
+            likes : props.likes,
+            error: false,
+            message: undefined,
+            hide:true
         }
     }
 
@@ -16,9 +20,21 @@ class Likes extends React.Component {
 
     }
 
+    deleteLike = (likeId) => {
+        Api.removeLike(
+            this.state.userId,
+            likeId,
+            error => this.setState({error:true, message: error, hide: false}),
+            response =>{
+                this.setState({error:false, message: response, hide: false})
+                this.setState({likes: this.state.likes.filter(e => e._id !== likeId)})
+            })
+    }
+
     render() {
         return (
             <div>
+                {!this.state.hide ? <Alert error={this.state.error} message={this.state.message}/> : null}
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
                     <ul className="list-group">
@@ -36,7 +52,7 @@ class Likes extends React.Component {
                                         {likes.location.province}
                                     </div>
                                 </div>
-                                <div className="btn btn-danger" onClick={() => console.log("delete")}>
+                                <div className="btn btn-danger" onClick={() => this.deleteLike(likes._id)}>
                                     <BsFillTrashFill className="text-white trash" size={20}/>
                                 </div>
                             </li>

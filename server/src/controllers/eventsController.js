@@ -18,7 +18,7 @@ exports.read_event = function(req, res) {
         else {
             if (event == null) {
                 res.status(404).send({
-                    description: 'Event not found'
+                    description: 'Evento non trovato'
                 });
             } else {
                 res.json(event);
