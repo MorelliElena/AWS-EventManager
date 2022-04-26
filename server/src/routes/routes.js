@@ -39,4 +39,7 @@ module.exports = function(app) {
     app.route('/api/like/check')
         .post(usersController.isEventLiked)
 
+    app.route('/api/registration')
+        .post(usersController.registration)
+
 };

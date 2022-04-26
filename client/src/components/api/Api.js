@@ -177,8 +177,8 @@ let getIfEventIsLiked = (userId, eventId, onError, onSuccess) =>{
     managePromise(Axios.post(`http://localhost:5000/api/like/check`,
         {userId, eventId}),
         [200],
-        error =>  onError(),
-        resp => onSuccess())
+        () =>  onError(),
+        () => onSuccess())
 }
 
 let removeLike = (userId, likeId, onError, onSuccess) =>{
@@ -189,6 +189,19 @@ let removeLike = (userId, likeId, onError, onSuccess) =>{
         resp => onSuccess(resp.data.description))
 }
 
+let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
+    managePromise(Axios.post(`http://localhost:5000/api/registration/`,
+            {email, password, birthday, name, surname}),
+        [200, 202],
+        error =>  onError(error.data.description),
+        resp => {
+            if(resp.status=== 200) {
+                onSuccess(resp.data.description)
+            } else {
+                onError(resp.data.description)
+            }
+    })
+}
 
 export default {
     getEventInformation,
@@ -203,5 +216,6 @@ export default {
     removeBooking,
     addUserLike,
     getIfEventIsLiked,
-    removeLike
+    removeLike,
+    addUser
 }

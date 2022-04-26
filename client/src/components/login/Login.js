@@ -79,9 +79,9 @@ class Login extends React.Component{
                                     <div className="d-grid gap-2 mt-3 submit justify-content-center">
                                         <Button className="button" variant="primary" type="submit"
                                                 onClick={this.handleSubmit}>
-                                            Submit
+                                           Invia
                                         </Button>
-                                        <Link className="d-flex justify-content-center mt-3 registration" to="">
+                                        <Link className="d-flex justify-content-center mt-3 registration" to={routes.registration}>
                                             Sei un nuovo utente? Registrati subito cliccando qui!
                                         </Link>
                                     </div>
@@ -93,7 +93,6 @@ class Login extends React.Component{
             );
         }
     }
-
 }
 
 export default Login

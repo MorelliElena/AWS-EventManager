@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 function Alert(props) {
-    let [hide, setShow] = useState(false)
+    let [hide, setShow] = useState(props.state)
         return (
             !hide ?
                  props.error?

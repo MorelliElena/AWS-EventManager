@@ -209,3 +209,39 @@ exports.isEventLiked = function (req,res) {
         }
     });
 }
+
+exports.registration = function (req, res) {
+    let userId = mongoose.Types.ObjectId()
+    console.log(req.body)
+    Users.findOne({"username":req.body.email}, function (err, user) {
+        if (err)
+            res.send(err);
+        else {
+            if (user != null) {
+                res.status(202).send({
+                    description: 'Esiste già un account con questo username'
+                })
+            } else {
+                const user = {
+                    "_id": userId,
+                    "username": req.body.email,
+                    "password":req.body.password,
+                    "name": req.body.name,
+                    "surname": req.body.surname,
+                    "birthday":req.body.birthday,
+                    "bookings": [],
+                    "likes":[] }
+                Users.create(user, function (err) {
+                    if (err)
+                        res.send(err);
+                    else {
+                        res.status(200).send({
+                            description: 'Account creato correttamente'
+                        })
+                    }
+                });
+
+            }
+        }
+    })
+}

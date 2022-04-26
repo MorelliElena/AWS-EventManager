@@ -7,6 +7,7 @@ import Login from "./login/Login";
 import Bookings from "./user/booking/Bookings";
 import Likes from "./user/likes/Likes";
 import UserManager from "./user/UserManager";
+import Registration from "./registration/Registration";
 let routes = require("./routes/Routes")
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route path = {routes.login } component = {Login} />
                     <Route path = {routes.booking} component = {Bookings} />
                     <Route path = {routes.likes} component = {Likes} />
+                    <Route path = {routes.registration} component = {Registration} />
                 </Switch>
                 </div>
             </Router>
