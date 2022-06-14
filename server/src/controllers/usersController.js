@@ -230,7 +230,8 @@ exports.registration = function (req, res) {
                     "surname": req.body.surname,
                     "birthday":req.body.birthday,
                     "bookings": [],
-                    "likes":[] }
+                    "likes":[],
+                    "isAdmin":false}
                 Users.create(user, function (err) {
                     if (err)
                         res.send(err);

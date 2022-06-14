@@ -6,6 +6,7 @@ module.exports = function(mongoose) {
         name: String,
         surname: String,
         birthday: Date,
+        isAdmin: Boolean,
         bookings:[{
            id_event: String,
            name: String,
