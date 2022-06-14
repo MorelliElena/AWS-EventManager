@@ -135,7 +135,7 @@ class Sidebar extends React.Component{
                                     </Button>
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.LIKES}
-                                            onClick={e => this.handleUserChoice(e)}> Likes </Button>
+                                            onClick={e => this.handleUserChoice(e)}> Interessi </Button>
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.PROFILE}
                                             onClick={e => this.handleUserChoice(e)}> Profilo </Button>
@@ -144,7 +144,25 @@ class Sidebar extends React.Component{
                                             onClick={e => this.handleUserChoice(e)}> Logout </Button>
                                 </div>
                             </div>
-                        : null}
+                        :  this.state.show === Choice.SidebarChoice.ADMIN ?
+                            <div className="mb-3">
+                                <div className="btn-group-vertical">
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.EVENTS}
+                                            onClick={e => this.handleUserChoice(e)}>
+                                        Eventi
+                                    </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            > Notifica </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.PROFILE}
+                                            onClick={e => this.handleUserChoice(e)}> Profilo </Button>
+                                    <Button className="btn btn-light btn-outline-primary profile-menu"
+                                            value={Choice.UserComponents.LOGOUT}
+                                            onClick={e => this.handleUserChoice(e)}> Logout </Button>
+                                </div>
+                            </div>
+                      :null}
                 </div>
 
             );

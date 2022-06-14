@@ -3,10 +3,10 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './home/Home.js';
 import EventInfo from './events/EventInfo'
 import Notification from "./notification/Notification";
-import Login from "./login/Login";
-import Bookings from "./user/booking/Bookings";
-import Likes from "./user/likes/Likes";
-import UserManager from "./user/UserManager";
+import Login from "./manager/login/Login";
+import Bookings from "./manager/user/booking/Bookings";
+import Likes from "./manager/user/likes/Likes";
+import UserManager from "./manager/UserManager";
 import Registration from "./registration/Registration";
 let routes = require("./routes/Routes")
 
@@ -22,11 +22,12 @@ class App extends Component {
                     <Route path = {routes.event} exact render = {
                         (props) => <EventInfo {...props}/>} />
                     <Route path = {routes.notification} component = {Notification}/>
-                    <Route path = {routes.profile} component = {UserManager} />
+                    <Route path = {routes.manager} component = {UserManager} />
                     <Route path = {routes.login } component = {Login} />
                     <Route path = {routes.booking} component = {Bookings} />
                     <Route path = {routes.likes} component = {Likes} />
                     <Route path = {routes.registration} component = {Registration} />
+
                 </Switch>
                 </div>
             </Router>

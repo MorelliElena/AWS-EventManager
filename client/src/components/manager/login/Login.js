@@ -1,12 +1,12 @@
 import React from 'react'
 import {Button, Form} from "react-bootstrap";
-import Sidebar from "../sidebar/Sidebar";
-import Header from "../headerbar/Header";
+import Sidebar from "../../sidebar/Sidebar";
+import Header from "../../headerbar/Header";
 import "./Login.css"
 import {Link, Redirect} from 'react-router-dom';
-import Api from '../api/Api'
-import Choice from "../../common/Choice";
-let routes = require("../routes/Routes")
+import Api from '../../api/Api'
+import Choice from "../../../common/Choice";
+let routes = require("../../routes/Routes")
 
 class Login extends React.Component{
 
@@ -30,6 +30,7 @@ class Login extends React.Component{
             },
             user => {
                 sessionStorage.setItem("token", user._id)
+                user.isAdmin ? sessionStorage.setItem("admin", "true"): null
                 this.setState({error:false})
             }
         )
@@ -37,9 +38,7 @@ class Login extends React.Component{
 
     render() {
         if(sessionStorage.getItem("token")){
-            return (
-              <Redirect to={routes.profile}/>
-            );
+            return <Redirect to={routes.manager}/>
         } else {
             return (
                 <div className="container-fluid">
@@ -81,7 +80,8 @@ class Login extends React.Component{
                                                 onClick={this.handleSubmit}>
                                            Invia
                                         </Button>
-                                        <Link className="d-flex justify-content-center mt-3 registration" to={routes.registration}>
+                                        <Link className="d-flex justify-content-center mt-3 registration"
+                                              to={routes.registration}>
                                             Sei un nuovo utente? Registrati subito cliccando qui!
                                         </Link>
                                     </div>

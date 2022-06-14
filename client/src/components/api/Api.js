@@ -51,6 +51,7 @@ let mapProfile = (user) => {
         name: user.name,
         surname: user.surname,
         birthday: mapDate(user.birthday),
+        isAdmin: user.isAdmin,
         bookings: user.bookings || [],
         likes: user.likes || []
     }

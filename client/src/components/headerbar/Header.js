@@ -22,7 +22,7 @@ class Header extends React.Component {
                             <BsFillHouseFill className="text-white icon" size={36}/> </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={routes.profile}>
+                        <Link to={routes.manager}>
                             <BsPersonSquare className="text-white mx-4 icon " size={36}/> </Link>
                     </li>
                     <li className="nav-item">

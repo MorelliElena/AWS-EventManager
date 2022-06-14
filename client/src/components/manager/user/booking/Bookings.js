@@ -1,8 +1,8 @@
 import React from "react";
-import Api from "../../api/Api";
+import Api from "../../../api/Api";
 import {BsFillTrashFill} from "react-icons/bs";
 import "./Booking.css";
-import Alert from "../../alert/Alert";
+import Alert from "../../../alert/Alert";
 
 class Bookings extends React.Component {
     constructor(props) {

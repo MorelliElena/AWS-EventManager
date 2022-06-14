@@ -3,12 +3,13 @@ import Sidebar from "../sidebar/Sidebar";
 import Choice from "../../common/Choice";
 import Header from "../headerbar/Header";
 import Profile from "./profile/Profile";
-import Likes from "./likes/Likes";
-import Bookings from "./booking/Bookings";
+import Likes from "./user/likes/Likes";
+import Bookings from "./user/booking/Bookings";
 import LogOutDialog from "./logout/Logout";
 import {Redirect} from "react-router-dom";
 import Api from "../api/Api";
 import Spinner from "../spinner/Spinner";
+import EventCreation from "./admin/EventCreation";
 let routes = require("../routes/Routes");
 
 class UserManager extends React.Component {
@@ -68,6 +69,8 @@ class UserManager extends React.Component {
                 return <Likes id={sessionStorage.getItem("token")} likes={this.state.user.likes}/>;
             case Choice.UserComponents.BOOKING:
                 return <Bookings id={sessionStorage.getItem("token")} bookings={this.state.user.bookings}/>;
+            case Choice.UserComponents.EVENTS:
+                return <EventCreation />;
             default:
                 return <Profile user={this.state.user} handler={this.userUpdate}/>;
         }
@@ -82,7 +85,10 @@ class UserManager extends React.Component {
                     <div className="home">
                         <div className="row">
                             <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                                {sessionStorage.getItem("admin")!== null ?
+                                <Sidebar state={Choice.SidebarChoice.ADMIN} handler4={this.userSelection}/> :
                                 <Sidebar state={Choice.SidebarChoice.PROFILE} handler4={this.userSelection}/>
+                                }
                             </div>
                             <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                                 <Header/>
