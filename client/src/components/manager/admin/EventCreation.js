@@ -1,20 +1,180 @@
 import React from "react";
+import Alert from "../../alert/Alert";
+import {Button, Form} from "react-bootstrap";
+import Api from "../../api/Api";
+import "./EventCreation.css"
+import update from "react-addons-update";
+
 class EventCreation extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-
+            readOnly: false,
+            hide: true,
+            tags:[],
+            places: [],
+            title: "",
+            desc:"",
+            date_start:"",
+            date_finish:"",
+            address:"",
+            province:"",
+            city:"",
+            link:"",
+            capacity:0,
+            event_tags:[]
         }
     }
 
     componentDidMount() {
+        Api.getTags(
+            error => {
+                console.log(error)
+                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+            }, tags => {
+                this.setState({tags:tags})
+            }
+        )
 
+        Api.getPlaces(
+            error => console.log(error),
+            places => this.setState({places:places})
+        )
     }
+
+    handleSubmission = () => {
+        console.log(this.state.valueOf())
+        if(this.state.title && this.state.desc && this.state.date_start && this.state.date_finish &&
+        this.state.province && this.state.city && this.state.capacity!==0 && this.state.event_tags.length!==0){
+            Api.createEvent(this.state.title, this.state.desc, this.state.date_start, this.state.date_finish,
+                this.state.link, this.state.address,this.state.city, this.state.province,
+                this.state.event_tags, this.state.capacity, sessionStorage.getItem("token"), error =>{
+
+                }, success =>{
+
+                })
+        } else{
+            console.log("fill the gaps")
+        }
+    }
+
+    handleInputChange = e => {
+        if(e.target.checked){
+            this.setState({event_tags:this.state.event_tags.concat(e.target.id)})
+        } else {
+            this.setState(prevState => ({
+                event_tags: update(prevState.checked, {$splice: [[e.target.id, 1]]})
+            }));
+        }
+    }
+
     render() {
         return (
-           <div>
-               evento
-           </div>
+            <div>
+                <div className="d-flex flex-column">
+                    {!this.state.hide ? <Alert error={this.state.error} message={this.state.message}/> : null}
+                    <div className="text-center mt-3">
+                        <div className="card-body col-md-6 offset-md-3">
+                            <h2>Creazione Evento</h2>
+                            <section>
+                                <Form.Group className="text-start mb-5">
+                                    <Form.Label className="my-2">Titolo</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue={this.state.title}
+                                                  name="title"
+                                                  onChange={e => this.setState({title: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Descrizione</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue={this.state.desc}
+                                                  as="textarea"
+                                                  name="description"
+                                                  onChange={e => this.setState({desc: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Data inizio</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue={this.state.date_start}
+                                                  placeholder="gg/mm/aaaa"
+                                                  name="date_start"
+                                                  onChange={e => this.setState({date_start: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Data fine</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue={this.state.date_finish}
+                                                  placeholder="gg/mm/aaaa"
+                                                  name="date_finish"
+                                                  onChange={e => this.setState({date_finish: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Località</Form.Label>
+                                    <Form.Control className="selection"
+                                                  as="select"
+                                                  defaultValue={'DEFAULT'}
+                                                  onChange={e => this.setState({province: e.target.value})}>
+                                        <option disabled value ="DEFAULT"> -- Seleziona opzione -- </option>
+                                        {this.state.places.map(place => {
+                                            return <option key={place._id} value={place.name}>
+                                                {place.name}</option>
+                                        })
+                                        }
+                                    </Form.Control>
+                                    <Form.Label className="my-2">Città</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue= {this.state.city}
+                                                  name="name"
+                                                  onChange={e => this.setState({city: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Indirizzo* </Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue= {this.state.address}
+                                                  name="name"
+                                                  onChange={e => this.setState({address: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Capacità massima</Form.Label>
+                                    <Form.Control type="number"
+                                                  defaultValue={this.state.capacity}
+                                                  placeholde= "0"
+                                                  name="name"
+                                                  onChange={e => this.setState({capacity: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                    <Form.Label className="my-2">Link immagine*</Form.Label>
+                                    <Form.Control type="text"
+                                                  defaultValue={this.state.link}
+                                                  name="name"
+                                                  onChange={e => this.setState({link: e.target.value})}
+                                                  readOnly={this.state.readOnly}/>
+
+                                        <div className="form-group">
+                                        <label className="f-title" htmlFor="formGroupExampleInput">
+                                            Tipologia</label>
+                                        <div className="form-check">
+                                            {this.state.tags.map(tag => {
+                                                return <div key={tag._id}>
+                                                    <input className="form-check-input" type="checkbox" id={tag._id}
+                                                           onChange={e => this.handleInputChange(e)}/>
+                                                    <label className="form-check-label"
+                                                           htmlFor="inlineCheckbox1">{tag.name}</label>
+                                                </div>
+                                            })}
+                                        </div>
+                                    </div>
+                                </Form.Group>
+                            </section>
+                            <div className="d-grid gap-2 col-6 mx-auto">
+                                <Button className="btn btn-primary align-self-center"
+                                        onClick={this.handleSubmission}
+                                        hidden={this.state.readOnly}> Crea </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 

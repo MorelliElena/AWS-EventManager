@@ -61,7 +61,7 @@ class EventInfo extends React.Component {
             Api.addUserBooking(
                 sessionStorage.getItem("token"),
                 this.state.idEvent,
-                e.id,
+                e._id,
                 this.state.eventInfo.name,
                 e.date,
                 this.state.eventInfo.location,
@@ -78,7 +78,7 @@ class EventInfo extends React.Component {
     }
 
     updateParticipantsField(e, participants){
-        let pos = this.state.eventInfo.booking.findIndex(i => i.id === e.id)
+        let pos = this.state.eventInfo.booking.findIndex(i => i._id === e._id)
         let items = [...this.state.eventInfo.booking]
         items[pos] = {
             ...items[pos],

@@ -204,6 +204,16 @@ let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
     })
 }
 
+let createEvent = (title, desc, date_start, date_finish, img, address, city, province, tag, capacity, owner_id, onError, onSuccess) =>{
+    const ds = moment(date_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+    const df = moment(date_finish, "DD/MM/YYYY").format('YYYY-MM-DD');
+    managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
+            {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
+        [200],
+        error =>  onError(error.data),
+        resp => { onSuccess(resp.data)})
+}
+
 export default {
     getEventInformation,
     getEvents,
@@ -218,5 +228,6 @@ export default {
     addUserLike,
     getIfEventIsLiked,
     removeLike,
-    addUser
+    addUser,
+    createEvent
 }

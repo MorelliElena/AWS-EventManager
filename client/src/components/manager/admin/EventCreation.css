@@ -1,0 +1,7 @@
+@media only screen and (max-width: 430px) {
+    select.selection {
+        font-size: 14px;
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+}

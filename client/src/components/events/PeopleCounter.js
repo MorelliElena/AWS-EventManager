@@ -55,7 +55,7 @@ function PeopleCounter(props) {
                 </div>
                 { props.booking.map((day, i) =>
                     <li className="list-group-item text-center"
-                        key = {"booking"+ day.id}>
+                        key = {"booking"+ day._id}>
                         <div>
                             <div>
                                 Data: {Api.mapDate(day.date)} <br/>
