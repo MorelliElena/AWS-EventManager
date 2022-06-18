@@ -13,7 +13,6 @@ module.exports = function(mongoose) {
         },
         tag: [String],
         booking: [{
-            id: Schema.ObjectId,
             date: Date,
             n_participants: Number,
             max_participants: Number,

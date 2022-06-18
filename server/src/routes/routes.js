@@ -1,4 +1,3 @@
-const usersController = require("../controllers/usersController");
 module.exports = function(app) {
     const eventsController = require('../controllers/eventsController');
     const tagsController = require('../controllers/tagsController');
@@ -42,4 +41,6 @@ module.exports = function(app) {
     app.route('/api/registration')
         .post(usersController.registration)
 
+    app.route('/api/events/creation')
+        .post(eventsController.creation)
 };

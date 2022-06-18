@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 Events = require("../models/eventsModel.js")(mongoose);
-
+Util = require("../daysUtil");
 
 exports.list_events = function(req, res) {
     Events.find({}, function(err, event) {
@@ -29,7 +29,7 @@ exports.read_event = function(req, res) {
 
 exports.updateParticipants = function (req, res) {
     const p = req.body.old_part + req.body.participants
-    Events.findOneAndUpdate({_id:req.body.eventId, "booking.id": req.body.bookingId},
+    Events.findOneAndUpdate({_id:req.body.eventId, "booking._id": req.body.bookingId},
         {$set:{"booking.$.n_participants":p}}, {useFindAndModify:false},function (err){
             if (err) {
                 res.status(451).send({
@@ -45,15 +45,14 @@ exports.updateParticipants = function (req, res) {
 }
 
 exports.deleteParticipants = function (req, res) {
-    console.log(req.body)
-    Events.findOne({"_id":req.body.eventId, "booking.id": req.body.bookingId}, {"booking.$":1},
+    Events.findOne({"_id":req.body.eventId, "booking._id": req.body.bookingId}, {"booking.$":1},
         function (err, booking){
         if(err){
             res.send(err);
         } else {
             const old = booking.booking[0].n_participants
             console.log(old)
-            Events.findOneAndUpdate({_id:req.body.eventId, "booking.id": req.body.bookingId},
+            Events.findOneAndUpdate({_id:req.body.eventId, "booking._id": req.body.bookingId},
                 {$set:{"booking.$.n_participants": old - req.body.participants}},
                 {useFindAndModify:false},function (err){
                     if (err) {
@@ -69,5 +68,45 @@ exports.deleteParticipants = function (req, res) {
             )
         }
     })
+}
+
+exports.creation = function (req, res) {
+    let eventId = mongoose.Types.ObjectId()
+    const booking = []
+    Util.getDaysList(req.body.ds, req.body.df).map(e => {
+            const obj = {
+                "date": e,
+                "n_participants":0,
+                "max_participants": req.body.capacity
+            }
+            booking.push(obj)
+        }
+    )
+    const event = {
+        "_id": eventId,
+        "name": req.body.title,
+        "desc":req.body.desc,
+        "date_start": req.body.ds,
+        "date_finish": req.body.df,
+        "location": {
+            "address": req.body.address,
+            "city": req.body.city,
+            "province": req.body.province
+        },
+        "img":req.body.img,
+        "tag": req.body.tags,
+        "booking":booking,
+        "owner": mongoose.Types.ObjectId(req.body.owner_id),
+        "full":false}
+    Events.create(event, function (err) {
+        if (err)
+            res.send(err);
+        else {
+            res.status(200).send({
+                description: 'Evento creato correttamente'
+            })
+        }
+    });
 
 }
+
