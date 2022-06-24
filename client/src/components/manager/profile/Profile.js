@@ -15,7 +15,7 @@ class Profile extends React.Component{
             readOnly: true,
             hide: true
         }
-
+        this.closeWindow = this.closeWindow.bind(this)
     }
 
     componentDidMount() {
@@ -51,13 +51,16 @@ class Profile extends React.Component{
                 {error: false, message: success, hide: false, readOnly:true}))})
     }
 
+    closeWindow = (state) => {
+        this.setState({hide:state})
+    }
 
     render() {
-        {console.log(this.state.user)}
         return (
             <div>
                 <div className="d-flex flex-column">
-                    {!this.state.hide ? <Alert error={this.state.error} message={this.state.message}/> : null}
+                    {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
+                                               error={this.state.error} message={this.state.message}/> : null}
                     <BsPencilSquare className="align-self-end me-1 mt-3 text-primary edit" size={32}
                                     onClick={this.handleEdit}/>
                     <div className="text-center mt-3">

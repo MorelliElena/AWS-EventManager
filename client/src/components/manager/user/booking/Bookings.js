@@ -14,6 +14,7 @@ class Bookings extends React.Component {
             message: undefined,
             hide: true
         }
+        this.closeWindow = this.closeWindow.bind(this)
     }
 
     componentDidMount() {
@@ -33,11 +34,16 @@ class Bookings extends React.Component {
             })
     }
 
+    closeWindow = (state) => {
+        this.setState({hide:state})
+    }
+
     render() {
         return (
             <div>
                 <div>
-                    { !this.state.hide ? <Alert error={this.state.error} message={this.state.message}/> : null}
+                    { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
+                                                error={this.state.error} message={this.state.message}/> : null}
                     <h4 className="text-center mt-3 mb-3">Prenotazioni</h4>
                     <ul className="list-group">
                         { this.state.bookings.length !== 0 ? this.state.bookings.map(booking =>
