@@ -3,6 +3,9 @@ import {Button} from "react-bootstrap";
 import {BsFillPlusCircleFill, BsFillTrashFill} from "react-icons/bs";
 import React from "react";
 import EventCreation from "./EventCreation";
+import Choice from "../../../common/Choice";
+
+
 
 class EventManager extends React.Component{
     constructor(props) {
@@ -11,7 +14,7 @@ class EventManager extends React.Component{
             events: props.events,
             readOnly: false,
             hide: true,
-            error: false,
+            alertType: Choice.Alert,
             message: undefined,
             show: false
         }
@@ -26,8 +29,8 @@ class EventManager extends React.Component{
         this.setState({show:state})
     }
 
-    showMessage = (msg, hide, error, show, event) => {
-        this.setState({message:msg, hide:hide, error:error})
+    showMessage = (msg, hide, type, show, event) => {
+        this.setState({message:msg, hide:hide, alertType: type})
         if(event){
            this.setState({events: [...this.state.events, event]})
            this.props.update(event)
@@ -50,7 +53,7 @@ class EventManager extends React.Component{
             <div>
                 <div className="d-flex flex-column">
                     {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                               error={this.state.error} message={this.state.message}/> : null}
+                                               type={this.state.alertType} message={this.state.message}/> : null}
                     <div className="mt-3">
                         {this.state.show ?
                             <EventCreation handler1={this.showForm} handler2={this.showMessage}/>

@@ -8,11 +8,13 @@ import {Button, Form} from "react-bootstrap";
 import Api from "../api/Api";
 import Alert from "../alert/Alert";
 
+let alertType = Choice.Alert
+
 class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: false,
+            alertType: Choice.Alert,
             email:undefined,
             password:undefined,
             birthday: undefined,
@@ -30,18 +32,18 @@ class Registration extends React.Component {
         if(this.state.email && this.state.password && this.state.name && this.state.surname && this.state.birthday){
             if(this.state.password.length < 8){
                 this.setState({hide:false,
-                    message:"La password deve essere più lunga di 8 caratteri", error:true})
+                    message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
             } else {
                 console.log(this.state.valueOf())
                 Api.addUser(this.state.email, this.state.password, this.state.birthday,
                     this.state.name, this.state.surname, error => {
-                        this.setState({hide:false, message:error, error:true})
+                        this.setState({hide:false, message:error, alertType:alertType.ERROR})
                     }, success =>{
-                        this.setState({hide:false, message:success, error:false, redirection:true})
+                        this.setState({hide:false, message:success, alertType:alertType.SUCCESS, redirection:true})
                     })
             }
         } else {
-            this.setState({hide:false, message:"Tutti i campi devono essere riempiti", error:true})
+            this.setState({hide:false, message:"Tutti i campi devono essere riempiti", alertType:alertType.ERROR})
         }
 
     }
@@ -61,7 +63,8 @@ class Registration extends React.Component {
                         <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                             <Header/>
                             {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                                       error={this.state.error} message={this.state.message}/> : null}
+                                                       type={this.state.alertType} message={this.state.message}/>
+                                                        : null}
 
                             {this.state.redirection && this.state.hide ? <Redirect to={routes.login} /> : null}
                             <div className=" col-md-7 offset-md-3 d-flex flex-column">

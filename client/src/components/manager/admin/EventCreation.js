@@ -6,6 +6,9 @@ import update from "react-addons-update";
 import {BsXLg} from "react-icons/bs";
 import moment from "moment";
 import Util from "../../../common/Util";
+import Choice from "../../../common/Choice";
+
+let alertType = Choice.Alert
 
 class EventCreation extends React.Component{
     constructor(props) {
@@ -58,7 +61,7 @@ class EventCreation extends React.Component{
                 this.state.link, this.state.address,this.state.city, this.state.province,
                 this.state.event_tags, this.state.capacity, sessionStorage.getItem("token"),
                     error =>{
-                        this.props.handler2(error, false, true, false, undefined)
+                        this.props.handler2(error, false, alertType.ERROR, false, undefined)
                 }, success =>{
                     console.log(success.id)
                     const ev = Util.mapEvent(this.state.title, this.state.date_start, this.state.date_finish,
@@ -66,10 +69,10 @@ class EventCreation extends React.Component{
                     this.setState({title: "", desc: "", date_start: "",
                         date_finish: "", link: "", address: "", city: "",
                         province: "", event_tags:[], capacity:0}, () =>
-                        this.props.handler2(success.description, false, false, false, ev))
+                        this.props.handler2(success.description, false, alertType.SUCCESS, false, ev))
                 })
         } else{
-            this.props.handler2("Alcuni campi risultano vuoti o non validi", false, true, true, undefined)
+            this.props.handler2("Alcuni campi risultano vuoti o non validi", false, alertType.ERROR, true, undefined)
         }
     }
 

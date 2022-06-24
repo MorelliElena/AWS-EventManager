@@ -3,6 +3,9 @@ import Api from "../../../api/Api";
 import {BsFillTrashFill} from "react-icons/bs";
 import "./Booking.css";
 import Alert from "../../../alert/Alert";
+import Choice from "../../../../common/Choice";
+
+let alertType = Choice.Alert
 
 class Bookings extends React.Component {
     constructor(props) {
@@ -10,7 +13,7 @@ class Bookings extends React.Component {
         this.state = {
             userId : props.id,
             bookings : props.bookings,
-            error: false,
+            alertType: Choice.Alert,
             message: undefined,
             hide: true
         }
@@ -27,9 +30,9 @@ class Bookings extends React.Component {
             eventId,
             bookingId,
             participants,
-            error => this.setState({error:true, message: error, hide: false}),
+            error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
             response =>{
-                this.setState({error:false, message: response, hide: false})
+                this.setState({alertType:alertType.SUCCESS, message: response, hide: false})
                 this.setState({bookings: this.state.bookings.filter(e => e._id !== bookingId)})
             })
     }
@@ -43,7 +46,7 @@ class Bookings extends React.Component {
             <div>
                 <div>
                     { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                                error={this.state.error} message={this.state.message}/> : null}
+                                                type={this.state.alertType} message={this.state.message}/> : null}
                     <h4 className="text-center mt-3 mb-3">Prenotazioni</h4>
                     <ul className="list-group">
                         { this.state.bookings.length !== 0 ? this.state.bookings.map(booking =>

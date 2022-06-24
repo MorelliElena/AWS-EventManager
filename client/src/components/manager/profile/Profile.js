@@ -4,13 +4,16 @@ import {Button, Form} from "react-bootstrap";
 import {BsPencilSquare, BsPersonCircle} from "react-icons/bs";
 import "./Profile.css"
 import Alert from "../../alert/Alert";
+import Choice from "../../../common/Choice";
+
+let alertType = Choice.Alert
 
 class Profile extends React.Component{
     constructor(props) {
         super(props);
         this.state ={
             user: props.user,
-            error: false,
+            alertType: Choice.Alert,
             message: undefined,
             readOnly: true,
             hide: true
@@ -46,9 +49,9 @@ class Profile extends React.Component{
             this.state.user.birthday,
             this.state.user.username,
             this.state.user.password,
-            error => {this.setState(() =>({error: true, message: error, hide: false}))},
+            error => {this.setState(() =>({alertType: alertType.ERROR, message: error, hide: false}))},
             success => {this.setState(() =>(
-                {error: false, message: success, hide: false, readOnly:true}))})
+                {alertType: alertType.SUCCESS, message: success, hide: false, readOnly:true}))})
     }
 
     closeWindow = (state) => {
@@ -60,7 +63,7 @@ class Profile extends React.Component{
             <div>
                 <div className="d-flex flex-column">
                     {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                               error={this.state.error} message={this.state.message}/> : null}
+                                               type={this.state.alertType} message={this.state.message}/> : null}
                     <BsPencilSquare className="align-self-end me-1 mt-3 text-primary edit" size={32}
                                     onClick={this.handleEdit}/>
                     <div className="text-center mt-3">

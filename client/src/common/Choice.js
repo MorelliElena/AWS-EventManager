@@ -13,7 +13,14 @@ const UserComponents =  {
     EVENTS:'events'
 }
 
+const Alert = {
+    ERROR : "ERROR",
+    SUCCESS: "SUCCESS",
+    INFO: "INFO"
+}
+
 export default {
     SidebarChoice,
-    UserComponents
+    UserComponents,
+    Alert
 }

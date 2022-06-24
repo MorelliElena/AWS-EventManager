@@ -8,8 +8,10 @@ import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 import PeopleCounter from "./PeopleCounter";
 import Alert from "../alert/Alert";
+import Choice from "../../common/Choice";
 
 let routes = require("../routes/Routes")
+let alertType = Choice.Alert
 
 class EventInfo extends React.Component {
 
@@ -20,7 +22,7 @@ class EventInfo extends React.Component {
             eventInfo: undefined,
             showDefaultMessage: false,
             redirection: false,
-            error: false,
+            alertType: Choice.Alert,
             message: undefined,
             hide: true,
             like: false
@@ -30,6 +32,10 @@ class EventInfo extends React.Component {
     }
 
     componentDidMount() {
+        if(sessionStorage.getItem("admin")){
+            this.setState({alertType:alertType.INFO,
+                message: "Alcune funzioni risultano non essere attive in modalità amministratore ", hide: false})
+        }
         Api.getEventInformation(
             this.state.idEvent,
             error => {
@@ -68,11 +74,11 @@ class EventInfo extends React.Component {
                 participants,
                 e.n_participants,
                 error =>{
-                    this.setState({error:true, message: error, hide: false})
+                    this.setState({alertType:alertType.ERROR, message: error, hide: false})
                 },
                 response => {
                     this.updateParticipantsField(e, participants)
-                    this.setState({error:false, message: response, hide:false})
+                    this.setState({alertType:alertType.SUCCESS, message: response, hide:false})
                 })
         }
     }
@@ -103,9 +109,9 @@ class EventInfo extends React.Component {
                 this.state.eventInfo.date_start,
                 this.state.eventInfo.date_finish,
                 this.state.eventInfo.location,
-                error => this.setState({error:true, message: error, hide: false}),
+                error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
                 response => {
-                    this.setState({error:false, message: response, hide:false, like:true})
+                    this.setState({alertType:alertType.SUCCESS, message: response, hide:false, like:true})
                 })
         }
     }
@@ -124,20 +130,22 @@ class EventInfo extends React.Component {
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>
                         { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                                    error={this.state.error} message={this.state.message}/> : null}
+                                                    type={this.state.alertType} message={this.state.message}/> : null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>
                             </div> :
                             this.state.redirection ? <Redirect to={routes.login}/> :
                                 <div className="text-center h-100 pt-3 ">
-                                    <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
-                                         onClick={this.like}>
-                                        {!this.state.like ?
-                                        <BsStar className="text-primary star" size={32}/>:
-                                        <BsStarFill className="text-primary star" size={32}/>
-                                        }
-                                    </div>
+                                    {!sessionStorage.getItem("admin") ?
+                                        <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
+                                             onClick={this.like}>
+                                            {!this.state.like ?
+                                                <BsStar className="text-primary star" size={32}/> :
+                                                <BsStarFill className="text-primary star" size={32}/>
+                                            }
+                                        </div> : null
+                                    }
                                     <div>
                                         {this.state.eventInfo.img ?
                                             <img className="card-img-top size"
@@ -173,9 +181,11 @@ class EventInfo extends React.Component {
                                                     </div>:<div/>
                                                 }
                                             </section>
-                                            <PeopleCounter booking={this.state.eventInfo.booking}
-                                                           handler={(e,participants) =>
-                                                               this.bookingHandler(e, participants,)}/>
+                                            { sessionStorage.getItem("admin") ? null :
+                                                <PeopleCounter booking={this.state.eventInfo.booking}
+                                                               handler={(e, participants) =>
+                                                                   this.bookingHandler(e, participants,)}/>
+                                            }
                                     </section>
                                 </div>
                             </div>

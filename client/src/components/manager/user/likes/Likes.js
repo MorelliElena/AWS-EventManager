@@ -3,6 +3,9 @@ import Api from "../../../api/Api";
 import {BsFillTrashFill} from "react-icons/bs";
 import "../booking/Booking.css"
 import Alert from "../../../alert/Alert";
+import Choice from "../../../../common/Choice";
+
+let alertType = Choice.Alert
 
 class Likes extends React.Component {
     constructor(props) {
@@ -10,7 +13,7 @@ class Likes extends React.Component {
         this.state = {
             userId : props.id,
             likes : props.likes,
-            error: false,
+            alertType: Choice.Alert,
             message: undefined,
             hide:true
         }
@@ -25,9 +28,9 @@ class Likes extends React.Component {
         Api.removeLike(
             this.state.userId,
             likeId,
-            error => this.setState({error:true, message: error, hide: false}),
+            error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
             response =>{
-                this.setState({error:false, message: response, hide: false})
+                this.setState({alertType:alertType.SUCCESS, message: response, hide: false})
                 this.setState({likes: this.state.likes.filter(e => e._id !== likeId)})
             })
     }
@@ -40,7 +43,7 @@ class Likes extends React.Component {
         return (
             <div>
                 {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
-                                           error={this.state.error} message={this.state.message}/> : null}
+                                           type={this.state.alertType} message={this.state.message}/> : null}
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
                     <ul className="list-group">
