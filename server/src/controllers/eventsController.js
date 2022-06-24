@@ -73,6 +73,7 @@ exports.deleteParticipants = function (req, res) {
 exports.creation = function (req, res) {
     let eventId = mongoose.Types.ObjectId()
     const booking = []
+    console.log(req.body)
     Util.getDaysList(req.body.ds, req.body.df).map(e => {
             const obj = {
                 "date": e,
@@ -94,19 +95,31 @@ exports.creation = function (req, res) {
             "province": req.body.province
         },
         "img":req.body.img,
-        "tag": req.body.tags,
+        "tag": req.body.tag,
         "booking":booking,
-        "owner": mongoose.Types.ObjectId(req.body.owner_id),
+        "owner": req.body.owner_id,
         "full":false}
     Events.create(event, function (err) {
         if (err)
-            res.send(err);
+            res.send({
+                description: err
+            });
         else {
             res.status(200).send({
-                description: 'Evento creato correttamente'
+                description: 'Evento creato correttamente',
+                id: eventId
             })
         }
     });
-
 }
 
+exports.getOwnerEvents = function (req, res) {
+    console.log(req.params)
+    Events.find({owner:req.params.id}, {useFindAndModify:false}, function (err, event) {
+        if (err)
+            res.send(err);
+        else {
+            res.json(event);
+        }
+    })
+}

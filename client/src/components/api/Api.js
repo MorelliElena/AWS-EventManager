@@ -39,7 +39,8 @@ let mapEvent = (event) => {
         location: location,
         img: event.img,
         booking: event.booking || [],
-        full: event.full
+        full: event.full,
+        owner: event.owner
     }
 }
 
@@ -69,6 +70,9 @@ let managePromise = (promise, httpSuccessfulCodes, onError, onSuccess) => {
             }
         })
         .catch(error => {
+            if(promise.isCancel(error)){
+                return false
+            }
             console.log("ERROR: ")
             console.log(error)
             console.log(error.response)
@@ -210,8 +214,16 @@ let createEvent = (title, desc, date_start, date_finish, img, address, city, pro
     managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
-        error =>  onError(error.data),
-        resp => { onSuccess(resp.data)})
+        error =>  onError(error.data.description),
+        resp => {onSuccess(resp.data)
+    })
+}
+
+let getOwnerEvents = (owner_id, onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/events/admin/` + owner_id),
+        [200],
+        onError,
+        resp => {onSuccess(resp.data.map(mapEvent))})
 }
 
 export default {
@@ -229,5 +241,6 @@ export default {
     getIfEventIsLiked,
     removeLike,
     addUser,
-    createEvent
+    createEvent,
+    getOwnerEvents
 }

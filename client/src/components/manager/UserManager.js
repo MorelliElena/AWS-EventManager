@@ -9,7 +9,7 @@ import LogOutDialog from "./logout/Logout";
 import {Redirect} from "react-router-dom";
 import Api from "../api/Api";
 import Spinner from "../spinner/Spinner";
-import EventCreation from "./admin/EventCreation";
+import EventManager from "./admin/EventManager";
 let routes = require("../routes/Routes");
 
 class UserManager extends React.Component {
@@ -19,12 +19,14 @@ class UserManager extends React.Component {
             selection : "",
             show:true,
             logout: false,
-            user: undefined
+            user: undefined,
+            events:[]
         }
         this.userSelection = this.userSelection.bind(this)
         this.hide = this.hide.bind(this)
         this.logOut = this.logOut.bind(this)
         this.userUpdate = this.userUpdate.bind(this)
+        this.eventsUpdate = this.eventsUpdate.bind(this)
     }
 
     componentDidMount() {
@@ -33,6 +35,12 @@ class UserManager extends React.Component {
                 error => console.log(error),
                 user => this.setState({user: user}))
 
+        }
+        if(sessionStorage.getItem("admin")){
+            Api.getOwnerEvents(sessionStorage.getItem("token"),
+                error => console.log(error),
+                events => this.setState({events:events},
+                    () => console.log(this.state.events)))
         }
     }
 
@@ -61,6 +69,10 @@ class UserManager extends React.Component {
         }
     }
 
+    eventsUpdate = (event) =>{
+        this.setState({events: [...this.state.events, event]})
+    }
+
     renderSwitch(param) {
         switch(param) {
             case Choice.UserComponents.PROFILE:
@@ -70,7 +82,7 @@ class UserManager extends React.Component {
             case Choice.UserComponents.BOOKING:
                 return <Bookings id={sessionStorage.getItem("token")} bookings={this.state.user.bookings}/>;
             case Choice.UserComponents.EVENTS:
-                return <EventCreation />;
+                return <EventManager events={this.state.events} update={this.eventsUpdate}/>;
             default:
                 return <Profile user={this.state.user} handler={this.userUpdate}/>;
         }

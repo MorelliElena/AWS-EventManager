@@ -43,4 +43,7 @@ module.exports = function(app) {
 
     app.route('/api/events/creation')
         .post(eventsController.creation)
+
+    app.route('/api/events/admin/:id')
+        .get(eventsController.getOwnerEvents)
 };
