@@ -19,23 +19,27 @@ class Sidebar extends React.Component{
             selected: "Tutte le province",
             logout: false
         }
+        this._isMounted = true
     }
 
     componentDidMount() {
-
         Api.getTags(
             error => {
                 console.log(error)
                //Error
             }, tags => {
-                this.setState({tags:tags})
+               this._isMounted ? this.setState({tags:tags}): null
             }
         )
 
         Api.getPlaces(
             error => console.log(error),
-            places => this.setState({places:places})
+            places => this._isMounted ? this.setState({places:places}):null
         )
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     handleInputChange = (event) => {
