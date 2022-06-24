@@ -22,8 +22,6 @@ function PeopleCounter(props) {
 
     }
 
-
-
     function book(e, participants, i) {
         if(counter[i] > 0 && e.n_participants + counter[i]<= e.max_participants) {
             console.log(participants)

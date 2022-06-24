@@ -14,7 +14,7 @@ class EventCard extends React.Component {
 
     render() {
         return (
-                <div className="card text-center d-flex">
+                <div className="card text-center col-12">
                     {this.state.eventInfo.img ?
                         <div className="wrapper">
                             <img className="card-img-top image" src={this.state.eventInfo.img}

@@ -6,6 +6,7 @@ import Choice from "../../common/Choice";
 import Header from "../headerbar/Header";
 import {Button, Form} from "react-bootstrap";
 import Api from "../api/Api";
+import Alert from "../alert/Alert";
 
 class Registration extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class Registration extends React.Component {
             hide: true,
             redirection: false
         }
+        this.closeWindow = this.closeWindow.bind(this)
     }
 
     handleSubmit = () =>  {
@@ -44,20 +46,8 @@ class Registration extends React.Component {
 
     }
 
-    alert = () => {
-        return(
-            this.state.error ?
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                    {this.state.message}
-                    <button type="button" className="btn-close" data-bs-dismiss="alert"
-                            aria-label="Close" onClick={()=> this.setState({hide:true})}/>
-                </div> :
-                <div className="alert alert-success alert-dismissible fade show" role="alert">
-                    {this.state.message}
-                    <button type="button" className="btn-close" data-bs-dismiss="alert"
-                            aria-label="Close" onClick={()=> this.setState({hide:true})}/>
-                </div>
-        );
+    closeWindow = (state) => {
+        this.setState({hide:state})
     }
 
     render() {
@@ -70,8 +60,9 @@ class Registration extends React.Component {
                         </div>
                         <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
                             <Header/>
-                            {!this.state.hide? this.alert() : null
-                            }
+                            {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
+                                                       error={this.state.error} message={this.state.message}/> : null}
+
                             {this.state.redirection && this.state.hide ? <Redirect to={routes.login} /> : null}
                             <div className=" col-md-7 offset-md-3 d-flex flex-column">
                                 <Form className="mt-4 justify-content-center">

@@ -5,6 +5,7 @@ import Api from "../api/Api";
 import Header from "../headerbar/Header";
 import Spinner from "../spinner/Spinner";
 import Choice from "../../common/Choice";
+import "../home/Home.css"
 let filteredTags = [];
 let locFilter;
 let searchString;
@@ -101,11 +102,11 @@ class Home extends Component {
                 )
             } else {
                 return (
-                    <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 pt-3 mx-1"
-                         key={"event-card-container"} >
+                    <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 pt-3
+                    mx-1 vh-100 overflow-auto" key={"event-card-container"} >
                         {
                             eventsList.map(event =>
-                                <div className= "d-flex px-1" key={"col" + event._id}>
+                                <div className= "col d-flex px-1 h-50 pb-2" key={"col" + event._id}>
                                     <EventCard {...this.props} key={"event-card" + event._id}
                                                eventInfo={event}/>
                                 </div>)

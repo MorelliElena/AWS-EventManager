@@ -26,7 +26,7 @@ class EventInfo extends React.Component {
             like: false
         }
         this.bookingHandler = this.bookingHandler.bind(this)
-
+        this.closeWindow = this.closeWindow.bind(this)
     }
 
     componentDidMount() {
@@ -110,6 +110,10 @@ class EventInfo extends React.Component {
         }
     }
 
+    closeWindow = (state) => {
+        this.setState({hide:state})
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -119,7 +123,8 @@ class EventInfo extends React.Component {
                     </div>
                     <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0">
                         <Header/>
-                        { !this.state.hide ? <Alert error={this.state.error} message={this.state.message}/>:null}
+                        { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
+                                                    error={this.state.error} message={this.state.message}/> : null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>
