@@ -1,12 +1,14 @@
 import React from 'react'
 import {Button, Form} from "react-bootstrap";
 import Sidebar from "../../sidebar/Sidebar";
-import Header from "../../headerbar/Header";
 import "./Login.css"
 import {Link, Redirect} from 'react-router-dom';
 import Api from '../../api/Api'
 import Choice from "../../../common/Choice";
+import Alert from "../../alert/Alert";
+
 let routes = require("../../routes/Routes")
+let alertType = Choice.Alert
 
 class Login extends React.Component{
 
@@ -15,47 +17,58 @@ class Login extends React.Component{
         this.state = {
             username: "",
             password: "",
-            error: false,
-            message: ""
+            alertType: Choice.Alert,
+            message: undefined,
+            hide: true,
+            redirection: false
         }
+        this.closeWindow = this.closeWindow.bind(this)
     }
 
     handleSubmit = () => {
+        if(this.state.password && this.state.username){
         Api.checkAuthentication(
             this.state.username,
             this.state.password,
             error =>{
-                this.setState({error:true})
-                this.setState({message: error})
+                this.setState({hide:false, message: error, alertType: alertType.ERROR})
             },
             user => {
                 sessionStorage.setItem("token", user._id)
                 user.isAdmin ? sessionStorage.setItem("admin", "true"): null
-                this.setState({error:false})
+                this.setState({redirection:true})
             }
-        )
+        )} else {
+            this.setState({hide:false, message: "Alcuni campi risultano essere vuoti",
+                alertType: alertType.ERROR})
+        }
+    }
+
+    closeWindow = () =>{
+        this.setState({hide:true})
+    }
+
+    componentDidMount() {
+        if(sessionStorage.getItem("token")){
+            this.setState({redirection:true})
+        }
     }
 
     render() {
-        if(sessionStorage.getItem("token")){
+        if(this.state.redirection){
             return <Redirect to={routes.manager}/>
         } else {
             return (
                 <div className="container-fluid">
                     <div className="home">
                         <div className="row">
-                            <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                            <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100">
                                 <Sidebar state={Choice.NULL}/>
                             </div>
-                            <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
-                                <Header/>
-                                {this.state.error ?
-                                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                                        {this.state.message}
-                                        <button type="button" className="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close" onClick={()=> this.setState({error: false})}/>
-                                    </div> : null
-                                }
+                            <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
+                                {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
+                                                           type={this.state.alertType} message={this.state.message}/>
+                                                    : null}
                                 <div className=" col-md-7 offset-md-3 d-flex flex-column">
                                     <Form className="mt-4 justify-content-center">
                                         <h1 className="text-center log"> Log in </h1>

@@ -1,7 +1,6 @@
 import React from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Choice from "../../common/Choice";
-import Header from "../headerbar/Header";
 import Profile from "./profile/Profile";
 import Likes from "./user/likes/Likes";
 import Bookings from "./user/booking/Bookings";
@@ -10,8 +9,8 @@ import {Redirect} from "react-router-dom";
 import Api from "../api/Api";
 import Spinner from "../spinner/Spinner";
 import EventManager from "./admin/EventManager";
-let routes = require("../routes/Routes");
 
+let routes = require("../routes/Routes");
 class UserManager extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +19,8 @@ class UserManager extends React.Component {
             show:true,
             logout: false,
             user: undefined,
-            events:[]
+            events:[],
+            notify: false
         }
         this.userSelection = this.userSelection.bind(this)
         this.hide = this.hide.bind(this)
@@ -44,6 +44,10 @@ class UserManager extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.props.login(true)
+    }
+
     userUpdate = (e) => {
         this.setState(prevState =>({
             user: {
@@ -58,8 +62,10 @@ class UserManager extends React.Component {
     }
 
     logOut = () => {
-       this.setState({show:false, logout: true})
-       sessionStorage.clear()
+        this.setState({show:false, logout: true, socket:null})
+        sessionStorage.clear()
+        this.props.login(false)
+        //this.props.socket.disconnect()
     }
 
     userSelection = (event) => {
@@ -82,7 +88,8 @@ class UserManager extends React.Component {
             case Choice.UserComponents.BOOKING:
                 return <Bookings id={sessionStorage.getItem("token")} bookings={this.state.user.bookings}/>;
             case Choice.UserComponents.EVENTS:
-                return <EventManager events={this.state.events} update={this.eventsUpdate}/>;
+                return <EventManager socket = {this.props.socket} events={this.state.events}
+                                     update={this.eventsUpdate}/>;
             default:
                 return <Profile user={this.state.user} handler={this.userUpdate}/>;
         }
@@ -96,14 +103,13 @@ class UserManager extends React.Component {
                 <div className="container-fluid">
                     <div className="home">
                         <div className="row">
-                            <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                            <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
                                 {sessionStorage.getItem("admin")!== null ?
                                 <Sidebar state={Choice.SidebarChoice.ADMIN} handler4={this.userSelection}/> :
                                 <Sidebar state={Choice.SidebarChoice.PROFILE} handler4={this.userSelection}/>
                                 }
                             </div>
-                            <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
-                                <Header/>
+                            <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
                                 {!sessionStorage.getItem("token") ?
                                     <Redirect to={routes.login}/> :
                                     !this.state.user ? <div className="h-100"><Spinner/></div> :

@@ -57,11 +57,10 @@ class Registration extends React.Component {
             <div className="container-fluid">
                 <div className="home">
                     <div className="row">
-                        <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                        <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
                             <Sidebar state={Choice.NULL}/>
                         </div>
-                        <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
-                            <Header/>
+                        <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
                             {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                        type={this.state.alertType} message={this.state.message}/>
                                                         : null}

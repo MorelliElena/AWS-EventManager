@@ -4,8 +4,7 @@ import {BsFillPlusCircleFill, BsFillTrashFill} from "react-icons/bs";
 import React from "react";
 import EventCreation from "./EventCreation";
 import Choice from "../../../common/Choice";
-
-
+import Api from "../../api/Api";
 
 class EventManager extends React.Component{
     constructor(props) {
@@ -22,6 +21,24 @@ class EventManager extends React.Component{
         this.showForm = this.showForm.bind(this)
         this.showMessage = this.showMessage.bind(this)
         this.closeWindow = this.closeWindow.bind(this)
+    }
+
+    cancelEvent = (eventId) => {
+        console.log(eventId)
+        Api.cancelEvent(eventId, error =>{},
+                success =>{console.log(success)
+                    this.props.socket.emit("notification",{
+                        sender: sessionStorage.getItem("token"),
+                        eventId: eventId,
+                        type: "cancelled",
+                        text: "L'evento è stato cancellato"
+                    })
+                })
+
+    }
+
+    componentDidMount() {
+
     }
 
 
@@ -81,7 +98,7 @@ class EventManager extends React.Component{
                                                 </div>
                                             </div>
                                             <div className="btn btn-danger"
-                                                 onClick={() => console.log("click")}>
+                                                 onClick={()=>this.cancelEvent( events._id)}>
                                                 <BsFillTrashFill className="trash text-white" size={20}/>
                                             </div>
                                         </li>) : null}

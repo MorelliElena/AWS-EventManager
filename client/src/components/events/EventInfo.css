@@ -1,6 +1,11 @@
 .frame {
     align-content: center;
 }
+
+.sidebar{
+    background-color: #0044c9
+}
+
 .size {
     max-height: 600px;
     max-width: 600px;

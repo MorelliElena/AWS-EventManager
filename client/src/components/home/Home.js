@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import EventCard from "../events/EventCard";
 import Sidebar from "../sidebar/Sidebar";
 import Api from "../api/Api";
-import Header from "../headerbar/Header";
 import Spinner from "../spinner/Spinner";
 import Choice from "../../common/Choice";
 import "../home/Home.css"
@@ -103,10 +102,10 @@ class Home extends Component {
             } else {
                 return (
                     <div className="row equal row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 pt-3
-                    mx-1 vh-100 overflow-auto" key={"event-card-container"} >
+                    mx-1" key={"event-card-container"} >
                         {
                             eventsList.map(event =>
-                                <div className= "col d-flex px-1 h-50 pb-2" key={"col" + event._id}>
+                                <div className= "px-1 pb-2 d-flex align-items-stretch" key={"col" + event._id}>
                                     <EventCard {...this.props} key={"event-card" + event._id}
                                                eventInfo={event}/>
                                 </div>)
@@ -121,19 +120,18 @@ class Home extends Component {
     render() {
         return(
             <div className="container-fluid">
-                <div className= "home">
-                    <div className="row" >
-                        <div className="col-md-3 col-5 px-1 position-fixed" id="sticky-sidebar">
+                <div className= "">
+                    <div className="row">
+                        <div className= "sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
                             <Sidebar handler = {this.filterHandler} state = {Choice.SidebarChoice.HOME}
                                      handler1 ={this.locHandler}
                                      handler2 ={this.searchHandler}/>
                         </div>
-                        <div className="col-md-9 col-7 offset-md-3 offset-5 ps-0 pe-1 pt-0" id="main">
-                            <Header/>
+                        <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
                             <div className="show-events">
                                 {
                                     this.state.events.length === 0 ?
-                                       <Spinner/> : this.renderEvents()
+                                        <Spinner/> : this.renderEvents()
                                 }
                             </div>
                         </div>
