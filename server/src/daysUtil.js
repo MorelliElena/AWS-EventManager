@@ -1,3 +1,5 @@
+const moment = require('moment-timezone');
+
 const getDaysArray = function (start, end) {
     let arr = [];
     let dt = new Date(start);
@@ -12,6 +14,12 @@ function getDaysList (start, end) {
     dayList.map((v) => v.toISOString().slice(0, 10)).join("")
     return dayList
 }
+
+const getCurrentDateAndTime = function () {
+    return new Date()
+}
+
 module.exports = {
-    getDaysList
+    getDaysList,
+    getCurrentDateAndTime
 }

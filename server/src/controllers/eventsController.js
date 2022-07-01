@@ -123,3 +123,18 @@ exports.getOwnerEvents = function (req, res) {
         }
     })
 }
+
+exports.cancelEvent = function (req, res) {
+    Events.findByIdAndUpdate(req.body.eventId, {"status":"cancelled"}, {useFindAndModify:false},
+        function (err){
+            if (err) {
+                res.status(451).send({
+                    description: 'Eliminazione fallita. Riprova più tardi'
+                });
+            } else {
+                res.send({
+                    description: 'Eliminazione avvenuta con successo'
+                });
+            }
+        })
+}

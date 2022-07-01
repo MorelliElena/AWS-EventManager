@@ -4,11 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-
-global.appRoot = path.resolve(__dirname);
-
 const PORT = 5000;
 
+global.appRoot = path.resolve(__dirname);
 
 mongoose.connect('mongodb://localhost/EventsDB', {useNewUrlParser: true, useUnifiedTopology: true}).then();
 
@@ -18,14 +16,11 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-/*app.get('/api/greeting', (req, res) => {
-    const name = req.query.name || 'World';
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
-});*/
-
-var routes = require('./src/routes/routes');
+const routes = require('./src/routes/routes');
 routes(app);
+
+const serverSocket = require('./src/socket/socket');
+serverSocket(app);
 
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
@@ -34,3 +29,5 @@ app.use(function(req, res) {
 app.listen(PORT, function () {
     console.log('Node API server started on port '+PORT);
 });
+
+

@@ -70,9 +70,6 @@ let managePromise = (promise, httpSuccessfulCodes, onError, onSuccess) => {
             }
         })
         .catch(error => {
-            if(promise.isCancel(error)){
-                return false
-            }
             console.log("ERROR: ")
             console.log(error)
             console.log(error.response)
@@ -137,13 +134,13 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
     managePromise(Axios.post(`http://localhost:5000/api/booking/`,
         {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
                     {eventId, bookingId, participants, old_part}),
                 [200],
-                error =>  onError(error.data.description),
+                error =>  onError(error.response.data.description),
                 resp => onSuccess(resp.data.description))
         } else {
            onError(resp.data.description)
@@ -156,7 +153,7 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
     managePromise(Axios.delete(`http://localhost:5000/api/booking/`,
         {data:{userId, bookingId}}),
         [200],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => {
             if(resp.status === 200) {
                 managePromise(Axios.delete(`http://localhost:5000/api/events/`,
@@ -174,7 +171,7 @@ let addUserLike = (userId, eventId, name, date_start, date_finish, location, onE
     managePromise(Axios.post(`http://localhost:5000/api/like/`,
         {userId, eventId, name, ds, df, location}),
         [200, 202],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => {if(resp.status === 200){onSuccess(resp.data.description)}})
 }
 
@@ -190,7 +187,7 @@ let removeLike = (userId, likeId, onError, onSuccess) =>{
     managePromise(Axios.delete(`http://localhost:5000/api/like/`,
         {data:{userId, likeId}}),
         [200],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => onSuccess(resp.data.description))
 }
 
@@ -198,9 +195,9 @@ let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
     managePromise(Axios.post(`http://localhost:5000/api/registration/`,
             {email, password, birthday, name, surname}),
         [200, 202],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => {
-            if(resp.status=== 200) {
+            if(resp.status === 200) {
                 onSuccess(resp.data.description)
             } else {
                 onError(resp.data.description)
@@ -214,7 +211,7 @@ let createEvent = (title, desc, date_start, date_finish, img, address, city, pro
     managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
-        error =>  onError(error.data.description),
+        error =>  onError(error.response.data.description),
         resp => {onSuccess(resp.data)
     })
 }
@@ -224,6 +221,14 @@ let getOwnerEvents = (owner_id, onError, onSuccess) => {
         [200],
         onError,
         resp => {onSuccess(resp.data.map(mapEvent))})
+}
+
+let cancelEvent = (eventId, onError, onSuccess) =>{
+    managePromise(Axios.delete(`http://localhost:5000/api/events/creation/`,
+            {data: {eventId}}),
+        [200],
+        error => onError(error.data.description),
+        resp => onSuccess(resp.data.description))
 }
 
 export default {
@@ -242,5 +247,6 @@ export default {
     removeLike,
     addUser,
     createEvent,
-    getOwnerEvents
+    getOwnerEvents,
+    cancelEvent
 }

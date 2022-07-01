@@ -18,7 +18,8 @@ module.exports = function(mongoose) {
             max_participants: Number,
         }],
         full: Boolean,
-        owner: String
+        owner: String,
+        status:String
     });
     return mongoose.model('eventmodel', EventSchema, 'events');
 };

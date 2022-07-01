@@ -20,7 +20,9 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "expess": "^0.0.1-security",
-    "mongoose": "^5.13.3"
+    "moment-timezone": "^0.5.34",
+    "mongoose": "^5.13.3",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "cors": "^2.8.5",

@@ -7,14 +7,19 @@ exports.checkAuthentication = function(req, res) {
         if (err) {
             res.send(err);
         } else {
-            if (req.body.password === user.password){
-                res.json(user);
+            if(user!== null) {
+                if (req.body.password === user.password) {
+                    res.json(user);
+                } else {
+                    res.status(401).send({
+                        description: 'Autenticazione fallita'
+                    });
+                }
             } else {
                 res.status(401).send({
-                    description: 'Authentication failed'
+                    description: 'Username inesistente'
                 });
             }
-
         }
     });
 };
@@ -27,7 +32,7 @@ exports.getProfileData = function(req, res) {
         else {
             if (user == null) {
                 res.status(404).send({
-                    description: 'User not found'
+                    description: 'Utente non trovato'
                 });
             } else {
                 res.json(user);
@@ -46,12 +51,10 @@ exports.updateUserData = function(req, res) {
         "password": req.body.password
         }, {useFindAndModify: false}, function (err) {
             if (err) {
-                res.send({
-                    description: 'Update failed. Try again later'
-                });
+                res.send(err);
             } else {
                 res.status(200).send({
-                    description: 'User updated successfully'
+                    description: 'Utente aggiornato correttamente'
                 })
             }
         }

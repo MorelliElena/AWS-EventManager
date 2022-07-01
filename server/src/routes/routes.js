@@ -43,6 +43,7 @@ module.exports = function(app) {
 
     app.route('/api/events/creation')
         .post(eventsController.creation)
+        .delete(eventsController.cancelEvent)
 
     app.route('/api/events/admin/:id')
         .get(eventsController.getOwnerEvents)
