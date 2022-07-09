@@ -48,25 +48,27 @@ class App extends Component {
 
     render() {
         return (
-            <div>
             <Router>
-                <Header socket = {this.state.socket}/>
-                <div>
-                <Switch>
-                    <Route exact path = {routes.home} component = {Home} />
-                    <Route path = {routes.event} exact render = {
-                        (props) => <EventInfo {...props}/>} />
-                    <Route path = {routes.notification} component = {Notification}/>
-                    <Route path = {routes.manager} render = {() =>
-                        <UserManager socket ={this.state.socket} login={this.login}/>} />
-                    <Route path = {routes.login } component = {Login} />
-                    <Route path = {routes.booking} component = {Bookings} />
-                    <Route path = {routes.likes} component = {Likes} />
-                    <Route path = {routes.registration} component = {Registration} />
-                </Switch>
+            <div className="container-fluid d-flex flex-column min-vh-100">
+                <div className="row">
+                    <Header socket = {this.state.socket}/>
+                </div>
+                <div className="row flex-grow-1">
+                    <Switch>
+                        <Route exact path = {routes.home} component = {Home} />
+                        <Route path = {routes.event} exact render = {
+                            (props) => <EventInfo {...props}/>} />
+                        <Route path = {routes.notification} component = {Notification}/>
+                        <Route path = {routes.manager} render = {() =>
+                            <UserManager socket ={this.state.socket} login={this.login}/>} />
+                        <Route path = {routes.login } component = {Login} />
+                        <Route path = {routes.booking} component = {Bookings} />
+                        <Route path = {routes.likes} component = {Likes} />
+                        <Route path = {routes.registration} component = {Registration} />
+                    </Switch>
+                </div>
                 </div>
             </Router>
-            </div>
         );
     }
 }

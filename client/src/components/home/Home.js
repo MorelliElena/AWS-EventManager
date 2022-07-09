@@ -119,21 +119,19 @@ class Home extends Component {
 
     render() {
         return(
-            <div className="container-fluid">
-                <div className= "">
-                    <div className="row">
-                        <div className= "sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
-                            <Sidebar handler = {this.filterHandler} state = {Choice.SidebarChoice.HOME}
-                                     handler1 ={this.locHandler}
-                                     handler2 ={this.searchHandler}/>
-                        </div>
-                        <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
-                            <div className="show-events">
-                                {
-                                    this.state.events.length === 0 ?
-                                        <Spinner/> : this.renderEvents()
-                                }
-                            </div>
+            <div className="container-fluid d-flex flex-column">
+                <div className="row flex-grow-1">
+                    <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky" id="sticky-sidebar">
+                        <Sidebar handler = {this.filterHandler} state = {Choice.SidebarChoice.HOME}
+                                 handler1 ={this.locHandler}
+                                 handler2 ={this.searchHandler}/>
+                    </div>
+                    <div className="col ps-0 pe-1 pt-0" id="main">
+                        <div className="show-events">
+                            {
+                                this.state.events.length === 0 ?
+                                    <Spinner/> : this.renderEvents()
+                            }
                         </div>
                     </div>
                 </div>

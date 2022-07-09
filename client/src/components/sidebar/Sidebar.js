@@ -27,9 +27,9 @@ class Sidebar extends React.Component{
             error => {
                 console.log(error)
                //Error
-            }, tags => {
+            }, tags =>
                this._isMounted ? this.setState({tags:tags}): null
-            }
+
         )
 
         Api.getPlaces(

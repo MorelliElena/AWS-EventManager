@@ -39,6 +39,13 @@ class EventCard extends React.Component {
                                 )}
                             </section>
                         </div><br/>
+
+                        {this.state.eventInfo.status === "cancelled" ?
+                            <div className="card-header card-footer bg-transparent border-danger
+                            mt-2 text-danger mb-2 p-2 fw-bold">
+                                Cancellato
+                            </div> : null
+                        }
                         <section className="filter d-flex flex-column justify-content-end">
                             <Link className="btn btn-primary "
                                   to={routes.eventFromId(this.state.eventInfo._id)}> Mostra di più </Link>

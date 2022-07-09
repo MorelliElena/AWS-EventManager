@@ -100,16 +100,15 @@ class UserManager extends React.Component {
             return <Redirect to={routes.login}/>
         } else {
             return (
-                <div className="container-fluid">
-                    <div className="home">
-                        <div className="row">
-                            <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
+                <div className="container-fluid d-flex flex-column">
+                    <div className="row flex-grow-1">
+                        <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky" id="sticky-sidebar">
                                 {sessionStorage.getItem("admin")!== null ?
                                 <Sidebar state={Choice.SidebarChoice.ADMIN} handler4={this.userSelection}/> :
                                 <Sidebar state={Choice.SidebarChoice.PROFILE} handler4={this.userSelection}/>
                                 }
                             </div>
-                            <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
+                            <div className="col ps-1 pe-1 pt-1 overflow-auto" id="main">
                                 {!sessionStorage.getItem("token") ?
                                     <Redirect to={routes.login}/> :
                                     !this.state.user ? <div className="h-100"><Spinner/></div> :
@@ -125,7 +124,6 @@ class UserManager extends React.Component {
 
                             </div>
                         </div>
-                    </div>
                 </div>
             );
         }

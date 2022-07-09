@@ -3,7 +3,6 @@ import {Redirect} from "react-router-dom";
 import routes from "../routes/Routes";
 import Sidebar from "../sidebar/Sidebar";
 import Choice from "../../common/Choice";
-import Header from "../headerbar/Header";
 import {Button, Form} from "react-bootstrap";
 import Api from "../api/Api";
 import Alert from "../alert/Alert";
@@ -54,10 +53,9 @@ class Registration extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                <div className="home">
-                    <div className="row">
-                        <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
+            <div className="container-fluid d-flex flex-column">
+                <div className="row flex-grow-1">
+                    <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky" id="sticky-sidebar">
                             <Sidebar state={Choice.NULL}/>
                         </div>
                         <div className="col ps-0 pe-1 pt-0 overflow-auto" id="main">
@@ -113,7 +111,6 @@ class Registration extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         );
