@@ -39,8 +39,10 @@ let mapEvent = (event) => {
         location: location,
         img: event.img,
         booking: event.booking || [],
-        full: event.full,
-        owner: event.owner
+        tot_participants: event.tot_participants,
+        owner: event.owner,
+        status: event.status,
+        followers: event.followers || [],
     }
 }
 
@@ -130,7 +132,8 @@ let updateProfileData = (userId, name, surname, birthdate, username, password, o
         resp => {onSuccess(resp.data.description)})
 }
 
-let addUserBooking = (userId, eventId, bookingId, name, date, location, participants, old_part, onError, onSuccess) => {
+let addUserBooking = (userId, eventId, bookingId, name, date, location, participants, old_part, tot_old_part,
+                      onError, onSuccess) => {
     managePromise(Axios.post(`http://localhost:5000/api/booking/`,
         {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
@@ -138,14 +141,13 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
-                    {eventId, bookingId, participants, old_part}),
+                    {eventId, bookingId, participants, old_part, userId, tot_old_part}),
                 [200],
                 error =>  onError(error.response.data.description),
                 resp => onSuccess(resp.data.description))
         } else {
            onError(resp.data.description)
         }
-
     })
 }
 
@@ -157,7 +159,7 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
         resp => {
             if(resp.status === 200) {
                 managePromise(Axios.delete(`http://localhost:5000/api/events/`,
-                        {data: {eventId, bookingId, participants}}),
+                        {data: {eventId, bookingId, participants, userId}}),
                     [200],
                     error => onError(error.data.description),
                     resp => onSuccess(resp.data.description))
@@ -172,7 +174,15 @@ let addUserLike = (userId, eventId, name, date_start, date_finish, location, onE
         {userId, eventId, name, ds, df, location}),
         [200, 202],
         error =>  onError(error.response.data.description),
-        resp => {if(resp.status === 200){onSuccess(resp.data.description)}})
+        resp => {if(resp.status === 200){
+            onSuccess(resp.data.description)
+            managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
+                    {userId, eventId, isUpdate:true}),
+                [200],
+                () => onError(),
+                () => onSuccess()
+            )
+        }})
 }
 
 let getIfEventIsLiked = (userId, eventId, onError, onSuccess) =>{
@@ -183,12 +193,20 @@ let getIfEventIsLiked = (userId, eventId, onError, onSuccess) =>{
         () => onSuccess())
 }
 
-let removeLike = (userId, likeId, onError, onSuccess) =>{
+let removeLike = (userId, eventId, likeId, onError, onSuccess) =>{
     managePromise(Axios.delete(`http://localhost:5000/api/like/`,
         {data:{userId, likeId}}),
         [200],
         error =>  onError(error.response.data.description),
-        resp => onSuccess(resp.data.description))
+        resp => {
+            onSuccess(resp.data.description)
+            managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
+                    {userId, eventId, isUpdate:false}),
+                [200],
+                () => onError(),
+                () => onSuccess()
+            )
+        })
 }
 
 let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{

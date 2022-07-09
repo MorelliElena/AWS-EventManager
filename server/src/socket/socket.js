@@ -7,7 +7,6 @@ module.exports = function(app) {
 
     const httpServer = createServer(app);
     let onlineUsers = [];
-    let senderUsers = ['625699ea6bae66d8e8cce8b0','61bb5ec91c8cce788c420d64']
 
     const io = new Server(httpServer, {
         cors: {
@@ -31,13 +30,13 @@ module.exports = function(app) {
         return onlineUsers.find(user => user.userId === userId)
     }
 
-
-    const createNotification = (sender, eventId, type, text) => {
+    const createNotification = (sender, eventId, type, text, followers) => {
         console.log(onlineUsers)
+        console.log(followers)
+        let senderUsers = followers.map(follower => follower.id_user)
         let onlineSender = onlineUsers.map(user => user.userId)
         senderUsers.forEach(user => {
                 if(onlineSender.includes(user)){
-
                     /*notifyController.createNotification(eventId,"prova_online", sender,
                         user,type, true, text)*/
                     io.to(getUser(user).socketId).emit("sendNotification", {
@@ -70,9 +69,8 @@ module.exports = function(app) {
         })
 
 
-        socket.on("notification", ({sender, eventId, type, text}) =>{
-            console.log("notify")
-            createNotification(sender, eventId, type, text)
+        socket.on("notification", ({sender, eventId, type, text, followers}) =>{
+            createNotification(sender, eventId, type, text, followers)
         })
 
     });

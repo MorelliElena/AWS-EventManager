@@ -19,7 +19,12 @@ module.exports = function(mongoose) {
         }],
         full: Boolean,
         owner: String,
-        status:String
+        status:String,
+        followers:[{
+            id_user: String,
+            book: Number,
+        }],
+        tot_participants: Number
     });
     return mongoose.model('eventmodel', EventSchema, 'events');
 };

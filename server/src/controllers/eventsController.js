@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 Events = require("../models/eventsModel.js")(mongoose);
 Util = require("../daysUtil");
 
@@ -27,53 +27,92 @@ exports.read_event = function(req, res) {
     });
 };
 
+function updateFollower(req, update) {
+    if(update) {
+        const follower = {
+            "_id": new mongoose.Types.ObjectId(),
+            "id_user": req.body.userId,
+            "book": 1
+        }
+
+        Events.findOneAndUpdate({_id: req.body.eventId, "followers.id_user": req.body.userId},
+            {$inc: {"followers.$.book": 1}},
+            {useFindAndModify: false}, function (err, res) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    if (res === null) {
+                        Events.findByIdAndUpdate({_id: req.body.eventId},
+                            {$push: {"followers": follower}},
+                            {useFindAndModify: false}, function (err) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                            })
+                    }
+
+                }
+
+            })
+    } else {
+        Events.findOneAndUpdate({_id:req.body.eventId, "followers.id_user": req.body.userId},
+            {$inc:{"followers.$.book": -1}},
+            {useFindAndModify: false, multi:true}, function (err, res) {
+                if (err) {
+                    res.send(err);
+                }
+            })
+
+    }
+}
+
 exports.updateParticipants = function (req, res) {
-    const p = req.body.old_part + req.body.participants
-    Events.findOneAndUpdate({_id:req.body.eventId, "booking._id": req.body.bookingId},
-        {$set:{"booking.$.n_participants":p}}, {useFindAndModify:false},function (err){
+    Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
+        {$inc: {"booking.$.n_participants": req.body.participants, tot_participants: + req.body.participants}},
+        {useFindAndModify: false}, function (err) {
             if (err) {
                 res.status(451).send({
                     description: 'Prenotazione fallita. Riprova più tardi'
                 });
             } else {
-                res.send({
+                res.status(200).send({
                     description: 'Prenotazione avvenuta con successo'
                 });
+                updateFollower(req, true)
             }
         }
     )
+
 }
 
 exports.deleteParticipants = function (req, res) {
-    Events.findOne({"_id":req.body.eventId, "booking._id": req.body.bookingId}, {"booking.$":1},
-        function (err, booking){
-        if(err){
-            res.send(err);
-        } else {
-            const old = booking.booking[0].n_participants
-            console.log(old)
-            Events.findOneAndUpdate({_id:req.body.eventId, "booking._id": req.body.bookingId},
-                {$set:{"booking.$.n_participants": old - req.body.participants}},
-                {useFindAndModify:false},function (err){
-                    if (err) {
-                        res.status(451).send({
-                            description: 'Eliminazione fallita. Riprova più tardi'
-                        });
-                    } else {
-                        res.send({
-                            description: 'Eliminazione avvenuta con successo'
-                        });
-                    }
-                }
-            )
-        }
+    Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
+        {$inc: {"booking.$.n_participants": - req.body.participants, tot_participants: - req.body.participants}},
+        {useFindAndModify: false}, function (err) {
+            if (err) {
+                res.status(451).send({
+                    description: 'Eliminazione fallita. Riprova più tardi'
+                });
+            } else {
+                res.status(200).send({
+                    description: 'Eliminazione avvenuta con successo'
+                });
+                updateFollower(req, false)
+            }
     })
+}
+
+exports.follower = function (req, res) {
+    if(req.body.isUpdate) {
+        updateFollower(req, true)
+    } else {
+        updateFollower(req, false)
+    }
 }
 
 exports.creation = function (req, res) {
     let eventId = mongoose.Types.ObjectId()
     const booking = []
-    console.log(req.body)
     Util.getDaysList(req.body.ds, req.body.df).map(e => {
             const obj = {
                 "date": e,
@@ -114,7 +153,6 @@ exports.creation = function (req, res) {
 }
 
 exports.getOwnerEvents = function (req, res) {
-    console.log(req.params)
     Events.find({owner:req.params.id}, {useFindAndModify:false}, function (err, event) {
         if (err)
             res.send(err);

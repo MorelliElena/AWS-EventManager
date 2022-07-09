@@ -23,15 +23,16 @@ class EventManager extends React.Component{
         this.closeWindow = this.closeWindow.bind(this)
     }
 
-    cancelEvent = (eventId) => {
-        console.log(eventId)
-        Api.cancelEvent(eventId, error =>{},
+    cancelEvent = (event) => {
+        console.log(event)
+        Api.cancelEvent(event._id, error =>{},
                 success =>{console.log(success)
                     this.props.socket.emit("notification",{
                         sender: sessionStorage.getItem("token"),
-                        eventId: eventId,
+                        eventId: event._id,
                         type: "cancelled",
-                        text: "L'evento è stato cancellato"
+                        text: "L'evento è stato cancellato",
+                        followers: event.followers
                     })
                 })
 
@@ -98,7 +99,7 @@ class EventManager extends React.Component{
                                                 </div>
                                             </div>
                                             <div className="btn btn-danger"
-                                                 onClick={()=>this.cancelEvent( events._id)}>
+                                                 onClick={()=>this.cancelEvent(events)}>
                                                 <BsFillTrashFill className="trash text-white" size={20}/>
                                             </div>
                                         </li>) : null}

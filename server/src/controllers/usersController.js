@@ -172,7 +172,6 @@ exports.updateUserLike = function(req, res) {
                             }
                         })
 
-
                 } else {
                     res.status(202).send({
                         description: 'Hai già espresso un interesse per questo evento' +

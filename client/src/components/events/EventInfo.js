@@ -2,7 +2,6 @@ import React from 'react';
 import Api from '../api/Api'
 import './EventInfo.css'
 import Sidebar from "../sidebar/Sidebar";
-import Header from "../headerbar/Header";
 import {BsFillExclamationCircleFill, BsStar, BsStarFill} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
@@ -73,6 +72,7 @@ class EventInfo extends React.Component {
                 this.state.eventInfo.location,
                 participants,
                 e.n_participants,
+                this.state.eventInfo.tot_participants,
                 error =>{
                     this.setState({alertType:alertType.ERROR, message: error, hide: false})
                 },
@@ -88,13 +88,15 @@ class EventInfo extends React.Component {
         let items = [...this.state.eventInfo.booking]
         items[pos] = {
             ...items[pos],
-            n_participants: e.n_participants + participants
+            n_participants: e.n_participants + participants,
         }
         this.setState(prevState =>({
             eventInfo: {
                 ...prevState.eventInfo,
-                booking: items
-            }
+                tot_participants: prevState.eventInfo.tot_participants + participants,
+                booking: items,
+            },
+
         }))
     }
 
@@ -122,12 +124,12 @@ class EventInfo extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky min-vh-100" id="sticky-sidebar">
+            <div className="container-fluid d-flex flex-column">
+                <div className="row flex-grow-1">
+                    <div className="sidebar col-5 col-md-3 ps-0 pe-1 position-sticky" id="sticky-sidebar">
                         <Sidebar state = {false}/>
                     </div>
-                    <div className="col ps-0 pe-1 pt-0 overflow-auto">
+                    <div className="col ps-1 pe-1 pt-1 overflow-auto">
                         { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                     type={this.state.alertType} message={this.state.message}/> : null}
                         { !this.state.showDefaultMessage && !this.state.eventInfo ?
@@ -136,7 +138,8 @@ class EventInfo extends React.Component {
                             </div> :
                             this.state.redirection ? <Redirect to={routes.login}/> :
                                 <div className="text-center h-100 pt-3 ">
-                                    {!sessionStorage.getItem("admin") ?
+                                    {!sessionStorage.getItem("admin") &&
+                                    this.state.eventInfo.status !== "cancelled" ?
                                         <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
                                              onClick={this.like}>
                                             {!this.state.like ?
@@ -172,15 +175,14 @@ class EventInfo extends React.Component {
                                                 )}
                                             </section>
                                             <section>
-                                                {this.state.eventInfo.full ?
-                                                    <div style={{color: "red"}}>
-                                                        Posti Terminati
-                                                        <BsFillExclamationCircleFill
-                                                            className="text-danger mx-3" size={26}/>
-                                                    </div>:<div/>
+                                                {this.state.eventInfo.status === "cancelled" ?
+                                                    <div className="alert alert-danger mt-2">
+                                                         Evento cancellato
+                                                    </div>: null
                                                 }
                                             </section>
-                                            { sessionStorage.getItem("admin") ? null :
+                                            { sessionStorage.getItem("admin") ||
+                                                this.state.eventInfo.status === "cancelled" ? null :
                                                 <PeopleCounter booking={this.state.eventInfo.booking}
                                                                handler={(e, participants) =>
                                                                    this.bookingHandler(e, participants,)}/>

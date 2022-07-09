@@ -24,9 +24,10 @@ class Likes extends React.Component {
 
     }
 
-    deleteLike = (likeId) => {
+    deleteLike = (likeId, id_event) => {
         Api.removeLike(
             this.state.userId,
+            id_event,
             likeId,
             error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
             response =>{
@@ -61,7 +62,7 @@ class Likes extends React.Component {
                                         {likes.location.province}
                                     </div>
                                 </div>
-                                <div className="btn btn-danger" onClick={() => this.deleteLike(likes._id)}>
+                                <div className="btn btn-danger" onClick={() => this.deleteLike(likes._id, likes.id_event)}>
                                     <BsFillTrashFill className="text-white trash" size={20}/>
                                 </div>
                             </li>
