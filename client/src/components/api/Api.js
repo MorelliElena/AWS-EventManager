@@ -43,6 +43,7 @@ let mapEvent = (event) => {
         owner: event.owner,
         status: event.status,
         followers: event.followers || [],
+        daily_capacity: event.max_capacity_daily
     }
 }
 
@@ -223,15 +224,15 @@ let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
     })
 }
 
-let createEvent = (title, desc, date_start, date_finish, img, address, city, province, tag, capacity, owner_id, onError, onSuccess) =>{
+let createEvent = (title, desc, date_start, date_finish, img, address, city, province, tag, capacity,
+                   owner_id, onError, onSuccess) =>{
     const ds = moment(date_start, "DD/MM/YYYY").format('YYYY-MM-DD');
     const df = moment(date_finish, "DD/MM/YYYY").format('YYYY-MM-DD');
     managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
         error =>  onError(error.response.data.description),
-        resp => {onSuccess(resp.data)
-    })
+        resp => {onSuccess(resp.data)})
 }
 
 let getOwnerEvents = (owner_id, onError, onSuccess) => {
@@ -247,6 +248,15 @@ let cancelEvent = (eventId, onError, onSuccess) =>{
         [200],
         error => onError(error.data.description),
         resp => onSuccess(resp.data.description))
+
+}
+
+let updateEvent = (eventId, title, desc, img, address, city, province, tag, capacity, onError, onSuccess) => {
+    managePromise(Axios.post(`http://localhost:5000/api/events/update/`,
+            {eventId, title, desc, img, address, city, province, tag, capacity}),
+        [200],
+        error =>  onError(error.data.description),
+        resp => {onSuccess(resp.data.description)})
 }
 
 export default {
@@ -266,5 +276,6 @@ export default {
     addUser,
     createEvent,
     getOwnerEvents,
-    cancelEvent
+    cancelEvent,
+    updateEvent
 }

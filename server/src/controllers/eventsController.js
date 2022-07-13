@@ -137,7 +137,11 @@ exports.creation = function (req, res) {
         "tag": req.body.tag,
         "booking":booking,
         "owner": req.body.owner_id,
-        "full":false}
+        "tot_participants":0,
+        "max_capacity_daily": req.body.capacity,
+        "status":"on",
+        "followers":[]
+    }
     Events.create(event, function (err) {
         if (err)
             res.send({
@@ -175,4 +179,31 @@ exports.cancelEvent = function (req, res) {
                 });
             }
         })
+}
+
+exports.updateEvent = function (req, res) {
+    console.log(req.body)
+    let id = mongoose.Types.ObjectId(req.body.eventId)
+    Events.findByIdAndUpdate(id, {
+        "name": req.body.title,
+        "desc":req.body.desc,
+        "location": {
+            "address": req.body.address,
+            "city": req.body.city,
+            "province": req.body.province
+        },
+        "img":req.body.img,
+        "tag": req.body.tag,
+        "max_capacity_daily": req.body.capacity
+    },{useFindAndModify: false}, function (err) {
+        if (err)
+            res.send({
+                description: 'Evento non aggiornato. Riprova più tardi',
+            });
+        else {
+            res.status(200).send({
+                description: 'Evento aggiornato correttamente',
+            })
+        }
+    });
 }

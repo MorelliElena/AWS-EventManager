@@ -49,12 +49,9 @@ class UserManager extends React.Component {
     }
 
     userUpdate = (e) => {
-        this.setState(prevState =>({
-            user: {
-                ...prevState.user,
-                [e.target.name]: e.target.value
-            }
-        }))
+        this.setState({
+            user: e
+        })
     }
 
     hide = () => {
@@ -75,8 +72,8 @@ class UserManager extends React.Component {
         }
     }
 
-    eventsUpdate = (event) =>{
-        this.setState({events: [...this.state.events, event]})
+    eventsUpdate = (events) =>{
+        this.setState({events: events})
     }
 
     renderSwitch(param) {

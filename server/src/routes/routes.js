@@ -50,4 +50,7 @@ module.exports = function(app) {
 
     app.route('/api/events/follower')
         .post(eventsController.follower)
+
+    app.route('/api/events/update')
+        .post(eventsController.updateEvent)
 };

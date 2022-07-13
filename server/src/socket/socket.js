@@ -30,7 +30,7 @@ module.exports = function(app) {
         return onlineUsers.find(user => user.userId === userId)
     }
 
-    const createNotification = (sender, eventId, type, text, followers) => {
+    const createNotification = (sender, eventId, title, type, text, followers) => {
         console.log(onlineUsers)
         console.log(followers)
         let senderUsers = followers.map(follower => follower.id_user)
@@ -41,7 +41,7 @@ module.exports = function(app) {
                         user,type, true, text)*/
                     io.to(getUser(user).socketId).emit("sendNotification", {
                         eventId,
-                        title:"prova_title",
+                        title,
                         type,
                         text
 
@@ -69,8 +69,8 @@ module.exports = function(app) {
         })
 
 
-        socket.on("notification", ({sender, eventId, type, text, followers}) =>{
-            createNotification(sender, eventId, type, text, followers)
+        socket.on("notification", ({sender, eventId, title, type, text, followers}) =>{
+            createNotification(sender, eventId, title, type, text, followers)
         })
 
     });

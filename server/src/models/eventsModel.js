@@ -24,7 +24,8 @@ module.exports = function(mongoose) {
             id_user: String,
             book: Number,
         }],
-        tot_participants: Number
+        tot_participants: Number,
+        max_capacity_daily: Number
     });
     return mongoose.model('eventmodel', EventSchema, 'events');
 };

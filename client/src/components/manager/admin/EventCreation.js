@@ -61,7 +61,7 @@ class EventCreation extends React.Component{
                 this.state.link, this.state.address,this.state.city, this.state.province,
                 this.state.event_tags, this.state.capacity, sessionStorage.getItem("token"),
                     error =>{
-                        this.props.handler2(error, false, alertType.ERROR, false, undefined)
+                        this.props.handler2(error, false, alertType.ERROR, false)
                 }, success =>{
                     console.log(success.id)
                     const ev = Util.mapEvent(this.state.title, this.state.date_start, this.state.date_finish,
@@ -72,7 +72,7 @@ class EventCreation extends React.Component{
                         this.props.handler2(success.description, false, alertType.SUCCESS, false, ev))
                 })
         } else{
-            this.props.handler2("Alcuni campi risultano vuoti o non validi", false, alertType.ERROR, true, undefined)
+            this.props.handler2("Alcuni campi risultano vuoti o non validi", false, alertType.ERROR, true)
         }
     }
 
