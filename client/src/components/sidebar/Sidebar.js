@@ -74,7 +74,7 @@ class Sidebar extends React.Component{
             return <div> Loading ... </div>
         } else {
             return (
-                <div className="nav flex-column flex-nowrap overflow-auto text-white p-2">
+                <div className="nav flex-column flex-nowrap text-white p-2">
                     <h1 className="text-center"> Event Hub</h1>
                     <h4 className="desc">
                         Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>

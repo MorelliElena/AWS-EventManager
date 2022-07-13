@@ -4,6 +4,7 @@ import {BsFillTrashFill} from "react-icons/bs";
 import "../booking/Booking.css"
 import Alert from "../../../alert/Alert";
 import Choice from "../../../../common/Choice";
+import routes from "../../../routes/Routes";
 
 let alertType = Choice.Alert
 
@@ -40,6 +41,12 @@ class Likes extends React.Component {
         this.setState({hide:state})
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.hide !== this.state.hide){
+            window.scrollTo(0, 0)
+        }
+    }
+
     render() {
         return (
             <div>
@@ -47,21 +54,24 @@ class Likes extends React.Component {
                                            type={this.state.alertType} message={this.state.message}/> : null}
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
-                    <ul className="list-group">
+                    <ul className="list-group overflow-auto">
                         {this.state.likes.length !== 0 ?this.state.likes.map(likes =>
-                            <li className="list-group-item d-flex justify-content-between align-items-center"
+                            <li className="list-group-item d-flex justify-content-between align-items-center "
                                 key={"tag" + likes._id}>
-                                <div>
-                                    <div className="fw-bold">
-                                        {likes.name}
-                                    </div>
+                                <a href={routes.eventFromId(likes.id_event)}
+                                   className="text-dark text-decoration-none">
                                     <div>
-                                        {Api.mapDate(likes.date_start)} - {Api.mapDate(likes.date_finish)}<br/>
-                                        {likes.location.address}<br/>
-                                        {likes.location.city}<br/>
-                                        {likes.location.province}
+                                        <div className="fw-bold">
+                                            {likes.name}
+                                        </div>
+                                        <div>
+                                            {Api.mapDate(likes.date_start)} - {Api.mapDate(likes.date_finish)}<br/>
+                                            {likes.location.address}<br/>
+                                            {likes.location.city}<br/>
+                                            {likes.location.province}
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 <div className="btn btn-danger" onClick={() => this.deleteLike(likes._id, likes.id_event)}>
                                     <BsFillTrashFill className="text-white trash" size={20}/>
                                 </div>

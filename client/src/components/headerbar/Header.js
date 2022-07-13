@@ -62,6 +62,7 @@ class Header extends React.Component {
                             }
                             <BsFillBellFill className="text-white icon" size={36}/>
                         </Dropdown.Toggle>
+                        {this.state.notify.length > 0 ?
                         <Dropdown.Menu className="menu text-center d-flex flex-column ">
                             {this.state.notify.map(e =>
 
@@ -75,7 +76,7 @@ class Header extends React.Component {
                                 Segna come già letti
                             </Button>
                         </Dropdown.Menu>
-
+                            :null}
                     </Dropdown>
                 </ul>
             </nav>

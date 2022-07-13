@@ -1,3 +1,7 @@
+.trash {
+    padding-bottom: 2px;
+}
+
 @media only screen and (max-width: 430px) {
     li.list-group-item {
         font-size: 14px;
@@ -13,5 +17,6 @@
     .trash {
         width: 18px ;
         height: 18px ;
+        padding-bottom: 4px;
     }
 }

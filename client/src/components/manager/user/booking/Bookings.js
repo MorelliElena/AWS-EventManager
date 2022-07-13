@@ -4,6 +4,7 @@ import {BsFillTrashFill} from "react-icons/bs";
 import "./Booking.css";
 import Alert from "../../../alert/Alert";
 import Choice from "../../../../common/Choice";
+import routes from "../../../routes/Routes";
 
 let alertType = Choice.Alert
 
@@ -41,6 +42,12 @@ class Bookings extends React.Component {
         this.setState({hide:state})
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.hide !== this.state.hide){
+            window.scrollTo(0, 0)
+        }
+    }
+
     render() {
         return (
             <div>
@@ -48,26 +55,30 @@ class Bookings extends React.Component {
                     { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                 type={this.state.alertType} message={this.state.message}/> : null}
                     <h4 className="text-center mt-3 mb-3">Prenotazioni</h4>
-                    <ul className="list-group">
+                    <ul className="list-group overflow-auto">
                         { this.state.bookings.length !== 0 ? this.state.bookings.map(booking =>
-                            <li className="list-group-item d-flex justify-content-between align-items-center"
+                            <li className="list-group-item d-flex justify-content-between align-items-center "
                                 key={"tag" + booking._id}>
-                                <div>
-                                    <div className="fw-bold">
-                                        {booking.name} <br/>
-                                        {Api.mapDate(booking.date)}
-                                    </div>
+                                <a href={routes.eventFromId(booking.id_event)}
+                                   className="text-dark text-decoration-none">
                                     <div>
-                                        Numero posti prenotati: {booking.participants}<br/>
-                                        Luogo:<br/>
-                                        {booking.location.address}, {booking.location.city}<br/>
-                                        {booking.location.province}
+                                        <div className="fw-bold">
+                                            {booking.name} <br/>
+                                            {Api.mapDate(booking.date)}
+                                        </div>
+                                        <div>
+                                            Numero posti prenotati: {booking.participants}<br/>
+                                            Luogo:<br/>
+                                            {booking.location.address}, {booking.location.city}<br/>
+                                            {booking.location.province}
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 <div className="btn btn-danger" onClick={() =>
                                     this.deleteBooking(booking._id, booking.id_event, booking.participants)}>
                                     <BsFillTrashFill className="trash text-white" size={20}/>
                                 </div>
+
                             </li>
                         ): <div className="text-center"> Nessuna prenotazione presente </div>
                         }

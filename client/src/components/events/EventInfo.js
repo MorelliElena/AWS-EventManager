@@ -2,7 +2,7 @@ import React from 'react';
 import Api from '../api/Api'
 import './EventInfo.css'
 import Sidebar from "../sidebar/Sidebar";
-import {BsFillExclamationCircleFill, BsStar, BsStarFill} from "react-icons/bs";
+import {BsStar, BsStarFill} from "react-icons/bs";
 import {Redirect} from "react-router-dom";
 import Spinner from "../spinner/Spinner";
 import PeopleCounter from "./PeopleCounter";
@@ -122,6 +122,12 @@ class EventInfo extends React.Component {
         this.setState({hide:state})
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.hide !== this.state.hide){
+            window.scrollTo(0, 0)
+        }
+    }
+
     render() {
         return (
             <div className="container-fluid d-flex flex-column">
@@ -138,7 +144,7 @@ class EventInfo extends React.Component {
                             </div> :
                             this.state.redirection ? <Redirect to={routes.login}/> :
                                 <div className="text-center h-100 pt-3 ">
-                                    {!sessionStorage.getItem("admin") &&
+                                    {sessionStorage.getItem("admin") === null &&
                                     this.state.eventInfo.status !== "cancelled" ?
                                         <div className="d-flex justify-content-end btn pe-1 ps-1 pt-0"
                                              onClick={this.like}>
@@ -181,7 +187,7 @@ class EventInfo extends React.Component {
                                                     </div>: null
                                                 }
                                             </section>
-                                            { sessionStorage.getItem("admin") ||
+                                            { sessionStorage.getItem("admin") !== null ||
                                                 this.state.eventInfo.status === "cancelled" ? null :
                                                 <PeopleCounter booking={this.state.eventInfo.booking}
                                                                handler={(e, participants) =>

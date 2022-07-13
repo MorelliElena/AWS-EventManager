@@ -37,21 +37,25 @@ class Profile extends React.Component{
                 [e.target.name]: e.target.value
             }
         }))
-        this.props.handler(e)
     }
 
     handleSubmission = () => {
-        console.log(this.state.user)
-        Api.updateProfileData(
-            this.state.user._id,
-            this.state.user.name,
-            this.state.user.surname,
-            this.state.user.birthday,
-            this.state.user.username,
-            this.state.user.password,
-            error => {this.setState(() =>({alertType: alertType.ERROR, message: error, hide: false}))},
-            success => {this.setState(() =>(
-                {alertType: alertType.SUCCESS, message: success, hide: false, readOnly:true}))})
+        if(Object.values(this.state.user).filter(e=> e === "").length > 0) {
+            this.setState(() =>({alertType: alertType.ERROR, message: "Uno o più campi risultano essere vuoti",
+                hide: false}))
+        } else {
+            this.props.handler(this.state.user)
+                 Api.updateProfileData(
+                 this.state.user._id,
+                 this.state.user.name,
+                 this.state.user.surname,
+                 this.state.user.birthday,
+                 this.state.user.username,
+                 this.state.user.password,
+                 error => {this.setState(() =>({alertType: alertType.ERROR, message: error, hide: false}))},
+                 success => {this.setState(() =>(
+                     {alertType: alertType.SUCCESS, message: success, hide: false, readOnly:true}))})
+        }
     }
 
     closeWindow = (state) => {
