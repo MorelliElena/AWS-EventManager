@@ -3,6 +3,7 @@ module.exports = function(app) {
     const tagsController = require('../controllers/tagsController');
     const placesController = require('../controllers/placesController');
     const usersController = require('../controllers/usersController');
+    const notificationController = require('../controllers/notificationController');
 
     app.route('/api/tags')
         .get(tagsController.tag_list)
@@ -51,6 +52,16 @@ module.exports = function(app) {
     app.route('/api/events/follower')
         .post(eventsController.follower)
 
+    app.route('/api/events/follower/:id')
+        .get(eventsController.getFollowers)
+
     app.route('/api/events/update')
         .post(eventsController.updateEvent)
+
+    app.route('/api/notification/:id')
+        .get(notificationController.getNotifications)
+
+    app.route('/api/notification')
+        .delete(notificationController.deleteNotifications)
+        .put(notificationController.markNotifications)
 };

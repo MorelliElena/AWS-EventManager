@@ -20,6 +20,7 @@ module.exports = function(app) {
             onlineUsers.push({userId, socketId})
             console.log(socketId)
         }
+        io.to(socketId).emit("checkNotification")
     }
 
     const removeUser = (socketId) => {
@@ -30,27 +31,27 @@ module.exports = function(app) {
         return onlineUsers.find(user => user.userId === userId)
     }
 
-    const createNotification = (sender, eventId, title, type, text, followers) => {
+    const createNotification = (sender, eventId, name, type, msg, followers) => {
         console.log(onlineUsers)
         console.log(followers)
-        let senderUsers = followers.map(follower => follower.id_user)
+        //let senderUsers = followers.map(follower => follower.id_user)
         let onlineSender = onlineUsers.map(user => user.userId)
-        senderUsers.forEach(user => {
-                if(onlineSender.includes(user)){
-                    /*notifyController.createNotification(eventId,"prova_online", sender,
-                        user,type, true, text)*/
-                    io.to(getUser(user).socketId).emit("sendNotification", {
-                        eventId,
-                        title,
-                        type,
-                        text
-
-                    },()=>  console.log("fatto"))
-                } else {
-                   /* notifyController.createNotification(eventId,"prova_offline",sender,
-                        user,type, false, text)*/
-                }
+       followers.forEach(user => {
+            if(onlineSender.includes(user)){
+                let result = notifyController.createNotification(eventId, name, sender, user, type, true, msg)
+                let _id = result.notify_id
+                let date = result.date
+                io.to(getUser(user).socketId).emit("sendNotification", {
+                    eventId,
+                    name,
+                    date,
+                    read:false,
+                    msg,
+                    _id},()=>  console.log("fatto"))
+            } else {
+                notifyController.createNotification(eventId,name, sender, user, type, false, msg)
             }
+        }
         )
 
     }
@@ -67,7 +68,6 @@ module.exports = function(app) {
             removeUser(socket.id)
             console.log(onlineUsers)
         })
-
 
         socket.on("notification", ({sender, eventId, title, type, text, followers}) =>{
             createNotification(sender, eventId, title, type, text, followers)

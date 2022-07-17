@@ -8,16 +8,17 @@
 }
 
 .drop-down{
-    position:absolute !important;
     background-color: transparent !important;
     border-color: transparent !important;
     box-shadow: none !important;
 }
 
-.menu {
+.menu{
     width: 400px !important;
+    max-height: 600px !important ;
 
 }
+
 
 button.drop-down {
     padding: 0;
@@ -55,6 +56,10 @@ button.drop-down {
     right: -5px;
 }
 
+.item {
+    padding-left: 10px;
+    padding-right: 5px;
+}
 
 @media only screen and (max-width: 430px) {
 
@@ -69,4 +74,16 @@ button.drop-down {
         transform: translateX(-50%) !important;
         top: 100% !important;
     }
+
+    .item {
+        width: inherit !important;
+        padding: 0;
+    }
+
+    a.dropdown.item {
+        font-size: 12px !important;
+    }
+
+
+
 }

@@ -1,9 +1,14 @@
 import Axios from "axios";
 
 const moment = require('moment');
+const momentTZ = require('moment-timezone');
 
 let mapDate = (date) =>{
     return moment(date).format("DD/MM/YYYY")
+}
+
+let mapTimeZone = (date) =>{
+    return momentTZ.tz(date, "Europe/Rome").format('DD/MM/YYYY, kk:mm:ss');
 }
 
 let mapTag = (tag) =>{
@@ -58,6 +63,17 @@ let mapProfile = (user) => {
         isAdmin: user.isAdmin,
         bookings: user.bookings || [],
         likes: user.likes || []
+    }
+}
+
+let mapNotification = (notification) => {
+    return {
+        _id: notification._id,
+       date: notification.date,
+       eventId: notification.event.eventId,
+       read: notification.read,
+       name: notification.event.name,
+       msg: notification.msg
     }
 }
 
@@ -259,6 +275,40 @@ let updateEvent = (eventId, title, desc, img, address, city, province, tag, capa
         resp => {onSuccess(resp.data.description)})
 }
 
+let getUserNotification = (userId, onError, onSuccess) => {
+    managePromise(Axios.get(`http://localhost:5000/api/notification/`+ userId),
+        [200],
+        onError,
+        response => onSuccess(response.data.map(mapNotification)))
+
+}
+
+let deleteNotification = (notificationId, onError, onSuccess) => {
+    managePromise(Axios.delete(`http://localhost:5000/api/notification/`,
+        {data: {notificationId}}),
+        [200],
+        onError,
+        response => onSuccess(response))
+
+}
+
+let markNotifications = (notifications, onError, onSuccess) =>{
+    managePromise(Axios.put(`http://localhost:5000/api/notification/`,
+            {notifications}),
+        [200],
+        onError,
+        response => onSuccess(response))
+}
+
+let getFollowers = (eventId, onError, onSuccess) => {
+    console.log("entra")
+    managePromise(Axios.get(`http://localhost:5000/api/events/follower/`+ eventId),
+        [200],
+        onError,
+        response => { console.log(response)
+            onSuccess(response.data)})
+}
+
 export default {
     getEventInformation,
     getEvents,
@@ -277,5 +327,10 @@ export default {
     createEvent,
     getOwnerEvents,
     cancelEvent,
-    updateEvent
+    updateEvent,
+    getUserNotification,
+    mapTimeZone,
+    deleteNotification,
+    markNotifications,
+    getFollowers
 }

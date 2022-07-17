@@ -17,7 +17,8 @@ class App extends Component {
         constructor() {
             super();
             this.state = {
-                socket : null
+                socket : null,
+                logged : false
             }
 
         }
@@ -33,7 +34,9 @@ class App extends Component {
                         this.state.socket.connect(io("http://localhost:5005"), {'forceNew': true})
                     }
                     this.state.socket.emit("newUser", sessionStorage.getItem("token"))
+                    if(!this.state.logged) this.setState({logged:true})
                 } else {
+                    if(this.state.logged) this.setState({logged:false})
                     this.state.socket.disconnect()
                 }
             }
@@ -51,7 +54,7 @@ class App extends Component {
             <Router>
             <div className="container-fluid d-flex flex-column min-vh-100">
                 <div className="row">
-                    <Header socket = {this.state.socket}/>
+                    <Header socket = {this.state.socket} logged={this.state.logged}/>
                 </div>
                 <div className="row flex-grow-1">
                     <Switch>

@@ -7,6 +7,7 @@ import Choice from "../../../common/Choice";
 import Api from "../../api/Api";
 import EditEvent from "./EditEvent";
 
+
 class EventManager extends React.Component{
     constructor(props) {
         super(props);
@@ -18,7 +19,8 @@ class EventManager extends React.Component{
             message: undefined,
             show: false,
             edit: false,
-            toBeEdited: undefined
+            toBeEdited: undefined,
+            follow: []
         }
 
         this.showForm = this.showForm.bind(this)
@@ -27,19 +29,25 @@ class EventManager extends React.Component{
     }
 
     cancelEvent = (event) => {
-        console.log(event)
-        Api.cancelEvent(event._id, error =>{},
-            success =>{console.log(success)
-                this.props.socket.emit("notification",{
-                    sender: sessionStorage.getItem("token"),
-                    eventId: event._id,
-                    title: event.name,
-                    type: "cancelled",
-                    text: "L'evento è stato cancellato",
-                    followers: event.followers
-                })
-            })
-
+        Api.getFollowers(event._id,
+          () => {},
+          success => {
+              console.log(success)
+              this.setState({follow: success})
+              Api.cancelEvent(event._id, () => {
+                  },
+                  success => {
+                      console.log(success)
+                      this.props.socket.emit("notification", {
+                          sender: sessionStorage.getItem("token"),
+                          eventId: event._id,
+                          title: event.name,
+                          type: "cancelled",
+                          text: "L'evento è stato cancellato",
+                          followers: this.state.follow
+                      })
+                  })
+          })
     }
 
     editEvent = (event) => {
@@ -60,25 +68,26 @@ class EventManager extends React.Component{
         if(event){
             if(update){
                 let updatedList = this.state.events.map(obj => {
-                        if (obj._id === event._id) {
-                            let location = {
-                                ...obj.location,
-                                city: event.location.city,
-                                address: event.location.address,
-                                province: event.location.province
-                            }
-                            return {
-                                ...obj,
-                                name: event.name,
-                                description: event.description,
-                                tags:event.tags,
-                                daily_capacity: event.daily_capacity,
-                                location: location
-                            };
+                    if (obj._id === event._id) {
+                        let location = {
+                            ...obj.location,
+                            city: event.location.city,
+                            address: event.location.address,
+                            province: event.location.province
                         }
-                        return obj;
-                    })
-                    this.setState({events: updatedList, edit: false})
+                        return {
+                            ...obj,
+                            name: event.name,
+                            description: event.description,
+                            tags:event.tags,
+                            daily_capacity: event.daily_capacity,
+                            location: location
+                        };
+                    }
+                    return obj;
+                })
+                this.setState({events: updatedList, edit: false})
+                this.updateMessage(event)
             } else {
                 this.setState({events: [...this.state.events, event]})
             }
@@ -87,6 +96,23 @@ class EventManager extends React.Component{
         if(!show){
             this.setState({show:false})
         }
+    }
+
+    updateMessage = (event) => {
+        Api.getFollowers(event._id,
+            () => {},
+            success => {
+                console.log(success)
+                this.setState({follow: success})
+                this.props.socket.emit("notification", {
+                    sender: sessionStorage.getItem("token"),
+                    eventId: event._id,
+                    title: event.name,
+                    type: "edited",
+                    text: "L'evento è stato modificato",
+                    followers: this.state.follow
+                })
+            })
     }
 
     showWindow = () => {
@@ -137,19 +163,27 @@ class EventManager extends React.Component{
                                                     <div>
                                                         Luogo:<br/>
                                                         {events.location.address}, {events.location.city}<br/>
-                                                        {events.location.province}
+                                                        {events.location.province} <br/>
+                                                        Stato:
+                                                        {events.status === "on" ?
+                                                            <span className="text-success"> attivo</span> :
+                                                            <span className="text-danger"> cancellato</span>
+                                                        }
+
                                                     </div>
                                                 </div>
-                                                <div className="d-flex flex-column">
-                                                    <div className="btn btn-primary mb-3"
-                                                         onClick={()=>this.editEvent(events)}>
-                                                        <BsPencilSquare className="trash text-white" size={20}/>
+                                                {events.status === "on" ?
+                                                    <div className="d-flex flex-column">
+                                                        <div className="btn btn-primary mb-3"
+                                                             onClick={() => this.editEvent(events)}>
+                                                            <BsPencilSquare className="trash text-white" size={20}/>
+                                                        </div>
+                                                        <div className="btn btn-danger"
+                                                             onClick={() => this.cancelEvent(events)}>
+                                                            <BsFillTrashFill className="trash text-white" size={20}/>
+                                                        </div>
                                                     </div>
-                                                    <div className="btn btn-danger"
-                                                         onClick={()=>this.cancelEvent(events)}>
-                                                        <BsFillTrashFill className="trash text-white" size={20}/>
-                                                    </div>
-                                                </div>
+                                                :null}
                                             </li>) : null}
                                     </ul>
                                 </div>:

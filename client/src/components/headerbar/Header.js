@@ -1,8 +1,9 @@
 import React from "react";
-import {BsFillHouseFill, BsFillBellFill, BsPersonSquare} from "react-icons/bs";
+import {BsFillHouseFill, BsFillBellFill, BsPersonSquare,BsXLg} from "react-icons/bs";
 import "./Header.css"
 import {Link} from "react-router-dom";
 import {Button, Dropdown} from "react-bootstrap";
+import Api from "../api/Api";
 
 let routes = require("../../components/routes/Routes")
 
@@ -11,7 +12,7 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            notify:[]
+            notifications:[]
         }
         this._isMounted = true
     }
@@ -30,17 +31,51 @@ class Header extends React.Component {
                 if(this._isMounted){
                     console.log(data)
                     this.setState((prevState => ({
-                        notify: [...prevState.notify, data]
+                        notifications:[data, ...prevState.notifications]
                     })))
                 }
             })
+
+            this.props.socket.on("checkNotification", () => {
+                this.checkNotification()
+            })
+
+
+        }
+
+        if(this.props.logged !== prevProps.logged ) {
+            this.checkLogin()
+        }
+    }
+
+    checkLogin = () => {
+        if(sessionStorage.getItem("token") === null) {
+            this.setState({notifications: []})
         }
     }
 
     markAsRead = () => {
-        this.setState((() => ({
-            notify: []
-        })))
+        Api.markNotifications(this.state.notifications,
+            error => console.log(error),
+            () => {
+                this.setState({notifications: this.state.notifications.map(function (e)
+                    {e.read = true; return e})})
+                console.log(this.state.notifications)
+            })
+    }
+
+    checkNotification = () =>{
+        if(this.props.logged) {
+            Api.getUserNotification(sessionStorage.getItem("token"),
+                error => console.log(error),
+                success => this.setState({notifications: success}))
+        }
+    }
+
+    delete = (id) => {
+        Api.deleteNotification(id,
+            error => console.log(error),
+            () => this.setState({notifications: this.state.notifications.filter(e => e._id !== id)}))
     }
 
     render() {
@@ -55,28 +90,42 @@ class Header extends React.Component {
                         <Link to={routes.manager}>
                             <BsPersonSquare className="text-white mx-4 icon " size={36}/> </Link>
                     </li>
-                    <Dropdown>
+                    <Dropdown onToggle={this.checkNotification}>
                         <Dropdown.Toggle className="drop-down">
-                            {this.state.notify.length > 0 ?
-                                <div className="counter"> {this.state.notify.length} </div> : null
+                            {this.state.notifications.filter(e => e.read === false).length > 0 ?
+                                <div className="counter">
+                                    {this.state.notifications.filter(e => e.read === false).length}
+                                </div> : null
                             }
                             <BsFillBellFill className="text-white icon" size={36}/>
                         </Dropdown.Toggle>
-                        {this.state.notify.length > 0 ?
-                        <Dropdown.Menu className="menu text-center d-flex flex-column ">
-                            {this.state.notify.map(e =>
-
-                                <Dropdown.Item href = {routes.eventFromId(e.eventId)} key={e.eventId}>
-                                    <h5>{e.title}</h5>
-                                    {e.text}
-                                </Dropdown.Item>
-                            )}
-                            <Dropdown.Divider />
-                            <Button className="read btn btn-primary" onClick={this.markAsRead}>
+                        <Dropdown.Menu className="menu text-center overflow-auto">
+                            {this.props.logged ?
+                                <div>
+                                <Button className="read btn btn-primary" onClick={this.markAsRead}>
                                 Segna come già letti
-                            </Button>
+                                </Button>
+                                <Dropdown.Divider />
+                                    {this.state.notifications.length === 0 ?
+                                        <Dropdown.Item> Nessuna notifica presente </Dropdown.Item> :
+                                        this.state.notifications.map(e =>
+                                            <div className="item d-flex justify-content-between text-center w-auto"
+                                                 key={e._id}>
+                                                <Dropdown.Item
+                                                    className={e.read === false ? "text-dark" : "text-secondary"}
+                                                    href={routes.eventFromId(e.eventId)}>
+                                                    <h6>{e.name}</h6>
+                                                    {e.msg}<br/>
+                                                    {Api.mapTimeZone(e.date)}
+                                                </Dropdown.Item>
+                                                <BsXLg className="trash text-primary"
+                                                       onClick={() => this.delete(e._id)} size={20}/>
+                                            </div>
+                                        )
+                                    }
+                                </div> : <Dropdown.Item> Effettua l'accesso </Dropdown.Item>
+                            }
                         </Dropdown.Menu>
-                            :null}
                     </Dropdown>
                 </ul>
             </nav>

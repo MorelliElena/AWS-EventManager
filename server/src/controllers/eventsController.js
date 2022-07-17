@@ -207,3 +207,16 @@ exports.updateEvent = function (req, res) {
         }
     });
 }
+
+exports.getFollowers = function (req, res) {
+    console.log(req.params)
+    Events.findById(req.params.id, function (err, event) {
+        if (err)
+            res.send(err);
+        else {
+            let ev = event.followers.filter(f => f.book > 0 ).map(e => e.id_user)
+            console.log(ev)
+            res.json(ev);
+        }
+    });
+}

@@ -135,8 +135,7 @@ class Sidebar extends React.Component{
                                 <div className="btn-group-vertical">
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.BOOKING}
-                                            onClick={e => this.handleUserChoice(e)}> Prenotazioni
-                                    </Button>
+                                            onClick={e => this.handleUserChoice(e)}> Prenotazioni </Button>
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.LIKES}
                                             onClick={e => this.handleUserChoice(e)}> Interessi </Button>
@@ -153,11 +152,7 @@ class Sidebar extends React.Component{
                                 <div className="btn-group-vertical">
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.EVENTS}
-                                            onClick={e => this.handleUserChoice(e)}>
-                                        Eventi
-                                    </Button>
-                                    <Button className="btn btn-light btn-outline-primary profile-menu"
-                                            > Notifica </Button>
+                                            onClick={e => this.handleUserChoice(e)}> Gestione Eventi </Button>
                                     <Button className="btn btn-light btn-outline-primary profile-menu"
                                             value={Choice.UserComponents.PROFILE}
                                             onClick={e => this.handleUserChoice(e)}> Profilo </Button>
