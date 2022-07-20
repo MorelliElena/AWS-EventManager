@@ -4,6 +4,7 @@ import {BsFillTrashFill} from "react-icons/bs";
 import "../booking/Booking.css"
 import Alert from "../../../alert/Alert";
 import Choice from "../../../../common/Choice";
+import Util from "../../../../common/Util";
 import routes from "../../../routes/Routes";
 
 let alertType = Choice.Alert
@@ -55,8 +56,8 @@ class Likes extends React.Component {
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
                     <ul className="list-group overflow-auto">
-                        {this.state.likes.length !== 0 ?this.state.likes.map(likes =>
-                            <li className="list-group-item d-flex justify-content-between align-items-center "
+                        {this.state.likes.length !== 0 ? this.state.likes.map(likes =>
+                            <li className="list-group-item d-flex justify-content-between align-items-center"
                                 key={"tag" + likes._id}>
                                 <a href={routes.eventFromId(likes.id_event)}
                                    className="text-dark text-decoration-none">
@@ -65,7 +66,7 @@ class Likes extends React.Component {
                                             {likes.name}
                                         </div>
                                         <div>
-                                            {Api.mapDate(likes.date_start)} - {Api.mapDate(likes.date_finish)}<br/>
+                                            {Util.mapDate(likes.date_start)} - {Util.mapDate(likes.date_finish)}<br/>
                                             {likes.location.address}<br/>
                                             {likes.location.city}<br/>
                                             {likes.location.province}

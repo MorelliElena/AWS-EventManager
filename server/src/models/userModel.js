@@ -3,6 +3,7 @@ module.exports = function(mongoose) {
     var userSchema = new Schema({
         username:  String, // String is shorthand for {type: String}
         password: String,
+        salt: String,
         name: String,
         surname: String,
         birthday: Date,

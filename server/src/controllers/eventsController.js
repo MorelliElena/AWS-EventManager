@@ -4,9 +4,14 @@ Util = require("../daysUtil");
 
 exports.list_events = function(req, res) {
     Events.find({}, function(err, event) {
-        if (err)
+        if (err) {
             res.send(err);
-        res.json(event);
+        } else {
+            let ev = event.filter(e => Util.getCurrentDate(e.date_finish) >=
+                Util.getCurrentDate(Util.getCurrentDateAndTime()))
+
+            res.json(ev);
+        }
     });
 };
 
@@ -21,6 +26,8 @@ exports.read_event = function(req, res) {
                     description: 'Evento non trovato'
                 });
             } else {
+                event.booking = event.booking.filter(x => Util.getCurrentDate(x.date) >=
+                    Util.getCurrentDate(Util.getCurrentDateAndTime()))
                 res.json(event);
             }
         }
@@ -67,22 +74,43 @@ function updateFollower(req, update) {
 }
 
 exports.updateParticipants = function (req, res) {
-    Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
-        {$inc: {"booking.$.n_participants": req.body.participants, tot_participants: + req.body.participants}},
-        {useFindAndModify: false}, function (err) {
-            if (err) {
+    Events.findOne({_id: req.body.eventId, "booking._id": req.body.bookingId},
+        {"booking.$":1}, function (error,book) {
+            if (error) {
                 res.status(451).send({
                     description: 'Prenotazione fallita. Riprova più tardi'
                 });
             } else {
-                res.status(200).send({
-                    description: 'Prenotazione avvenuta con successo'
-                });
-                updateFollower(req, true)
+                console.log(req.body)
+                console.log(book)
+                if (book.booking[0].n_participants + req.body.participants <= book.booking[0].max_participants) {
+                    Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
+                        {
+                            $inc: {
+                                "booking.$.n_participants": req.body.participants,
+                                tot_participants: +req.body.participants
+                            }
+                        },
+                        {useFindAndModify: false}, function (err) {
+                            if (err) {
+                                res.status(451).send({
+                                    description: 'Prenotazione fallita. Riprova più tardi'
+                                });
+                            } else {
+                                res.status(200).send({
+                                    description: 'Prenotazione avvenuta con successo'
+                                });
+                                updateFollower(req, true)
+                            }
+                        }
+                    )
+                } else {
+                    res.status(400).send({
+                        description: 'Prenotazione fallita. Posti esauriti'
+                    });
+                }
             }
-        }
-    )
-
+        })
 }
 
 exports.deleteParticipants = function (req, res) {
@@ -102,7 +130,7 @@ exports.deleteParticipants = function (req, res) {
     })
 }
 
-exports.follower = function (req, res) {
+exports.follower = function (req) {
     if(req.body.isUpdate) {
         updateFollower(req, true)
     } else {
@@ -161,7 +189,21 @@ exports.getOwnerEvents = function (req, res) {
         if (err)
             res.send(err);
         else {
-            res.json(event);
+            let pass = event.filter(e => Util.getCurrentDate(e.date_finish) <
+                Util.getCurrentDate(Util.getCurrentDateAndTime())).map(e => e._id)
+            Events.updateMany({_id:{$in:pass}}, {$set:{"status": "finished"}},
+                {useFindAndModify:false, multi:true}, function (err) {
+                    if(err){
+                        res.send(err);
+                    } else {
+                       event.forEach(e => {
+                            if(Util.getCurrentDate(e.date_finish) < Util.getCurrentDate(Util.getCurrentDateAndTime())){
+                                e.status = "finished"
+                            }
+                        })
+                        res.json(event)
+                    }
+                })
         }
     })
 }

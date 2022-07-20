@@ -1,15 +1,6 @@
 import Axios from "axios";
-
+import Util from "../../common/Util";
 const moment = require('moment');
-const momentTZ = require('moment-timezone');
-
-let mapDate = (date) =>{
-    return moment(date).format("DD/MM/YYYY")
-}
-
-let mapTimeZone = (date) =>{
-    return momentTZ.tz(date, "Europe/Rome").format('DD/MM/YYYY, kk:mm:ss');
-}
 
 let mapTag = (tag) =>{
     return{
@@ -35,8 +26,8 @@ let mapEvent = (event) => {
     } : {}
 
     return {
-        date_start: mapDate(event.date_start),
-        date_finish: mapDate(event.date_finish),
+        date_start: Util.mapDate(event.date_start),
+        date_finish: Util.mapDate(event.date_finish),
         description: event.desc ? event.desc : "",
         name: event.name,
         tags: event.tag || [],
@@ -59,7 +50,7 @@ let mapProfile = (user) => {
         password: user.password,
         name: user.name,
         surname: user.surname,
-        birthday: mapDate(user.birthday),
+        birthday: Util.mapDate(user.birthday),
         isAdmin: user.isAdmin,
         bookings: user.bookings || [],
         likes: user.likes || []
@@ -140,17 +131,16 @@ let getProfileData = (userId, onError, onSuccess) => {
 
 }
 
-let updateProfileData = (userId, name, surname, birthdate, username, password, onError, onSuccess) => {
-    const birthday = moment(birthdate, "DD/MM/YYYY").format('YYYY-MM-DD');
+let updateProfileData = (userId, name, surname, birthdate, username, password, salt, onError, onSuccess) => {
+    const birthday = Util.mapDateISO(birthdate)
     managePromise(Axios.post(`http://localhost:5000/api/update/`,
-        {userId, name, surname, birthday , username, password}),
+        {userId, name, surname, birthday , username, password, salt}),
         [200],
         error =>  onError(error.response.data.description),
         resp => {onSuccess(resp.data.description)})
 }
 
-let addUserBooking = (userId, eventId, bookingId, name, date, location, participants, old_part, tot_old_part,
-                      onError, onSuccess) => {
+let addUserBooking = (userId, eventId, bookingId, name, date, location, participants, onError, onSuccess) => {
     managePromise(Axios.post(`http://localhost:5000/api/booking/`,
         {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
@@ -158,9 +148,19 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
-                    {eventId, bookingId, participants, old_part, userId, tot_old_part}),
+                    {eventId, bookingId, participants, userId}),
                 [200],
-                error =>  onError(error.response.data.description),
+                error => {
+                console.log("stampa " + error)
+                    if(error.response.status === 400){
+                        managePromise(Axios.delete(`http://localhost:5000/api/booking/`,
+                                {data:{userId, bookingId}}), [200],
+                            () => onError(error.response.data.description),
+                            () => onError(error.response.data.description))
+                    } else {
+                        onError(error.response.data.description)
+                    }
+                },
                 resp => onSuccess(resp.data.description))
         } else {
            onError(resp.data.description)
@@ -185,8 +185,8 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
 }
 
 let addUserLike = (userId, eventId, name, date_start, date_finish, location, onError, onSuccess) => {
-    const ds = moment(date_start, "DD/MM/YYYY").format('YYYY-MM-DD');
-    const df = moment(date_finish, "DD/MM/YYYY").format('YYYY-MM-DD');
+    const ds = Util.mapDateISO(date_start);
+    const df = Util.mapDateISO(date_finish);
     managePromise(Axios.post(`http://localhost:5000/api/like/`,
         {userId, eventId, name, ds, df, location}),
         [200, 202],
@@ -226,9 +226,9 @@ let removeLike = (userId, eventId, likeId, onError, onSuccess) =>{
         })
 }
 
-let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
+let addUser = (email, password, salt, birthday, name, surname, onError, onSuccess) =>{
     managePromise(Axios.post(`http://localhost:5000/api/registration/`,
-            {email, password, birthday, name, surname}),
+            {email, password, salt, birthday, name, surname}),
         [200, 202],
         error =>  onError(error.response.data.description),
         resp => {
@@ -242,8 +242,8 @@ let addUser = (email, password, birthday, name, surname, onError, onSuccess) =>{
 
 let createEvent = (title, desc, date_start, date_finish, img, address, city, province, tag, capacity,
                    owner_id, onError, onSuccess) =>{
-    const ds = moment(date_start, "DD/MM/YYYY").format('YYYY-MM-DD');
-    const df = moment(date_finish, "DD/MM/YYYY").format('YYYY-MM-DD');
+    const ds = Util.mapDateISO(date_start)
+    const df = Util.mapDateISO(date_finish)
     managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
@@ -301,7 +301,6 @@ let markNotifications = (notifications, onError, onSuccess) =>{
 }
 
 let getFollowers = (eventId, onError, onSuccess) => {
-    console.log("entra")
     managePromise(Axios.get(`http://localhost:5000/api/events/follower/`+ eventId),
         [200],
         onError,
@@ -317,7 +316,6 @@ export default {
     checkAuthentication,
     getProfileData,
     updateProfileData,
-    mapDate,
     addUserBooking,
     removeBooking,
     addUserLike,
@@ -329,7 +327,6 @@ export default {
     cancelEvent,
     updateEvent,
     getUserNotification,
-    mapTimeZone,
     deleteNotification,
     markNotifications,
     getFollowers

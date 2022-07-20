@@ -1,4 +1,5 @@
 import Api from "../api/Api";
+import Util from "../../common/Util";
 import {Button, InputGroup} from "react-bootstrap";
 import React, {useState} from "react";
 
@@ -56,7 +57,7 @@ function PeopleCounter(props) {
                         key = {"booking"+ day._id}>
                         <div>
                             <div>
-                                Data: {Api.mapDate(day.date)} <br/>
+                                Data: {Util.mapDate(day.date)} <br/>
                                 Posti Occupati: {day.n_participants}/
                                 {day.max_participants}
                             </div>

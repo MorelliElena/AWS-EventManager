@@ -62,7 +62,6 @@ class UserManager extends React.Component {
         this.setState({show:false, logout: true, socket:null})
         sessionStorage.clear()
         this.props.login(false)
-        //this.props.socket.disconnect()
     }
 
     userSelection = (event) => {

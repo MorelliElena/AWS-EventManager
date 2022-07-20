@@ -5,7 +5,9 @@ import {BsPencilSquare, BsPersonCircle} from "react-icons/bs";
 import "./Profile.css"
 import Alert from "../../alert/Alert";
 import Choice from "../../../common/Choice";
+import bcrypt from "bcryptjs";
 
+const salt = bcrypt.genSaltSync(10)
 let alertType = Choice.Alert
 
 class Profile extends React.Component{
@@ -51,7 +53,8 @@ class Profile extends React.Component{
                  this.state.user.surname,
                  this.state.user.birthday,
                  this.state.user.username,
-                 this.state.user.password,
+                 bcrypt.hashSync(this.state.user.password, salt),
+                 salt,
                  error => {this.setState(() =>({alertType: alertType.ERROR, message: error, hide: false}))},
                  success => {this.setState(() =>(
                      {alertType: alertType.SUCCESS, message: success, hide: false, readOnly:true}))})

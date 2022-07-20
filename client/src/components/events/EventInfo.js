@@ -71,8 +71,6 @@ class EventInfo extends React.Component {
                 e.date,
                 this.state.eventInfo.location,
                 participants,
-                e.n_participants,
-                this.state.eventInfo.tot_participants,
                 error =>{
                     this.setState({alertType:alertType.ERROR, message: error, hide: false})
                 },
@@ -191,7 +189,7 @@ class EventInfo extends React.Component {
                                                 this.state.eventInfo.status === "cancelled" ? null :
                                                 <PeopleCounter booking={this.state.eventInfo.booking}
                                                                handler={(e, participants) =>
-                                                                   this.bookingHandler(e, participants,)}/>
+                                                                   this.bookingHandler(e, participants)}/>
                                             }
                                     </section>
                                 </div>

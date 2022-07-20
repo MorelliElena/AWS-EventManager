@@ -6,6 +6,7 @@ import EventCreation from "./EventCreation";
 import Choice from "../../../common/Choice";
 import Api from "../../api/Api";
 import EditEvent from "./EditEvent";
+import Util from "../../../common/Util";
 
 
 class EventManager extends React.Component{
@@ -151,7 +152,10 @@ class EventManager extends React.Component{
                                         </Button>
                                     </div >
                                     <ul className="list-group overflow-auto">
-                                        { this.state.events.length !== 0 ? this.state.events.map(events =>
+                                        { this.state.events.length !== 0 ? this.state.events
+                                            .sort((a,b) => Util.mapUTC(b.date_start).diff(
+                                                Util.mapUTC(a.date_start)))
+                                            .map(events =>
                                             <li className="list-group-item d-flex justify-content-between
                                                 align-items-center" key={"tag" + events._id}>
                                                 <div>
@@ -167,12 +171,15 @@ class EventManager extends React.Component{
                                                         Stato:
                                                         {events.status === "on" ?
                                                             <span className="text-success"> attivo</span> :
-                                                            <span className="text-danger"> cancellato</span>
+                                                            events.status === "cancelled" ?
+                                                            <span className="text-danger"> cancellato</span>:
+                                                            <span className="text-secondary"> concluso</span>
                                                         }
 
                                                     </div>
                                                 </div>
-                                                {events.status === "on" ?
+                                                { events.status === "on" && Util.mapDateISO(events.date_finish) >=
+                                                    Util.getCurrentDate() ?
                                                     <div className="d-flex flex-column">
                                                         <div className="btn btn-primary mb-3"
                                                              onClick={() => this.editEvent(events)}>

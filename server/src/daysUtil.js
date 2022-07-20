@@ -1,4 +1,3 @@
-const moment = require('moment-timezone');
 
 const getDaysArray = function (start, end) {
     let arr = [];
@@ -19,7 +18,13 @@ const getCurrentDateAndTime = function () {
     return new Date()
 }
 
+getCurrentDate = function (date){
+    date.setHours(0,0,0,0)
+    return date
+}
+
 module.exports = {
     getDaysList,
-    getCurrentDateAndTime
+    getCurrentDateAndTime,
+    getCurrentDate
 }

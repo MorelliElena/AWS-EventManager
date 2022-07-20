@@ -4,6 +4,7 @@ import "./Header.css"
 import {Link} from "react-router-dom";
 import {Button, Dropdown} from "react-bootstrap";
 import Api from "../api/Api";
+import Util from "../../common/Util";
 
 let routes = require("../../components/routes/Routes")
 
@@ -116,7 +117,7 @@ class Header extends React.Component {
                                                     href={routes.eventFromId(e.eventId)}>
                                                     <h6>{e.name}</h6>
                                                     {e.msg}<br/>
-                                                    {Api.mapTimeZone(e.date)}
+                                                    {Util.mapTimeZone(e.date)}
                                                 </Dropdown.Item>
                                                 <BsXLg className="trash text-primary"
                                                        onClick={() => this.delete(e._id)} size={20}/>

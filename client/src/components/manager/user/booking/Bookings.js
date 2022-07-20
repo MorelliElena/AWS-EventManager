@@ -5,6 +5,7 @@ import "./Booking.css";
 import Alert from "../../../alert/Alert";
 import Choice from "../../../../common/Choice";
 import routes from "../../../routes/Routes";
+import Util from "../../../../common/Util";
 
 let alertType = Choice.Alert
 
@@ -64,7 +65,7 @@ class Bookings extends React.Component {
                                     <div>
                                         <div className="fw-bold">
                                             {booking.name} <br/>
-                                            {Api.mapDate(booking.date)}
+                                            {Util.mapDate(booking.date)}
                                         </div>
                                         <div>
                                             Numero posti prenotati: {booking.participants}<br/>

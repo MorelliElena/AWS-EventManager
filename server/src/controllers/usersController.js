@@ -1,5 +1,7 @@
+const bcrypt = require('bcryptjs');
 const mongoose = require("mongoose");
 Users = require("../models/userModel.js")(mongoose);
+Util = require("../daysUtil");
 
 exports.checkAuthentication = function(req, res) {
     let username = req.body.username
@@ -8,7 +10,7 @@ exports.checkAuthentication = function(req, res) {
             res.send(err);
         } else {
             if(user!== null) {
-                if (req.body.password === user.password) {
+                if (user.password === bcrypt.hashSync(req.body.password, user.salt)) {
                     res.json(user);
                 } else {
                     res.status(401).send({
@@ -48,7 +50,8 @@ exports.updateUserData = function(req, res) {
         "surname": req.body.surname,
         "birthday": req.body.birthday,
         "username": req.body.username,
-        "password": req.body.password
+        "password": req.body.password,
+        "salt": req.body.salt
         }, {useFindAndModify: false}, function (err) {
             if (err) {
                 res.send(err);
@@ -63,7 +66,6 @@ exports.updateUserData = function(req, res) {
 
 exports.updateUserBooking = function(req, res) {
     let userId = mongoose.Types.ObjectId(req.body.userId)
-
     Users.findById(userId, function (err, user){
             if(err){
                 res.send(err);
@@ -228,6 +230,7 @@ exports.registration = function (req, res) {
                     "_id": userId,
                     "username": req.body.email,
                     "password":req.body.password,
+                    "salt":req.body.salt,
                     "name": req.body.name,
                     "surname": req.body.surname,
                     "birthday":req.body.birthday,

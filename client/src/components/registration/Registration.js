@@ -6,8 +6,10 @@ import Choice from "../../common/Choice";
 import {Button, Form} from "react-bootstrap";
 import Api from "../api/Api";
 import Alert from "../alert/Alert";
+import bcrypt from 'bcryptjs'
 
 let alertType = Choice.Alert
+const salt = bcrypt.genSaltSync(10)
 
 class Registration extends React.Component {
     constructor(props) {
@@ -34,7 +36,7 @@ class Registration extends React.Component {
                     message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
             } else {
                 console.log(this.state.valueOf())
-                Api.addUser(this.state.email, this.state.password, this.state.birthday,
+                Api.addUser(this.state.email, bcrypt.hashSync(this.state.password, salt), salt, this.state.birthday,
                     this.state.name, this.state.surname, error => {
                         this.setState({hide:false, message:error, alertType:alertType.ERROR})
                     }, success =>{
