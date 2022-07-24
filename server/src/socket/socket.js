@@ -37,6 +37,7 @@ module.exports = function(app) {
         //let senderUsers = followers.map(follower => follower.id_user)
         let onlineSender = onlineUsers.map(user => user.userId)
        followers.forEach(user => {
+            notifyController.updateUserInterests(user, eventId, type)
             if(onlineSender.includes(user)){
                 let result = notifyController.createNotification(eventId, name, sender, user, type, true, msg)
                 let _id = result.notify_id
@@ -47,13 +48,12 @@ module.exports = function(app) {
                     date,
                     read:false,
                     msg,
+                    type,
                     _id},()=>  console.log("fatto"))
             } else {
                 notifyController.createNotification(eventId,name, sender, user, type, false, msg)
             }
-        }
-        )
-
+       })
     }
 
     io.on("connection", (socket) => {

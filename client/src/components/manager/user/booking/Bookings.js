@@ -20,10 +20,16 @@ class Bookings extends React.Component {
             hide: true
         }
         this.closeWindow = this.closeWindow.bind(this)
+        this._isMounted = true
     }
 
     componentDidMount() {
+        this._isMounted = true
 
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     deleteBooking = (bookingId, eventId, participants) => {
@@ -35,7 +41,8 @@ class Bookings extends React.Component {
             error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
             response =>{
                 this.setState({alertType:alertType.SUCCESS, message: response, hide: false})
-                this.setState({bookings: this.state.bookings.filter(e => e._id !== bookingId)})
+                let events = this.props.bookings.filter(e => e._id !== bookingId)
+                this.props.handler(events, true)
             })
     }
 
@@ -57,29 +64,37 @@ class Bookings extends React.Component {
                                                 type={this.state.alertType} message={this.state.message}/> : null}
                     <h4 className="text-center mt-3 mb-3">Prenotazioni</h4>
                     <ul className="list-group overflow-auto">
-                        { this.state.bookings.length !== 0 ? this.state.bookings.map(booking =>
-                            <li className="list-group-item d-flex justify-content-between align-items-center "
-                                key={"tag" + booking._id}>
-                                <a href={routes.eventFromId(booking.id_event)}
-                                   className="text-dark text-decoration-none">
-                                    <div>
-                                        <div className="fw-bold">
-                                            {booking.name} <br/>
-                                            {Util.mapDate(booking.date)}
-                                        </div>
+                        { this.props.bookings.length !== 0 ? this.props.bookings.map(booking =>
+                            <li className="list-group-item" key={"tag" + booking._id}>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <a href={routes.eventFromId(booking.id_event)}
+                                       className="text-dark text-decoration-none">
                                         <div>
-                                            Numero posti prenotati: {booking.participants}<br/>
-                                            Luogo:<br/>
-                                            {booking.location.address}, {booking.location.city}<br/>
-                                            {booking.location.province}
+                                            <div className="fw-bold">
+                                                {booking.name} <br/>
+                                                {Util.mapDate(booking.date)}
+                                            </div>
+                                            <div>
+                                                Numero posti prenotati: {booking.participants}<br/>
+                                                Luogo:<br/>
+                                                {booking.location.address}, {booking.location.city}<br/>
+                                                {booking.location.province}
+                                            </div>
                                         </div>
+                                    </a>
+                                    <div className="btn btn-danger" onClick={() =>
+                                        this.deleteBooking(booking._id, booking.id_event, booking.participants)}>
+                                        <BsFillTrashFill className="trash text-white" size={20}/>
                                     </div>
-                                </a>
-                                <div className="btn btn-danger" onClick={() =>
-                                    this.deleteBooking(booking._id, booking.id_event, booking.participants)}>
-                                    <BsFillTrashFill className="trash text-white" size={20}/>
                                 </div>
-
+                                {booking.status === "edited" ?
+                                    <footer className="text-center footer alert alert-warning">
+                                        L'evento è stato stato modificato.
+                                        Clicca sulle informazioni per verificare
+                                    </footer> : booking.status === "cancelled" ?
+                                        <footer className="text-center footer alert alert-danger">
+                                            L'evento è stato cancellato.
+                                        </footer> : null}
                             </li>
                         ): <div className="text-center"> Nessuna prenotazione presente </div>
                         }

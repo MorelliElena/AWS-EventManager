@@ -81,6 +81,7 @@ exports.updateUserBooking = function(req, res) {
                         "name": req.body.name,
                         "date":req.body.date,
                         "participants": req.body.participants,
+                        "status": "",
                         "location": {
                             "address": req.body.location.address,
                             "city": req.body.location.city,
@@ -150,6 +151,7 @@ exports.updateUserLike = function(req, res) {
                         "name": req.body.name,
                         "date_start": new Date(req.body.ds),
                         "date_finish":new Date(req.body.df),
+                        "status": "",
                         "location": {
                             "address": req.body.location.address,
                             "city": req.body.location.city,

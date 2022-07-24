@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 Notify = require("../models/notificationModel.js")(mongoose);
+Users = require("../models/userModel")(mongoose);
 Util = require("../daysUtil");
 
 createNotification = (eventId, name, senderId, receiverId, type, sent, msg ) => {
@@ -62,9 +63,27 @@ markNotifications = function (req,res) {
     });
 }
 
+updateUserInterests = (userId, eventId, type) =>{
+    console.log(userId + "----------------------" + eventId)
+    Users.findOneAndUpdate({"_id":userId, "likes.id_event": eventId}, {$set:{"likes.$.status": type}},
+        {useFindAndModify:false}, function (err) {
+            if (err) {
+                console.log(err)
+            }
+    });
+
+    Users.updateMany({"_id":userId, "bookings.id_event": eventId}, {$set:{"bookings.$[elem].status": type}},
+        { "arrayFilters": [{ "elem.id_event": eventId }],useFindAndModify:false, multi:true}, function (err) {
+            if (err) {
+                console.log(err)
+            }
+        });
+}
+
 module.exports = {
     createNotification,
     getNotifications,
     deleteNotifications,
-    markNotifications
+    markNotifications,
+    updateUserInterests
 }

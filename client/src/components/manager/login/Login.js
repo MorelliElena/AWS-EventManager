@@ -68,7 +68,7 @@ class Login extends React.Component{
                             {!this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                        type={this.state.alertType} message={this.state.message}/>
                                                 : null}
-                            <div className=" col-md-7 offset-md-3 d-flex flex-column">
+                            <div className="col-md-7 offset-md-3 d-flex flex-column">
                                 <Form className="mt-4 justify-content-center">
                                     <h1 className="text-center log"> Log in </h1>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">

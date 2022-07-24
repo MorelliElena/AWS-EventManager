@@ -14,7 +14,6 @@ class Likes extends React.Component {
         super(props);
         this.state = {
             userId : props.id,
-            likes : props.likes,
             alertType: Choice.Alert,
             message: undefined,
             hide:true
@@ -34,7 +33,8 @@ class Likes extends React.Component {
             error => this.setState({alertType:alertType.ERROR, message: error, hide: false}),
             response =>{
                 this.setState({alertType:alertType.SUCCESS, message: response, hide: false})
-                this.setState({likes: this.state.likes.filter(e => e._id !== likeId)})
+                let events = this.props.likes.filter(e => e._id !== likeId)
+                this.props.handler(events, false)
             })
     }
 
@@ -56,26 +56,36 @@ class Likes extends React.Component {
                 <div>
                     <h4 className="text-center mt-3 mb-3">Eventi d'interesse</h4>
                     <ul className="list-group overflow-auto">
-                        {this.state.likes.length !== 0 ? this.state.likes.map(likes =>
-                            <li className="list-group-item d-flex justify-content-between align-items-center"
-                                key={"tag" + likes._id}>
-                                <a href={routes.eventFromId(likes.id_event)}
-                                   className="text-dark text-decoration-none">
-                                    <div>
-                                        <div className="fw-bold">
-                                            {likes.name}
-                                        </div>
+                        {this.props.likes.length !== 0 ? this.props.likes.map(likes =>
+                            <li className="list-group-item"  key={"tag" + likes._id}>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <a href={routes.eventFromId(likes.id_event)}
+                                       className="text-dark text-decoration-none">
                                         <div>
-                                            {Util.mapDate(likes.date_start)} - {Util.mapDate(likes.date_finish)}<br/>
-                                            {likes.location.address}<br/>
-                                            {likes.location.city}<br/>
-                                            {likes.location.province}
+                                            <div className="fw-bold">
+                                                {likes.name}
+                                            </div>
+                                            <div>
+                                                {Util.mapDate(likes.date_start)} - {Util.mapDate(likes.date_finish)}<br/>
+                                                {likes.location.address}<br/>
+                                                {likes.location.city}<br/>
+                                                {likes.location.province}
+                                            </div>
                                         </div>
+                                    </a>
+                                    <div className="btn btn-danger"
+                                         onClick={() => this.deleteLike(likes._id, likes.id_event)}>
+                                        <BsFillTrashFill className="text-white trash" size={20}/>
                                     </div>
-                                </a>
-                                <div className="btn btn-danger" onClick={() => this.deleteLike(likes._id, likes.id_event)}>
-                                    <BsFillTrashFill className="text-white trash" size={20}/>
                                 </div>
+                                {likes.status === "edited" ?
+                                    <footer className="text-center footer alert alert-warning">
+                                        L'evento è stato stato modificato.
+                                        Clicca sulle informazioni per verificare
+                                    </footer> : likes.status === "cancelled" ?
+                                        <footer className="text-center footer alert alert-danger">
+                                            L'evento è stato cancellato.
+                                        </footer> : null}
                             </li>
                         ): <div className="text-center"> Nessun evento d'interesse presente </div>
                         }

@@ -1,6 +1,5 @@
 import Axios from "axios";
 import Util from "../../common/Util";
-const moment = require('moment');
 
 let mapTag = (tag) =>{
     return{
@@ -64,7 +63,8 @@ let mapNotification = (notification) => {
        eventId: notification.event.eventId,
        read: notification.read,
        name: notification.event.name,
-       msg: notification.msg
+       msg: notification.msg,
+       type: notification.type
     }
 }
 

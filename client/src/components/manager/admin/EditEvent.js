@@ -109,7 +109,7 @@ class EditEvent extends React.Component{
                                       defaultValue={this.state.event.name}
                                       name="name"
                                       onChange={e => this.handleChange(e)}
-                                      readOnly={this.state.readOnly}/>
+                                      readOnly={!this.state.readOnly}/>
 
                         <Form.Label className="my-2">Descrizione</Form.Label>
                         <Form.Control type="text"
@@ -132,7 +132,7 @@ class EditEvent extends React.Component{
                                       placeholder="gg/mm/aaaa"
                                       name="date_finish"
                                       readOnly={!this.state.readOnly}/>
-
+                        {/*modificare data fine allungando*/}
                         <Form.Label className="my-2">Località</Form.Label>
                         <Form.Control className="selection"
                                       name="province"

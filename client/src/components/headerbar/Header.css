@@ -13,6 +13,13 @@
     box-shadow: none !important;
 }
 
+.btn-header {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
 .menu{
     width: 400px !important;
     max-height: 600px !important ;

@@ -24,10 +24,11 @@ class Home extends Component {
         this.filterHandler = this.filterHandler.bind(this)
         this.locHandler = this.locHandler.bind(this)
         this.searchHandler = this.searchHandler.bind(this)
+        this._isMounted = true;
     }
 
     filterHandler(event){
-        if (event != null) {
+        if (event != null && this._isMounted) {
             this.setState({filter: true});
             filteredTags = event.map(t => this.state.tags.find(el => el._id === t)).map(e => e.name)
             console.log(filteredTags);
@@ -37,7 +38,7 @@ class Home extends Component {
     }
 
     locHandler(event){
-        if (event != null) {
+        if (event != null && this._isMounted) {
             if(event !== "Tutte le province"){
                this.setState({loc:true})
                locFilter = event
@@ -48,7 +49,7 @@ class Home extends Component {
     }
 
     searchHandler(event) {
-        if(event !== ""){
+        if(event !== "" && this._isMounted){
            this.setState({search:true})
             searchString = event
         } else {
@@ -62,7 +63,7 @@ class Home extends Component {
                 console.log(error)
                 //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
             }, events => {
-                this.setState({events:events})
+                if(this._isMounted) this.setState({events:events})
             }
         )
 
@@ -71,9 +72,14 @@ class Home extends Component {
                 console.log(error)
                 //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
             }, tags => {
-                this.setState({tags:tags})
+                if(this._isMounted) this.setState({tags:tags})
             }
         )
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     renderEvents = () => {

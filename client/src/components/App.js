@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './home/Home.js';
 import EventInfo from './events/EventInfo'
-import Notification from "./notification/Notification";
 import Login from "./manager/login/Login";
 import Bookings from "./manager/user/booking/Bookings";
 import Likes from "./manager/user/likes/Likes";
@@ -14,8 +13,8 @@ import {io} from "socket.io-client";
 let routes = require("./routes/Routes")
 
 class App extends Component {
-        constructor() {
-            super();
+        constructor(props) {
+            super(props);
             this.state = {
                 socket : null,
                 logged : false
@@ -61,8 +60,7 @@ class App extends Component {
                         <Route exact path = {routes.home} component = {Home} />
                         <Route path = {routes.event} exact render = {
                             (props) => <EventInfo {...props}/>} />
-                        <Route path = {routes.notification} component = {Notification}/>
-                        <Route path = {routes.manager} render = {() =>
+                        <Route path = {routes.manager} exact render = {() =>
                             <UserManager socket ={this.state.socket} login={this.login}/>} />
                         <Route path = {routes.login } component = {Login} />
                         <Route path = {routes.booking} component = {Bookings} />

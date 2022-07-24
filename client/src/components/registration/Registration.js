@@ -66,7 +66,7 @@ class Registration extends React.Component {
                                                         : null}
 
                             {this.state.redirection && this.state.hide ? <Redirect to={routes.login} /> : null}
-                            <div className=" col-md-7 offset-md-3 d-flex flex-column">
+                            <div className="ps-1 gitcol-md-7 offset-md-3 d-flex flex-column">
                                 <Form className="mt-4 justify-content-center">
                                     <h1 className="text-center mb-4 log"> Registrazione </h1>
 

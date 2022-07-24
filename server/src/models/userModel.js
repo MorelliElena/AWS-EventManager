@@ -13,6 +13,7 @@ module.exports = function(mongoose) {
            name: String,
            date: Date,
            participants: Number,
+           status: String,
            location: {
                address: String,
                city: String,
@@ -24,6 +25,7 @@ module.exports = function(mongoose) {
             name: String,
             date_start: Date,
             date_finish: Date,
+            status: String,
             location: {
                 address: String,
                 city: String,
@@ -31,5 +33,5 @@ module.exports = function(mongoose) {
             }
         }]
     });
-    return mongoose.model('usermodel', userSchema, 'users');
+    return mongoose.models['usermodel'] || mongoose.model('usermodel', userSchema, 'users');
 };
