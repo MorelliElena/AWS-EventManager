@@ -57,21 +57,28 @@ class EventCreation extends React.Component{
         const df = moment(this.state.date_finish, "DD/MM/YYYY", true).isValid();
         if(this.state.title && this.state.desc && ds && df && this.state.province && this.state.city
             && this.state.address && this.state.capacity!==0 && this.state.event_tags.length!==0){
-            Api.createEvent(this.state.title, this.state.desc, this.state.date_start, this.state.date_finish,
-                this.state.link, this.state.address,this.state.city, this.state.province,
-                this.state.event_tags, this.state.capacity, sessionStorage.getItem("token"),
-                    error =>{
+            if(Util.mapDateISO(this.state.date_start) >= Util.getCurrentDate() &&
+                Util.mapDateISO(this.state.date_finish) >= Util.mapDateISO(this.state.date_start)) {
+                Api.createEvent(this.state.title, this.state.desc, this.state.date_start, this.state.date_finish,
+                    this.state.link, this.state.address, this.state.city, this.state.province,
+                    this.state.event_tags, this.state.capacity, sessionStorage.getItem("token"),
+                    error => {
                         this.props.handler2(error, false, alertType.ERROR, false)
-                }, success =>{
-                    console.log(success.id)
-                    const ev = Util.mapEvent(this.state.title, this.state.date_start, this.state.date_finish,
-                        this.state.address, this.state.city,this.state.province, success.id)
-                    this.setState({title: "", desc: "", date_start: "",
-                        date_finish: "", link: "", address: "", city: "",
-                        province: "", event_tags:[], capacity:0}, () =>
-                        this.props.handler2(success.description, false, alertType.SUCCESS, false, ev))
-                })
-        } else{
+                    }, success => {
+                        console.log(success.id)
+                        const ev = Util.mapEvent(this.state.title, this.state.date_start, this.state.date_finish,
+                            this.state.address, this.state.city, this.state.province, success.id)
+                        this.setState({
+                            title: "", desc: "", date_start: "",
+                            date_finish: "", link: "", address: "", city: "",
+                            province: "", event_tags: [], capacity: 0
+                        }, () =>
+                            this.props.handler2(success.description, false, alertType.SUCCESS, false, ev))
+                    })
+            } else{
+                this.props.handler2("Le date non risultano essere valide", false, alertType.ERROR, true)
+            }
+        } else {
             this.props.handler2("Alcuni campi risultano vuoti o non validi", false, alertType.ERROR, true)
         }
     }

@@ -90,7 +90,7 @@ let managePromise = (promise, httpSuccessfulCodes, onError, onSuccess) => {
 let getEventInformation = (eventId, onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/events/`+ eventId),
         [200],
-        onError,
+        error => onError(error.response.data.description),
         response => onSuccess(mapEvent(response.data)))
 }
 

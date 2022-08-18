@@ -35,6 +35,7 @@ class EventInfo extends React.Component {
             this.setState({alertType:alertType.INFO,
                 message: "Alcune funzioni risultano non essere attive in modalità amministratore ", hide: false})
         }
+
         Api.getEventInformation(
             this.state.idEvent,
             error => {
@@ -47,6 +48,7 @@ class EventInfo extends React.Component {
                 counter: Array(event.booking.length).fill(0)})
             }
         )
+
         if (sessionStorage.getItem("token")) {
             Api.getIfEventIsLiked(sessionStorage.getItem("token"), this.state.idEvent,
                 () => console.log(),

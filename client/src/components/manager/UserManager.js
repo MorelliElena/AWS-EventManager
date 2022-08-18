@@ -54,15 +54,13 @@ class UserManager extends React.Component {
             this.props.login(true)
         }
 
-        if(this.props.socket !== prevProps.socket) {
-            this.props.socket.on("sendNotification", data => {
-                if(this._isMounted) {
-                    console.log(data)
-                    this.update(data)
-                }
-            })
-        }
-
+        this.props.socket.on("sendNotification", data => {
+            if(this._isMounted) {
+                console.log("entra")
+                console.log(data)
+                this.update(data)
+            }
+        })
     }
 
     update = (data) => {

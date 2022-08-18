@@ -12,6 +12,7 @@ let mapEvent = (name, date_start, date_finish, add, city, prov, id) => {
             "city": city,
             "province": prov
         },
+        "status": "on"
     }
 
 }

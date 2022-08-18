@@ -46,12 +46,17 @@ class EditEvent extends React.Component{
             Object.values(this.state.event.location).filter(e => e === "").length > 0 ||
             !this.state.event.tags.length > 0) {
             this.props.handler2("Uno o più campi risultano essere vuoti", false, alertType.ERROR)
-        } else {
-            Api.updateEvent(this.state.event._id, this.state.event.name, this.state.event.description,
-                this.state.event.img, this.state.event.location.address, this.state.event.location.city,
-                this.state.event.location.province, this.state.event.tags, this.state.event.daily_capacity,
-                error => this.props.handler2(error, false, alertType.ERROR),
-                success => this.props.handler2(success, false, alertType.SUCCESS, null, this.state.event, true))
+        } else if( this.state.event.daily_capacity < this.props.edit.daily_capacity){
+            this.props.handler2("La massima capacità deve essere maggiore o uguale al valore di partenza",
+                false, alertType.ERROR)
+        }else{
+            if(this.props.edit !== this.state.event) {
+                Api.updateEvent(this.state.event._id, this.state.event.name, this.state.event.description,
+                    this.state.event.img, this.state.event.location.address, this.state.event.location.city,
+                    this.state.event.location.province, this.state.event.tags, this.state.event.daily_capacity,
+                    error => this.props.handler2(error, false, alertType.ERROR),
+                    success => this.props.handler2(success, false, alertType.SUCCESS, null, this.state.event, true))
+            }
         }
     }
 

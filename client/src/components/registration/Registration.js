@@ -3,6 +3,7 @@ import {Redirect} from "react-router-dom";
 import routes from "../routes/Routes";
 import Sidebar from "../sidebar/Sidebar";
 import Choice from "../../common/Choice";
+import Util from "../../common/Util";
 import {Button, Form} from "react-bootstrap";
 import Api from "../api/Api";
 import Alert from "../alert/Alert";
@@ -34,7 +35,10 @@ class Registration extends React.Component {
             if(this.state.password.length < 8){
                 this.setState({hide:false,
                     message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
-            } else {
+            } else if(Util.mapDateISO(this.state.birthday) >= Util.getCurrentDate()){
+                this.setState({hide:false,
+                    message:"La data inserita non è valida", alertType:alertType.ERROR})
+            }else{
                 console.log(this.state.valueOf())
                 Api.addUser(this.state.email, bcrypt.hashSync(this.state.password, salt), salt, this.state.birthday,
                     this.state.name, this.state.surname, error => {
@@ -66,7 +70,7 @@ class Registration extends React.Component {
                                                         : null}
 
                             {this.state.redirection && this.state.hide ? <Redirect to={routes.login} /> : null}
-                            <div className="ps-1 gitcol-md-7 offset-md-3 d-flex flex-column">
+                            <div className="ps-1 col-md-7 offset-md-3 d-flex flex-column">
                                 <Form className="mt-4 justify-content-center">
                                     <h1 className="text-center mb-4 log"> Registrazione </h1>
 

@@ -39,6 +39,10 @@ class EventManager extends React.Component{
                   },
                   success => {
                       console.log(success)
+                      this.setState(prevState => ({
+                          events: prevState.events
+                              .map(el => (el._id === event._id ? {...el, status: "cancelled"} : el)),
+                      }))
                       this.props.socket.emit("notification", {
                           sender: sessionStorage.getItem("token"),
                           eventId: event._id,

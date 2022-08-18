@@ -43,7 +43,7 @@ function updateFollower(req, update) {
         }
 
         Events.findOneAndUpdate({_id: req.body.eventId, "followers.id_user": req.body.userId},
-            {$inc: {"followers.$.book": 1}},
+            {$inc: {"followers.$.book": +1}},
             {useFindAndModify: false}, function (err, res) {
                 if (err) {
                     console.log(err)
@@ -87,7 +87,7 @@ exports.updateParticipants = function (req, res) {
                     Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
                         {
                             $inc: {
-                                "booking.$.n_participants": req.body.participants,
+                                "booking.$.n_participants": +req.body.participants,
                                 tot_participants: +req.body.participants
                             }
                         },
@@ -226,28 +226,39 @@ exports.cancelEvent = function (req, res) {
 exports.updateEvent = function (req, res) {
     console.log(req.body)
     let id = mongoose.Types.ObjectId(req.body.eventId)
-    Events.findByIdAndUpdate(id, {
-        "name": req.body.title,
-        "desc":req.body.desc,
-        "location": {
-            "address": req.body.address,
-            "city": req.body.city,
-            "province": req.body.province
-        },
-        "img":req.body.img,
-        "tag": req.body.tag,
-        "max_capacity_daily": req.body.capacity
-    },{useFindAndModify: false}, function (err) {
-        if (err)
-            res.send({
-                description: 'Evento non aggiornato. Riprova più tardi',
-            });
-        else {
-            res.status(200).send({
-                description: 'Evento aggiornato correttamente',
+
+    Events.findById(id, {}, function (err, event) {
+        if (!err) {
+            event.booking.forEach(e => {
+                e.max_participants = req.body.capacity
             })
+            Events.findByIdAndUpdate(id, {
+                "name": req.body.title,
+                "desc":req.body.desc,
+                "location": {
+                    "address": req.body.address,
+                    "city": req.body.city,
+                    "province": req.body.province
+                },
+                "booking":event.booking,
+                "img":req.body.img,
+                "tag": req.body.tag,
+                "max_capacity_daily": req.body.capacity
+            },{useFindAndModify: false}, function (err) {
+                if (err)
+                    res.send({
+                        description: 'Evento non aggiornato. Riprova più tardi',
+                    });
+                else {
+                    res.status(200).send({
+                        description: 'Evento aggiornato correttamente',
+                    })
+                }
+            });
         }
     });
+
+
 }
 
 exports.getFollowers = function (req, res) {
