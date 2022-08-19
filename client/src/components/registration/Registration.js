@@ -35,7 +35,7 @@ class Registration extends React.Component {
             if(this.state.password.length < 8){
                 this.setState({hide:false,
                     message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
-            } else if(Util.mapDateISO(this.state.birthday) >= Util.getCurrentDate()){
+            } else if(Util.mapDateISO(this.state.birthday) <= Util.getCurrentDate()){
                 this.setState({hide:false,
                     message:"La data inserita non è valida", alertType:alertType.ERROR})
             }else{
