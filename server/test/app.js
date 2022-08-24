@@ -16,18 +16,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const routes = require('./src/routes/routes');
+const routes = require('../src/routes/routes');
 routes(app);
 
-const serverSocket = require('./src/socket/socket');
-serverSocket(app);
-
-app.use(function(req, res) {
-    res.status(404).send({url: req.originalUrl + ' not found'})
-});
-
-app.listen(PORT, function () {
-    console.log('Node API server started on port '+PORT);
-});
-
-
+module.exports = app;

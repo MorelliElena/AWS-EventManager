@@ -1,0 +1,29 @@
+@media only screen and (max-width: 430px) {
+    select.selection {
+        font-size: 14px;
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+
+    li.list-group-item {
+        font-size: 14px;
+    }
+
+    div.btn.btn-danger, div.btn.btn-primary{
+        width: 30px;
+        height: 30px;
+        margin-right: 4px;
+        padding: 3px 2px 3px 2px;
+    }
+
+    .add-btn {
+        width: 48px;
+        height: 40px;
+        text-align: center;
+    }
+
+    .add {
+        width: 22px ;
+        height: 22px ;
+    }
+}

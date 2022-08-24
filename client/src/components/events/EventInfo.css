@@ -1,0 +1,49 @@
+.frame {
+    align-content: center;
+}
+
+.sidebar{
+    background-color: #0044c9
+}
+
+.size {
+    max-height: 600px;
+    max-width: 600px;
+}
+
+.book{
+    padding-right: 40px !important;
+    padding-left: 40px !important;
+}
+
+@media only screen and (max-width: 430px) {
+    .card-text {
+        font-size: 14px;
+    }
+
+    h5.card-title {
+        font-size: 18px;
+    }
+
+    a.btn.btn-primary {
+        font-size: 14px;
+    }
+
+    li.list-group-item {
+        width: 100%;
+        padding-right: 1px !important;
+        padding-left: 2px !important;
+    }
+
+    .star {
+        width: 25px;
+        height: 25px;
+    }
+
+}
+@media only screen and (max-width: 800px) {
+    .book{
+        padding-right: 2px !important;
+        padding-left: 2px !important;
+    }
+}

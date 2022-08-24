@@ -1,0 +1,108 @@
+ .side-bar {
+    background-color: #0044c9;
+}
+ 
+ .desc {
+    position: relative;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+ h1 {
+     font-size: 35px !important;
+ }
+
+ .form-group {
+    margin-top: 10px;
+}
+
+ .dropdown-menu.show {
+    text-align: center;
+    width: 100%;
+}
+
+ a.dropdown-item {
+     padding-left: 0;
+     padding-right: 0;
+ }
+
+ .f-title {
+     text-decoration: underline;
+ }
+
+ .btn-group-vertical {
+     width: 100%;
+ }
+
+ .profile-menu {
+     margin-bottom: 3px;
+ }
+
+ div.btn.btn-light{
+     font-weight: bold;
+ }
+
+ .btnClear {
+     background-color: white !important;
+     outline-color: transparent !important;
+ }
+
+ #input-group-dropdown.dropdown-toggle.btn {
+     border-color: white !important;
+ }
+
+ @media only screen and (max-width: 1025px) {
+     h1 {
+         font-size: 24px !important;
+     }
+
+     h5 {
+        font-size: 16px !important;
+     }
+
+ }
+
+ @media only screen and (max-width: 430px) {
+    h1 {
+        font-size: 22px !important;
+    }
+
+    label.form-check-label {
+        font-size: 14px;
+    }
+
+    .dropdown-menu.show {
+        font-size: 14px;
+        min-width:inherit;
+    }
+
+    input.form-control{
+        font-size: 14px;
+    }
+
+    .search {
+        height: 17px;
+        width: 17px;
+    }
+
+    .desc {
+        font-size: 16px;
+    }
+
+    button#input-group-dropdown {
+        font-size: 14px;
+    }
+
+    label{
+        font-size: 14px;
+    }
+
+    .filter {
+      font-size: 14px;
+    }
+}
+
+
+
+
+
