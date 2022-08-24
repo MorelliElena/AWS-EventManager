@@ -18,7 +18,7 @@ class EventInfo extends React.Component {
         super(props)
         this.state = {
             idEvent: props.match.params.id,
-            eventInfo: undefined,
+            eventInfo: null,
             showDefaultMessage: false,
             redirection: false,
             alertType: Choice.Alert,
@@ -39,9 +39,7 @@ class EventInfo extends React.Component {
         Api.getEventInformation(
             this.state.idEvent,
             error => {
-                console.log(error)
-                this.setState({showDefaultMessage: true})
-                //this.onError("Errore nel caricare le informazioni dell'evento. Ricaricare la pagina.")
+                this.setState({alertType:alertType.ERROR, message: error, hide: false})
             },
             event => {
                 this.setState({eventInfo:event,
@@ -138,7 +136,7 @@ class EventInfo extends React.Component {
                     <div className="col ps-1 pe-1 pt-1 overflow-auto">
                         { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                     type={this.state.alertType} message={this.state.message}/> : null}
-                        { !this.state.showDefaultMessage && !this.state.eventInfo ?
+                        { !this.state.eventInfo ?
                             <div className="text-center h-100">
                                 <Spinner/>
                             </div> :

@@ -26,32 +26,30 @@ class App extends Component {
             this.setState({socket : io("http://localhost:5005")})
         }
 
-        login = (state) =>{
-            if(state) {
-                if (sessionStorage.getItem("token")) {
-                    if (!this.state.socket.id) {
-                        this.state.socket.connect(io("http://localhost:5005"), {'forceNew': true})
-                    }
-                    this.state.socket.emit("newUser", sessionStorage.getItem("token"))
-                    if(!this.state.logged) this.setState({logged:true})
-                } else {
-                    if(this.state.logged) this.setState({logged:false})
-                    this.state.socket.disconnect()
+        session = () =>{
+            if (sessionStorage.getItem("token")) {
+                if (!this.state.socket.id) {
+                    this.state.socket.connect(io("http://localhost:5005"), {'forceNew': true})
                 }
+                this.state.socket.emit("newUser", sessionStorage.getItem("token"))
+                if(!this.state.logged) this.setState({logged:true})
+            } else {
+                if(this.state.logged) this.setState({logged:false})
+                this.state.socket.disconnect()
             }
+
         }
 
         componentDidUpdate(prevProps, prevState, snapshot) {
             if(this.state.socket !== prevState.socket) {
-                this.login(true)
+                this.session()
             }
-
         }
 
     render() {
         return (
             <Router>
-            <div className="container-fluid d-flex flex-column min-vh-100">
+            <div className="container-fluid d-flex flex-column min-vh-100 w-auto">
                 <div className="row">
                     <Header socket = {this.state.socket} logged={this.state.logged}/>
                 </div>
@@ -61,7 +59,7 @@ class App extends Component {
                         <Route path = {routes.event} exact render = {
                             (props) => <EventInfo {...props}/>} />
                         <Route path = {routes.manager} exact render = {() =>
-                            <UserManager socket ={this.state.socket} login={this.login}/>} />
+                            <UserManager socket ={this.state.socket} session={this.session}/>} />
                         <Route path = {routes.login } component = {Login} />
                         <Route path = {routes.booking} component = {Bookings} />
                         <Route path = {routes.likes} component = {Likes} />

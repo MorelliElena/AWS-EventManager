@@ -51,7 +51,7 @@ class UserManager extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this._isMounted !== prevState._isMounted ){
-            this.props.login(true)
+            this.props.session()
         }
 
         this.props.socket.on("sendNotification", data => {
@@ -64,7 +64,6 @@ class UserManager extends React.Component {
     }
 
     update = (data) => {
-        console.log(data)
         this.setState(prevState => ({
             user: {
                 ...prevState.user,
@@ -109,7 +108,7 @@ class UserManager extends React.Component {
     logOut = () => {
         this.setState({show:false, logout: true, socket:null})
         sessionStorage.clear()
-        this.props.login(false)
+        this.props.session()
     }
 
     userSelection = (event) => {

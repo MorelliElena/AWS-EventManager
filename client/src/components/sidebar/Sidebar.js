@@ -3,7 +3,7 @@ import {Button, Dropdown, DropdownButton, FormControl} from "react-bootstrap";
 import Api from "../api/Api";
 import update from 'react-addons-update';
 import "./Sidebar.css"
-import {BsSearch} from "react-icons/bs";
+import {BsSearch,BsXCircle} from "react-icons/bs";
 import Choice from "../../common/Choice";
 
 class Sidebar extends React.Component{
@@ -17,7 +17,9 @@ class Sidebar extends React.Component{
             show: props.state,
             search: "",
             selected: "Tutte le province",
-            logout: false
+            logout: false,
+            clear:false,
+            cBClear: false
         }
         this._isMounted = true
     }
@@ -61,12 +63,30 @@ class Sidebar extends React.Component{
        this.setState({selected:event})
     }
 
-    handleSearch = () => {
-        this.props.handler2(this.state.search)
+    handleSearch = (search) => {
+        if (search && this.state.search !== "") {
+            this.props.handler2(this.state.search)
+            this.setState({clear:true})
+        } else {
+            this.props.handler2("")
+            this.setState({search:"", clear: false})
+        }
     }
 
     logout = () => {
         this.setState({logout: true})
+    }
+
+    handleCheckBoxFilter = (check) => {
+        if(check) {
+            this.props.handler(this.state.checked)
+            this.setState({cBClear: true})
+        } else {
+            document.querySelectorAll('input[type=checkbox]')
+                .forEach( el => el.checked = false )
+            this.setState({cBClear: false, checked:[]})
+            this.props.handler([])
+        }
     }
 
     render() {
@@ -76,20 +96,28 @@ class Sidebar extends React.Component{
             return (
                 <div className="nav flex-column flex-nowrap text-white p-2">
                     <h1 className="text-center"> Event Hub</h1>
-                    <h4 className="desc">
-                        Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h4>
+                    <h5 className="desc">
+                        Per rimanere sempre aggiornato su tutti gli eventi della regione Emilia-Romagna</h5>
                     {this.state.show === Choice.SidebarChoice.HOME ?
                         <div>
                             <div className="input-group input mb-3" >
+
                                 <input type="text" className="form-control px-1"
+                                    value={this.state.search}
                                     onChange= {e => this.setState({search: e.target.value})}
-                                    aria-label="Recipient's username"
+                                    aria-label="search-bar"
                                     aria-describedby="inputGroup-sizing-sm"
                                 />
-                                <button className={"btn btn-md btn-primary py-1 px-2"}
-                                        onClick={this.handleSearch}>
+                                {this.state.clear ?
+                                <Button className="btnClear btn btn-md btn-light py-1 px-2"
+                                        onClick={() => this.handleSearch(false)}>
+                                    <BsXCircle className="search text-secondary" size={20}/>
+                                </Button> : null}
+
+                                <Button className="border-light btn btn-md btn-primary py-1 px-2"
+                                        onClick={() => this.handleSearch(true)}>
                                     <BsSearch className="search text-white" size={20}/>
-                                </button>
+                                </Button>
                             </div>
                             <div>
                                 <div>
@@ -126,8 +154,11 @@ class Sidebar extends React.Component{
                                 </div>
                             </div>
                             <div className="d-grid gap-2">
-                                <Button className="btn btn-primary btn-block mt-2"
-                                    onClick={() => this.props.handler(this.state.checked)}> Filtra </Button>
+                                <Button className="border-light btn btn-primary btn-block mt-2"
+                                    onClick={() => this.handleCheckBoxFilter(true) }> Filtra </Button>
+                                {this.state.cBClear ? <Button className="border-light btn btn-danger btn-block"
+                                    onClick={() => this.handleCheckBoxFilter(false)}
+                                    hidden={this.state.readOnly}> Rimuovi filtri</Button> : null}
                             </div>
                         </div>
                         :  this.state.show === Choice.SidebarChoice.PROFILE ?
