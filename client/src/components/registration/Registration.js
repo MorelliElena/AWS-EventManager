@@ -44,7 +44,9 @@ class Registration extends React.Component {
                     this.state.name, this.state.surname, error => {
                         this.setState({hide:false, message:error, alertType:alertType.ERROR})
                     }, success =>{
-                        this.setState({hide:false, message:success, alertType:alertType.SUCCESS, redirection:true})
+                        this.setState({hide:false, message:success +
+                                ". Chiudi il banner per tornare alla schermata di login.",
+                            alertType:alertType.SUCCESS, redirection:true})
                     })
             }
         } else {
