@@ -81,8 +81,6 @@ exports.updateParticipants = function (req, res) {
                     description: 'Prenotazione fallita. Riprova più tardi'
                 });
             } else {
-                console.log(req.body)
-                console.log(book)
                 if (book.booking[0].n_participants + req.body.participants <= book.booking[0].max_participants) {
                     Events.findOneAndUpdate({_id: req.body.eventId, "booking._id": req.body.bookingId},
                         {
@@ -224,7 +222,6 @@ exports.cancelEvent = function (req, res) {
 }
 
 exports.updateEvent = function (req, res) {
-    console.log(req.body)
     let id = mongoose.Types.ObjectId(req.body.eventId)
 
     Events.findById(id, {}, function (err, event) {
@@ -262,7 +259,6 @@ exports.updateEvent = function (req, res) {
 }
 
 exports.getFollowers = function (req, res) {
-    console.log(req.params)
     Events.findById(req.params.id, function (err, event) {
         if (err)
             res.send(err);

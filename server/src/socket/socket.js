@@ -15,7 +15,6 @@ module.exports = function(app) {
     });
 
     const addNewUser = (userId, socketId) => {
-        console.log(onlineUsers.some(user => user.userId === userId))
         if(!onlineUsers.some(user => user.userId === userId)){
             onlineUsers.push({userId, socketId})
             console.log(socketId)
@@ -49,7 +48,7 @@ module.exports = function(app) {
                     read:false,
                     msg,
                     type,
-                    _id},()=>  console.log("fatto"))
+                    _id})
             } else {
                 notifyController.createNotification(eventId,name, sender, user, type, false, msg)
             }
