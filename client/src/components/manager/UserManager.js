@@ -21,7 +21,8 @@ class UserManager extends React.Component {
             logout: false,
             user: null,
             events:[],
-            notify: false
+            notify: false,
+            error: false
         }
         this._isMounted = true
         this.userSelection = this.userSelection.bind(this)
@@ -35,14 +36,16 @@ class UserManager extends React.Component {
     componentDidMount() {
         if(sessionStorage.getItem("token")){
             Api.getProfileData(sessionStorage.getItem("token"),
-                error => console.log(error),
+                error => {console.log(error)
+                    this.setState({error: true})},
                 user => this.setState({user: user}))
 
         }
 
         if(sessionStorage.getItem("admin")){
             Api.getOwnerEvents(sessionStorage.getItem("token"),
-                error => console.log(error),
+                error => {console.log(error)
+                    this.setState({error: true})},
                 events => this.setState({events:events}))
         }
 
@@ -56,7 +59,6 @@ class UserManager extends React.Component {
 
         this.props.socket.on("sendNotification", data => {
             if(this._isMounted) {
-                console.log("entra")
                 console.log(data)
                 this.update(data)
             }
@@ -126,7 +128,7 @@ class UserManager extends React.Component {
         const user = sessionStorage.getItem("token")
         switch(param) {
             case Choice.UserComponents.PROFILE:
-                return <Profile user={this.state.user} handler={this.userUpdate}/>;
+                return <Profile error = {this.state.error} user={this.state.user} handler={this.userUpdate}/>;
             case Choice.UserComponents.LIKES:
                 return <Likes id={user} likes={this.state.user.likes} handler={this.userInterestsUpdate}/>;
             case Choice.UserComponents.BOOKING:
@@ -136,7 +138,7 @@ class UserManager extends React.Component {
                 return <EventManager socket = {this.props.socket} events={this.state.events}
                                      update={this.eventsUpdate}/>;
             default:
-                return <Profile user={this.state.user} handler={this.userUpdate}/>;
+                return <Profile error = {this.state.error} user={this.state.user} handler={this.userUpdate}/>;
         }
     }
 
@@ -154,7 +156,9 @@ class UserManager extends React.Component {
                                 }
                             </div>
                             <div className="col ps-1 pe-1 pt-1 overflow-auto" id="main">
-                                {!sessionStorage.getItem("token") ?
+                                {   this.state.error ? <div className="alert alert-danger">
+                                        Errore di caricamento. Riprova più tardi </div> :
+                                    !sessionStorage.getItem("token") ?
                                     <Redirect to={routes.login}/> :
                                     !this.state.user ? <div className="h-100"><Spinner/></div> :
                                     this.renderSwitch(this.state.selection)

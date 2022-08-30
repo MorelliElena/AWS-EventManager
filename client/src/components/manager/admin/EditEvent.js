@@ -17,22 +17,26 @@ class EditEvent extends React.Component{
             event : props.edit,
             tags: [],
             places:[],
+            error: false
         }
     }
 
 
     componentDidMount() {
         Api.getTags(
-            error => {
-                console.log(error)
-                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+            error => {console.log(error)
+                this.props.handler2("Funzionalità non disponibile. Riprova più tardi", false, alertType.ERROR)
+                this.props.handler1()
             }, tags => {
                 this.setState({tags:tags})
             }
         )
 
         Api.getPlaces(
-            error => console.log(error),
+            error => {console.log(error)
+                this.props.handler2("Funzionalità non disponibile. Riprova più tardi", false, alertType.ERROR)
+                this.props.handler1()
+            },
             places => this.setState({places:places})
         )
     }

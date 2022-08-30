@@ -24,7 +24,8 @@ class EventInfo extends React.Component {
             alertType: Choice.Alert,
             message: undefined,
             hide: true,
-            like: false
+            like: false,
+            error: false
         }
         this.bookingHandler = this.bookingHandler.bind(this)
         this.closeWindow = this.closeWindow.bind(this)
@@ -39,7 +40,7 @@ class EventInfo extends React.Component {
         Api.getEventInformation(
             this.state.idEvent,
             error => {
-                this.setState({alertType:alertType.ERROR, message: error, hide: false})
+                this.setState({alertType:alertType.ERROR, message: error, hide: false, error:true})
             },
             event => {
                 this.setState({eventInfo:event,
@@ -137,7 +138,8 @@ class EventInfo extends React.Component {
                         { !this.state.hide ? <Alert handler={this.closeWindow} state={this.state.hide}
                                                     type={this.state.alertType} message={this.state.message}/> : null}
                         { !this.state.eventInfo ?
-                            <div className="text-center h-100">
+                            <div className="text-center h-100"
+                                 style={{ display: (!this.state.error? 'block' : 'none') }}>
                                 <Spinner/>
                             </div> :
                             this.state.redirection ? <Redirect to={routes.login}/> :

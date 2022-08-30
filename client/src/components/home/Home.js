@@ -19,7 +19,8 @@ class Home extends Component {
             tags: [],
             filter: false,
             search: false,
-            loc: false
+            loc: false,
+            error: false
         }
         this.filterHandler = this.filterHandler.bind(this)
         this.locHandler = this.locHandler.bind(this)
@@ -61,7 +62,7 @@ class Home extends Component {
         Api.getEvents(
             error => {
                 console.log(error)
-                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+                if(this._isMounted) this.setState({error:true})
             }, events => {
                 if(this._isMounted) this.setState({events:events})
             }
@@ -70,7 +71,7 @@ class Home extends Component {
         Api.getTags(
             error => {
                 console.log(error)
-                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+                if(this._isMounted) this.setState({error:true})
             }, tags => {
                 if(this._isMounted) this.setState({tags:tags})
             }
@@ -134,7 +135,9 @@ class Home extends Component {
                     </div>
                     <div className="col ps-0 pe-1 pt-0" id="main">
                         <div className="show-events">
-                            {
+                            {   this.state.error ?
+                                <div className="alert alert-danger">
+                                    Errore di caricamento. Riprova più tardi </div>:
                                 this.state.events.length === 0 ?
                                     <Spinner/> : this.renderEvents()
                             }
