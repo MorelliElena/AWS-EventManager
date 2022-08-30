@@ -32,7 +32,10 @@ class Registration extends React.Component {
     handleSubmit = () =>  {
         console.log(this.state.valueOf())
         if(this.state.email && this.state.password && this.state.name && this.state.surname && this.state.birthday){
-            if(this.state.password.length < 8){
+            if(!Util.checkIfEmailInString(this.state.email)){
+                this.setState({hide:false,
+                    message:"L'e-mail inserita non risulta essere valida", alertType:alertType.ERROR})
+            } else if(this.state.password.length < 8){
                 this.setState({hide:false,
                     message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
             } else if(Util.mapDateISO(this.state.birthday) <= Util.getCurrentDate()){
@@ -96,7 +99,7 @@ class Registration extends React.Component {
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>Email</Form.Label>
+                                        <Form.Label>E-mail</Form.Label>
                                         <Form.Control type="email" placeholder="Email"
                                                       onChange={e => this.setState({email: e.target.value})}/>
                                         <Form.Text className="text-muted"/>

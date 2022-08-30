@@ -17,6 +17,11 @@ let mapEvent = (name, date_start, date_finish, add, city, prov, id) => {
 
 }
 
+function checkIfEmailInString(text) {
+    const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi
+    return re.test(text);
+}
+
 let mapDateISO = (date) => {
     return moment(date, "DD/MM/YYYY").format('YYYY-MM-DD');
 }
@@ -43,5 +48,6 @@ export default {
     mapDate,
     getCurrentDate,
     mapDateISO,
-    mapUTC
+    mapUTC,
+    checkIfEmailInString
 }
