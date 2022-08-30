@@ -90,7 +90,8 @@ let managePromise = (promise, httpSuccessfulCodes, onError, onSuccess) => {
 let getEventInformation = (eventId, onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/events/`+ eventId),
         [200],
-        error => onError(error.response.data.description),
+        error => {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         response => onSuccess(mapEvent(response.data)))
 }
 
@@ -118,7 +119,8 @@ let getPlaces = (onError, onSuccess) => {
 let checkAuthentication = (username, password, onError, onSuccess) => {
     managePromise(Axios.post(`http://localhost:5000/api/login/`, {username, password}),
         [200],
-        error => onError(error.response.data.description),
+        error => {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         response => onSuccess(mapProfile(response.data)))
 
 }
@@ -136,7 +138,8 @@ let updateProfileData = (userId, name, surname, birthdate, username, password, s
     managePromise(Axios.post(`http://localhost:5000/api/update/`,
         {userId, name, surname, birthday , username, password, salt}),
         [200],
-        error =>  onError(error.response.data.description),
+        error => {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {onSuccess(resp.data.description)})
 }
 
@@ -144,7 +147,8 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
     managePromise(Axios.post(`http://localhost:5000/api/booking/`,
         {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
@@ -158,7 +162,8 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
                             () => onError(error.response.data.description),
                             () => onError(error.response.data.description))
                     } else {
-                        onError(error.response.data.description)
+                        {error.response ? onError(error.response.data.description) :
+                            onError("Errore di caricamento. Riprova più tardi")}
                     }
                 },
                 resp => onSuccess(resp.data.description))
@@ -172,13 +177,15 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
     managePromise(Axios.delete(`http://localhost:5000/api/booking/`,
         {data:{userId, bookingId}}),
         [200],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {
             if(resp.status === 200) {
                 managePromise(Axios.delete(`http://localhost:5000/api/events/`,
                         {data: {eventId, bookingId, participants, userId}}),
                     [200],
-                    error => onError(error.data.description),
+                    error => {error.response ? onError(error.response.data.description) :
+                        onError("Errore di caricamento. Riprova più tardi")},
                     resp => onSuccess(resp.data.description))
             }
     })
@@ -190,7 +197,8 @@ let addUserLike = (userId, eventId, name, date_start, date_finish, location, onE
     managePromise(Axios.post(`http://localhost:5000/api/like/`,
         {userId, eventId, name, ds, df, location}),
         [200, 202],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {if(resp.status === 200){
             onSuccess(resp.data.description)
             managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
@@ -214,7 +222,8 @@ let removeLike = (userId, eventId, likeId, onError, onSuccess) =>{
     managePromise(Axios.delete(`http://localhost:5000/api/like/`,
         {data:{userId, likeId}}),
         [200],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {
             onSuccess(resp.data.description)
             managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
@@ -230,7 +239,8 @@ let addUser = (email, password, salt, birthday, name, surname, onError, onSucces
     managePromise(Axios.post(`http://localhost:5000/api/registration/`,
             {email, password, salt, birthday, name, surname}),
         [200, 202],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {
             if(resp.status === 200) {
                 onSuccess(resp.data.description)
@@ -247,7 +257,8 @@ let createEvent = (title, desc, date_start, date_finish, img, address, city, pro
     managePromise(Axios.post(`http://localhost:5000/api/events/creation/`,
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
-        error =>  onError(error.response.data.description),
+        error =>  {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {onSuccess(resp.data)})
 }
 
@@ -262,7 +273,8 @@ let cancelEvent = (eventId, onError, onSuccess) =>{
     managePromise(Axios.delete(`http://localhost:5000/api/events/creation/`,
             {data: {eventId}}),
         [200],
-        error => onError(error.data.description),
+        error =>{error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => onSuccess(resp.data.description))
 
 }
@@ -271,7 +283,8 @@ let updateEvent = (eventId, title, desc, img, address, city, province, tag, capa
     managePromise(Axios.post(`http://localhost:5000/api/events/update/`,
             {eventId, title, desc, img, address, city, province, tag, capacity}),
         [200],
-        error =>  onError(error.data.description),
+        error => {error.response ? onError(error.response.data.description) :
+            onError("Errore di caricamento. Riprova più tardi")},
         resp => {onSuccess(resp.data.description)})
 }
 

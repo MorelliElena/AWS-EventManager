@@ -35,14 +35,17 @@ class EventCreation extends React.Component{
         Api.getTags(
             error => {
                 console.log(error)
-                //this.onError("Errore nel caricare la home. Ricaricare la pagina.")
+                this.props.handler2("Funzionalità non disponibile. Riprova più tardi", false, alertType.ERROR)
+                this.props.handler1(false)
             }, tags => {
                 this.setState({tags:tags})
             }
         )
 
         Api.getPlaces(
-            error => console.log(error),
+            error => {console.log(error)
+                this.props.handler2("Funzionalità non disponibile. Riprova più tardi", false, alertType.ERROR)
+                this.props.handler1(false)},
             places => this.setState({places:places})
         )
     }

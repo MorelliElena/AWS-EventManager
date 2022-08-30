@@ -13,7 +13,7 @@ let alertType = Choice.Alert
 class Profile extends React.Component{
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             user: props.user,
             alertType: Choice.Alert,
             message: undefined,

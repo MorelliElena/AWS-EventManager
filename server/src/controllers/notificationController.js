@@ -51,9 +51,8 @@ deleteNotifications = function(req, res) {
 }
 
 markNotifications = function (req,res) {
-    console.log(req.body.notifications)
     let list = req.body.notifications.map(e => e._id)
-    console.log(list)
+
     Notify.updateMany({_id:{$in:list}}, {$set:{"read": true}}, {useFindAndModify:false, multi:true}, function (err) {
         if (err) {
             res.send(err);
@@ -64,7 +63,6 @@ markNotifications = function (req,res) {
 }
 
 updateUserInterests = (userId, eventId, type) =>{
-    console.log(userId + "----------------------" + eventId)
     Users.findOneAndUpdate({"_id":userId, "likes.id_event": eventId}, {$set:{"likes.$.status": type}},
         {useFindAndModify:false}, function (err) {
             if (err) {

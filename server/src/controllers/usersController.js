@@ -14,7 +14,7 @@ exports.checkAuthentication = function(req, res) {
                     res.json(user);
                 } else {
                     res.status(401).send({
-                        description: 'Autenticazione fallita'
+                        description: 'Autenticazione fallita. Password non corretta'
                     });
                 }
             } else {
@@ -218,7 +218,7 @@ exports.isEventLiked = function (req,res) {
 
 exports.registration = function (req, res) {
     let userId = mongoose.Types.ObjectId()
-    console.log(req.body)
+
     Users.findOne({"username":req.body.email}, function (err, user) {
         if (err)
             res.send(err);
