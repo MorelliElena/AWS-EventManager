@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "615db352b2c9d2c7b04b645b"
+  },
+  "name": "sport",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "615db3c3b2c9d2c7b04b645e"
+  },
+  "name": "cultura",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "615db3d5b2c9d2c7b04b6460"
+  },
+  "name": "gastronomia",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "615db3e5b2c9d2c7b04b6462"
+  },
+  "name": "musica",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "6304d26167b388daa6199a17"
+  },
+  "name": "sagra",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "6304d27c67b388daa6199a18"
+  },
+  "name": "spettacolo",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "6304d2a667b388daa6199a19"
+  },
+  "name": "festa",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "630e26e9f56f8cb39302bf8c"
+  },
+  "name": "mercatini",
+  "desc": ""
+}]

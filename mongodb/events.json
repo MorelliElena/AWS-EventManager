@@ -1,0 +1,440 @@
+[{
+  "_id": {
+    "$oid": "6145fff4f82e8b5a82285448"
+  },
+  "name": "Imola in musica",
+  "desc": "\"Imola in Musica\" è una grande Festa della Musica che si svolge nel centro storico della città, con 6 palchi fissi e più di 40 location.",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1661990400000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1662249600000"
+    }
+  },
+  "img": "https://www.bologna24ore.it/wp-content/uploads/sites/7/2022/07/Imola-in-Musica.jpg",
+  "location": {
+    "address": "Via Emilia 172",
+    "city": "Imola",
+    "province": "Bologna"
+  },
+  "tag": [
+    "musica",
+    "cultura",
+    "spettacolo"
+  ],
+  "booking": [
+    {
+      "_id": {
+        "$oid": "622f51dfcab635273dcebf65"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1661990400000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 158
+    },
+    {
+      "_id": {
+        "$oid": "622f5560cab635273dcebf6a"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1662076800000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 158
+    },
+    {
+      "_id": {
+        "$oid": "622f5397cab635273dcebf67"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1662163200000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 158
+    },
+    {
+      "_id": {
+        "$oid": "62d424ecabaae1a199268bd9"
+      },
+      "n_participants": 0,
+      "max_participants": 158,
+      "date": {
+        "$date": {
+          "$numberLong": "1662249600000"
+        }
+      }
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "status": "on",
+  "tot_participants": 0,
+  "max_capacity_daily": 158,
+  "followers": []
+},{
+  "_id": {
+    "$oid": "62b725b39d1ff84974e4abcd"
+  },
+  "tag": [
+    "intrattenimento",
+    "cultura"
+  ],
+  "name": "Drive in Imola",
+  "desc": "La magia del cinema...come non l'hai mai visto!",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1661385600000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1661558400000"
+    }
+  },
+  "location": {
+    "address": " Via Casola Canina, 3",
+    "city": "Imola",
+    "province": "Bologna"
+  },
+  "img": "https://www.driveinimola.it/wp-content/uploads/2022/05/HOME-SITO-DESKTOP-COMPUTER-1024x576.jpg",
+  "booking": [
+    {
+      "_id": {
+        "$oid": "62fca1f067b388daa61999e2"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1661385600000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 205
+    },
+    {
+      "_id": {
+        "$oid": "62fca2ba67b388daa61999e3"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1661472000000"
+        }
+      },
+      "max_participants": 205,
+      "n_participants": 0
+    },
+    {
+      "_id": {
+        "$oid": "62fca34467b388daa61999e4"
+      },
+      "n_participants": 0,
+      "date": {
+        "$date": {
+          "$numberLong": "1661558400000"
+        }
+      },
+      "max_participants": 205
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "__v": true,
+  "status": "finished",
+  "tot_participants": 0,
+  "max_capacity_daily": 205,
+  "followers": []
+},{
+  "_id": {
+    "$oid": "630e25f877f81d38fc0deb5d"
+  },
+  "tag": [
+    "festa",
+    "gastronomia"
+  ],
+  "name": "Medicina food truck festival ",
+  "desc": "A Medicina (BO), arriva il Food Truck Festival che si propone come primo e unico format in Italia che unisce tutte le eccellenze di strada.\n \nMedicina Food Truck Festival 2022 animerà Via Libertà, in occasione dell'evento MediCIBO, dal 14 al 16 Ottobre 2022 con i migliori Food Truck dello stivale per scaldarvi anima e stomaco.\n \nCome contorno (oltre alle insalate), musicisti improvvisati, artisti di strada e mercatini urbani... ovvero tutto quello che immaginereste di una grande festa organizzata come fosse vostra!\n \n \nL'ingresso è gratuito, altrimenti... che festa sarebbe?!",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1665705600000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1665878400000"
+    }
+  },
+  "location": {
+    "address": "Via Libertà",
+    "city": "Medicina",
+    "province": "Bologna"
+  },
+  "img": "http://www.solosagre.it/media/re_eventi_33516_1661374779.jpg",
+  "booking": [
+    {
+      "_id": {
+        "$oid": "630e25f877f81d38fc0deb5f"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1665705600000"
+        }
+      },
+      "n_participants": 7,
+      "max_participants": 500
+    },
+    {
+      "_id": {
+        "$oid": "630e25f877f81d38fc0deb60"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1665792000000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 500
+    },
+    {
+      "_id": {
+        "$oid": "630e25f877f81d38fc0deb61"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1665878400000"
+        }
+      },
+      "n_participants": 5,
+      "max_participants": 500
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "tot_participants": 12,
+  "max_capacity_daily": 500,
+  "status": "on",
+  "followers": [
+    {
+      "_id": {
+        "$oid": "630f8f046eafa33c84618758"
+      },
+      "id_user": "630f68c82a167c5990a41a60",
+      "book": 2
+    },
+    {
+      "_id": {
+        "$oid": "630f8f0f6eafa33c8461876f"
+      },
+      "id_user": "62d983e807ca7d551c8d3dae",
+      "book": 1
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630e2a2b77f81d38fc0deb80"
+  },
+  "tag": [
+    "festa",
+    "musica",
+    "gastronomia"
+  ],
+  "name": "JUMP E.R. LUX FESTIVAL",
+  "desc": "SETTEMBRE A FORLÌ VUOL DIRE JUMP E.R. LUX FESTIVAL\n🤗Ormai lo sapete, JUMP E.R. LUX FESTIVAL è tutto quello che ci piace fare INSIEME: ascoltare musica, mangiare e bere.\n🔥Preparatevi a 3 giorni di fuoco in piazza Saffi, segnate in agenda: 23, 24, 25 settembre, da venerdì a domenica!\n📌LINE UP:\n🔹Venerdì 23: Emma Nolde // Le Endrigo\n🔹Sabato 24: Motta // Dj Set: Miganova\n🔹Domenica 25: Kruger\n🍻I cancelli apriranno tutte le sere alle 18:00, per farvi godere fin da subito le nostre birre fresche e i nostri stand gastronomici, perfetti per soddisfare anche i palati più esigenti.\n🗣️Parole d’ordine? Divertimento e rispetto per l’ambiente!\n🎤Pront* per cantare tutto il weekend con noi???\n✨E ricordate: Jump E.R. Lux Festival è musica indipendente e, soprattutto, GRATUITA!",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1663891200000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1664064000000"
+    }
+  },
+  "location": {
+    "address": "Piazza Aurelio Saffi",
+    "city": "Forlì",
+    "province": "Forlì-Cesena"
+  },
+  "img": "http://data.myforli.it/static/ucrf/images/eventi/m/14808_jum_er_lux_festival.jpg",
+  "booking": [
+    {
+      "_id": {
+        "$oid": "630e2a2b77f81d38fc0deb82"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1663891200000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 200
+    },
+    {
+      "_id": {
+        "$oid": "630e2a2b77f81d38fc0deb83"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1663977600000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 200
+    },
+    {
+      "_id": {
+        "$oid": "630e2a2b77f81d38fc0deb84"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1664064000000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 200
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "tot_participants": 0,
+  "max_capacity_daily": 200,
+  "status": "on",
+  "followers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630e2b8d77f81d38fc0deb94"
+  },
+  "tag": [
+    "mercatini"
+  ],
+  "name": "Baracchina Market",
+  "desc": "DOMENICA 18 SETTEMBRE il Caffè della Rocca ti invita a partecipare all'evento piu' cool dell'anno: il Baracchina Market, ovvero LO SVUOTA ARMADIO! 👚👕👖🕶🌂\n🤩TI PIACEREBBE PARTECIPARE COME ESPOSITORE?🤩\nAllora leggi qui:\n👉 Cosa puoi vendere?\n- Vestiti usati (ma in buono stato)\n- Accessori usati (ma in buono stato)\n- Libri\n- Le tue creazioni hand-made\n👉Cosa ti offriamo:\n- Spazio espositivo con tavolo (o cio' che sia piu' consono ai tuoi prodotti)\n- Teli, tovaglie, lucine, oggettistica varia per l'allestimento\n- Aiuto pratico per allestire\n📲COME CONTATTARCI PER ULTERIORI INFORMAZIONI E PER PARTECIPARE:\nSu Instagram in direct\nSu Facebook Messenger (pagina del Caffè della Rocca)\nLIMITE MASSIMO PER LE ADESIONI DEGLI ESPOSITORI:\nMERCOLEDI' 31 AGOSTO!\nPreparati...sarà una GRAN FIGATA!",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1663459200000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1663459200000"
+    }
+  },
+  "location": {
+    "address": "Piazzale Giovanni Delle Bande, 10",
+    "city": "Imola",
+    "province": "Bologna"
+  },
+  "img": "https://scontent.fblq5-2.fna.fbcdn.net/v/t39.30808-6/301431198_495741205887766_2362082383040681866_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=340051&_nc_ohc=Q748ieF4yaMAX94fJgn&_nc_ht=scontent.fblq5-2.fna&oh=00_AT8He-nXxUJgouM4UpM0S6rj7zh8P5Z6mW7sqffUYiiz_g&oe=6312E86B",
+  "booking": [
+    {
+      "_id": {
+        "$oid": "630e2b8d77f81d38fc0deb96"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1663459200000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 75
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "tot_participants": 0,
+  "max_capacity_daily": 75,
+  "status": "on",
+  "followers": [
+    {
+      "_id": {
+        "$oid": "630f8f386eafa33c846187ba"
+      },
+      "id_user": "630f68c82a167c5990a41a60",
+      "book": 1
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630e2d9677f81d38fc0debba"
+  },
+  "tag": [
+    "mercatini",
+    "gastronomia"
+  ],
+  "name": "Mercatino Regionale Francese",
+  "desc": "Nuovo appuntamento con il Mercatino Regionale Francese, in collaborazione con il consorzio Faenza Centro. 😊\nAd aspettarvi troverete un piccolo angolo di Francia con specialità enogastronomiche d'eccellenza e prodotti di artigianato tipici della tradizione francese.\nL'evento si svolge nel rispetto delle normative per la prevenzione della diffusione del Covid 19.\n🥖 PRODOTTI ENOGASTRONOMICI\n- oltre 80 tipi di formaggi\n- un'ampia gamma di vini delle regioni vinicole d'Oltralpe\n- biscotti bretoni con 20 varietà di ripieno\n- una grande varietà di cioccolatini tipici\n- baguette e croissant sfornati al momento\n- Crêpes e macarons\n- una vasta selezione di spezie e frutta disidratata\n👜 PRODOTTI DI ARTIGIANATO TIPICO\n- lavanda ed oli essenziali\n- saponi, profumi e make up\n- tovaglie provenzali\n- bjjoux\n...e tanto altro ancora.",
+  "date_start": {
+    "$date": {
+      "$numberLong": "1667001600000"
+    }
+  },
+  "date_finish": {
+    "$date": {
+      "$numberLong": "1667260800000"
+    }
+  },
+  "location": {
+    "address": "Piazza del Popolo",
+    "city": "Faenza",
+    "province": "Ravenna"
+  },
+  "img": "https://scontent.fblq5-1.fna.fbcdn.net/v/t39.30808-6/295993696_5556359774431848_6407287575924398038_n.jpg?stp=dst-jpg_s960x960&_nc_cat=108&ccb=1-7&_nc_sid=340051&_nc_ohc=tLKFbKqaTsEAX-7Iioe&_nc_ht=scontent.fblq5-1.fna&oh=00_AT-SwZAW_faeri-dCvxjEc2PWeVnLCx63GZuZ00T7leDzg&oe=631268DD",
+  "booking": [
+    {
+      "_id": {
+        "$oid": "630e2d9677f81d38fc0debbc"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1667001600000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 300
+    },
+    {
+      "_id": {
+        "$oid": "630e2d9677f81d38fc0debbd"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1667088000000"
+        }
+      },
+      "n_participants": 2,
+      "max_participants": 300
+    },
+    {
+      "_id": {
+        "$oid": "630e2d9677f81d38fc0debbe"
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1667178000000"
+        }
+      },
+      "n_participants": 0,
+      "max_participants": 300
+    }
+  ],
+  "owner": "62d9826907ca7d551c8d3d6a",
+  "tot_participants": 2,
+  "max_capacity_daily": 300,
+  "status": "on",
+  "followers": [
+    {
+      "_id": {
+        "$oid": "630f8f166eafa33c84618785"
+      },
+      "id_user": "62d983e807ca7d551c8d3dae",
+      "book": 2
+    }
+  ],
+  "__v": 0
+}]

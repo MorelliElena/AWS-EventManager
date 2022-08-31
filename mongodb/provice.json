@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "618a979aa589e0255b34fb9f"
+  },
+  "name": "Bologna",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a97bfa589e0255b34fba1"
+  },
+  "name": "Ferrara",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a97e6a589e0255b34fba3"
+  },
+  "name": "Forlì-Cesena",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a9802a589e0255b34fba5"
+  },
+  "name": "Modena",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a981ca589e0255b34fba7"
+  },
+  "name": "Parma",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a982ea589e0255b34fba9"
+  },
+  "name": "Piacenza",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a9852a589e0255b34fbab"
+  },
+  "name": "Ravenna",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a986ba589e0255b34fbad"
+  },
+  "name": "Reggio Emilia",
+  "desc": ""
+},{
+  "_id": {
+    "$oid": "618a987ea589e0255b34fbaf"
+  },
+  "name": "Rimini",
+  "desc": ""
+}]

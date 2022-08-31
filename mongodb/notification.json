@@ -1,0 +1,157 @@
+[{
+  "_id": {
+    "$oid": "630f8f626eafa33c846187df"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e2d9677f81d38fc0debba"
+    },
+    "name": "Mercatino Regionale Francese"
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "62d983e807ca7d551c8d3dae"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964130175"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f8f786eafa33c846187f8"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e2d9677f81d38fc0debba"
+    },
+    "name": "Mercatino Regionale Francese"
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "62d983e807ca7d551c8d3dae"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964152019"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f8f856eafa33c84618811"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e25f877f81d38fc0deb5d"
+    },
+    "name": "Medicina food truck festival "
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "630f68c82a167c5990a41a60"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964165581"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f8f856eafa33c84618813"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e25f877f81d38fc0deb5d"
+    },
+    "name": "Medicina food truck festival "
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "62d983e807ca7d551c8d3dae"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964165582"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f8f986eafa33c8461882f"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e25f877f81d38fc0deb5d"
+    },
+    "name": "Medicina food truck festival "
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "630f68c82a167c5990a41a60"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964184420"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f8f986eafa33c84618831"
+  },
+  "event": {
+    "eventId": {
+      "$oid": "630e25f877f81d38fc0deb5d"
+    },
+    "name": "Medicina food truck festival "
+  },
+  "senderId": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "receiverId": {
+    "$oid": "62d983e807ca7d551c8d3dae"
+  },
+  "type": "edited",
+  "read": true,
+  "sent": true,
+  "msg": "L'evento è stato modificato",
+  "date": {
+    "$date": {
+      "$numberLong": "1661964184421"
+    }
+  },
+  "__v": 0
+}]
