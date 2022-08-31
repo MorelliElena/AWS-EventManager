@@ -6,6 +6,8 @@ import "./Profile.css"
 import Alert from "../../alert/Alert";
 import Choice from "../../../common/Choice";
 import bcrypt from "bcryptjs";
+import moment from "moment/moment";
+import Util from "../../../common/Util";
 
 const salt = bcrypt.genSaltSync(10)
 let alertType = Choice.Alert
@@ -42,9 +44,16 @@ class Profile extends React.Component{
     }
 
     handleSubmission = () => {
+        const db = moment(this.state.user.birthday, "DD/MM/YYYY", true).isValid();
         if(Object.values(this.state.user).filter(e=> e === "").length > 0) {
             this.setState(() =>({alertType: alertType.ERROR, message: "Uno o più campi risultano essere vuoti",
                 hide: false}))
+        } if(!db || Util.mapDateISO(this.state.user.birthday) >= Util.getCurrentDate()){
+            this.setState(() =>({alertType: alertType.ERROR, message: "La data risulta essere non valida",
+                hide: false}))
+        } if(this.state.user.password.length < 8){
+            this.setState(() =>({alertType: alertType.ERROR,
+                message: "La password deve essere lunga almeno 8 caratteri", hide: false}))
         } else {
             this.props.handler(this.state.user)
                  Api.updateProfileData(
@@ -104,7 +113,7 @@ class Profile extends React.Component{
                                                   defaultValue={this.state.user.username}
                                                   name="username"
                                                   onChange={e => this.handleChange(e)}
-                                                  readOnly={this.state.readOnly}/>
+                                                  readOnly={true}/>
 
                                     <Form.Label className="my-2">Password</Form.Label>
                                     <Form.Control type="password"

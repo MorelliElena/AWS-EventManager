@@ -32,7 +32,6 @@ class Home extends Component {
         if (event != null && this._isMounted) {
             this.setState({filter: true});
             filteredTags = event.map(t => this.state.tags.find(el => el._id === t)).map(e => e.name)
-            console.log(filteredTags);
         } else {
             this.setState({filter: false});
         }
@@ -93,13 +92,10 @@ class Home extends Component {
                 eventsList = eventsList.filter(e => e.location.province === locFilter)
             }
             if(this.state.search){
-                console.log(eventsList)
-                console.log(searchString)
                 const str = searchString.toLowerCase()
                 eventsList = eventsList.filter(e => e.location.city.toLowerCase().includes(str)
                     || e.name.toLowerCase().includes(str)
                     || e.description.toLowerCase().includes(str))
-                console.log(eventsList)
             }
 
             if (eventsList.length === 0 && (this.state.filter || this.state.loc || this.state.search)) {

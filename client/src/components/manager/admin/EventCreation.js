@@ -55,7 +55,6 @@ class EventCreation extends React.Component{
     }
 
     handleSubmission = () => {
-        console.log(this.state.valueOf())
         const ds = moment(this.state.date_start, "DD/MM/YYYY", true).isValid();
         const df = moment(this.state.date_finish, "DD/MM/YYYY", true).isValid();
         if(this.state.title && this.state.desc && ds && df && this.state.province && this.state.city

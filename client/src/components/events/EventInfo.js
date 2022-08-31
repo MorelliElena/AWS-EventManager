@@ -59,11 +59,8 @@ class EventInfo extends React.Component {
 
     bookingHandler = (e, participants) => {
         if (!sessionStorage.getItem("token")){
-            console.log("entra book")
             this.setState({redirection: true})
         } else {
-            console.log(e)
-            console.log(participants)
             Api.addUserBooking(
                 sessionStorage.getItem("token"),
                 this.state.idEvent,

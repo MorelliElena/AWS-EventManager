@@ -3,11 +3,11 @@ import {Button, Form} from "react-bootstrap";
 import Api from "../../api/Api";
 import "./EventCreation.css"
 import {BsXLg} from "react-icons/bs";
-import update from "react-addons-update";
 import Choice from "../../../common/Choice";
 
 let checked;
 let alertType = Choice.Alert
+let choice = [];
 
 class EditEvent extends React.Component{
     constructor(props) {
@@ -19,6 +19,7 @@ class EditEvent extends React.Component{
             places:[],
             error: false
         }
+        choice = props.edit.tags
     }
 
 
@@ -66,20 +67,16 @@ class EditEvent extends React.Component{
 
     handleInputChange = e => {
         if(e.target.checked){
-            this.setState(prevState => ({
-                event: {
-                    ...prevState.event,
-                    tags: prevState.event.tags.concat(e.target.id)
-                }
-            }))
+            choice = choice.concat(e.target.id)
         } else {
-            this.setState(prevState => ({
-                event: {
-                    ...prevState.event,
-                    tags: update(prevState.event.tags, {$splice: [[e.target.id, 1]]})
-                }
-            }));
+            choice = choice.filter(h => h !== e.target.id)
         }
+        this.setState(prevState => ({
+            event: {
+                ...prevState.event,
+                tags: choice
+            }
+        }))
     }
 
     handleChange = e => {
@@ -189,7 +186,7 @@ class EditEvent extends React.Component{
                                 Tipologia</label>
                             <div className="form-check">
                                 {this.state.tags.map(t => {
-                                    this.state.event.tags.includes(t.name) ? checked=true:checked=false
+                                    this.state.event.tags.includes(t.name) ? checked=true : checked=false
                                     return <div key={t._id}>
                                         <input className="form-check-input" type="checkbox"
                                                defaultChecked={checked}

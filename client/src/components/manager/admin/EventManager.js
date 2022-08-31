@@ -37,8 +37,7 @@ class EventManager extends React.Component{
               this.setState({follow: success})
               Api.cancelEvent(event._id, () => {
                   },
-                  success => {
-                      console.log(success)
+                  () => {
                       this.setState(prevState => ({
                           events: prevState.events
                               .map(el => (el._id === event._id ? {...el, status: "cancelled"} : el)),
@@ -56,7 +55,6 @@ class EventManager extends React.Component{
     }
 
     editEvent = (event) => {
-        console.log(event)
        this.setState({edit: true, toBeEdited:event})
     }
 
@@ -107,7 +105,6 @@ class EventManager extends React.Component{
         Api.getFollowers(event._id,
             () => {},
             success => {
-                console.log(success)
                 this.setState({follow: success})
                 this.props.socket.emit("notification", {
                     sender: sessionStorage.getItem("token"),

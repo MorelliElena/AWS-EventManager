@@ -30,7 +30,6 @@ class Registration extends React.Component {
     }
 
     handleSubmit = () =>  {
-        console.log(this.state.valueOf())
         if(this.state.email && this.state.password && this.state.name && this.state.surname && this.state.birthday){
             if(!Util.checkIfEmailInString(this.state.email)){
                 this.setState({hide:false,
@@ -38,7 +37,7 @@ class Registration extends React.Component {
             } else if(this.state.password.length < 8){
                 this.setState({hide:false,
                     message:"La password deve essere più lunga di 8 caratteri", alertType:alertType.ERROR})
-            } else if(Util.mapDateISO(this.state.birthday) <= Util.getCurrentDate()){
+            } else if(this.state.birthday >= Util.getCurrentDate()){
                 this.setState({hide:false,
                     message:"La data inserita non è valida", alertType:alertType.ERROR})
             }else{
@@ -55,7 +54,6 @@ class Registration extends React.Component {
         } else {
             this.setState({hide:false, message:"Tutti i campi devono essere riempiti", alertType:alertType.ERROR})
         }
-
     }
 
     closeWindow = (state) => {

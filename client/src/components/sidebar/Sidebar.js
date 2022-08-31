@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, Dropdown, DropdownButton, FormControl} from "react-bootstrap";
 import Api from "../api/Api";
-import update from 'react-addons-update';
 import "./Sidebar.css"
 import {BsSearch,BsXCircle} from "react-icons/bs";
 import Choice from "../../common/Choice";
@@ -53,7 +52,7 @@ class Sidebar extends React.Component{
             this.setState({checked:this.state.checked.concat(event.target.id)})
         } else {
             this.setState(prevState => ({
-                checked: update(prevState.checked, {$splice: [[event.target.id, 1]]})
+                checked:prevState.checked.filter(h => h !== event.target.id)
             }));
         }
     }

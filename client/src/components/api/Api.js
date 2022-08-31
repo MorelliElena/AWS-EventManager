@@ -1,6 +1,8 @@
 import Axios from "axios";
 import Util from "../../common/Util";
 
+const errString = "Errore di caricamento. Riprova più tardi";
+
 let mapTag = (tag) =>{
     return{
         name: tag.name,
@@ -91,7 +93,7 @@ let getEventInformation = (eventId, onError, onSuccess) => {
     managePromise(Axios.get(`http://localhost:5000/api/events/`+ eventId),
         [200],
         error => {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         response => onSuccess(mapEvent(response.data)))
 }
 
@@ -120,7 +122,7 @@ let checkAuthentication = (username, password, onError, onSuccess) => {
     managePromise(Axios.post(`http://localhost:5000/api/login/`, {username, password}),
         [200],
         error => {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         response => onSuccess(mapProfile(response.data)))
 
 }
@@ -139,7 +141,7 @@ let updateProfileData = (userId, name, surname, birthdate, username, password, s
         {userId, name, surname, birthday , username, password, salt}),
         [200],
         error => {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {onSuccess(resp.data.description)})
 }
 
@@ -148,7 +150,7 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
         {userId, eventId, bookingId, name, date, location, participants}),
         [200, 202],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {
         if(resp.status === 200){
             managePromise(Axios.post(`http://localhost:5000/api/events/`,
@@ -162,8 +164,8 @@ let addUserBooking = (userId, eventId, bookingId, name, date, location, particip
                             () => onError(error.response.data.description),
                             () => onError(error.response.data.description))
                     } else {
-                        {error.response ? onError(error.response.data.description) :
-                            onError("Errore di caricamento. Riprova più tardi")}
+                        error.response ? onError(error.response.data.description) :
+                            onError(errString)
                     }
                 },
                 resp => onSuccess(resp.data.description))
@@ -178,14 +180,14 @@ let removeBooking = (userId, eventId, bookingId, participants, onError, onSucces
         {data:{userId, bookingId}}),
         [200],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {
             if(resp.status === 200) {
                 managePromise(Axios.delete(`http://localhost:5000/api/events/`,
                         {data: {eventId, bookingId, participants, userId}}),
                     [200],
                     error => {error.response ? onError(error.response.data.description) :
-                        onError("Errore di caricamento. Riprova più tardi")},
+                        onError(errString)},
                     resp => onSuccess(resp.data.description))
             }
     })
@@ -198,7 +200,7 @@ let addUserLike = (userId, eventId, name, date_start, date_finish, location, onE
         {userId, eventId, name, ds, df, location}),
         [200, 202],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {if(resp.status === 200){
             onSuccess(resp.data.description)
             managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
@@ -223,7 +225,7 @@ let removeLike = (userId, eventId, likeId, onError, onSuccess) =>{
         {data:{userId, likeId}}),
         [200],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {
             onSuccess(resp.data.description)
             managePromise(Axios.post(`http://localhost:5000/api/events/follower/`,
@@ -240,7 +242,7 @@ let addUser = (email, password, salt, birthday, name, surname, onError, onSucces
             {email, password, salt, birthday, name, surname}),
         [200, 202],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {
             if(resp.status === 200) {
                 onSuccess(resp.data.description)
@@ -258,7 +260,7 @@ let createEvent = (title, desc, date_start, date_finish, img, address, city, pro
             {title, desc, ds, df, img, address, city, province, tag, capacity, owner_id}),
         [200],
         error =>  {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {onSuccess(resp.data)})
 }
 
@@ -274,7 +276,7 @@ let cancelEvent = (eventId, onError, onSuccess) =>{
             {data: {eventId}}),
         [200],
         error =>{error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => onSuccess(resp.data.description))
 
 }
@@ -284,7 +286,7 @@ let updateEvent = (eventId, title, desc, img, address, city, province, tag, capa
             {eventId, title, desc, img, address, city, province, tag, capacity}),
         [200],
         error => {error.response ? onError(error.response.data.description) :
-            onError("Errore di caricamento. Riprova più tardi")},
+            onError(errString)},
         resp => {onSuccess(resp.data.description)})
 }
 
