@@ -20,7 +20,6 @@ class EventCard extends React.Component {
                             <img className="card-img-top image" src={this.state.eventInfo.img}
                                  alt="locandina"/>
                         </div> : null}
-                    {/*d-flex flex-column justify-content-end*/}
                     <div className="card-body d-flex flex-column justify-content-between" >
                         <div className="card-text">
                         <h5 className="card-title">{this.state.eventInfo.name}</h5>

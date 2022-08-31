@@ -22,7 +22,8 @@ class UserManager extends React.Component {
             user: null,
             events:[],
             notify: false,
-            error: false
+            error: false,
+            justLogged: true,
         }
         this._isMounted = true
         this.userSelection = this.userSelection.bind(this)
@@ -53,13 +54,14 @@ class UserManager extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this._isMounted !== prevState._isMounted ){
+
+        if(this.props.socket !== null && this.state.justLogged){
             this.props.session()
+            this.setState({justLogged:false})
         }
 
         this.props.socket.on("sendNotification", data => {
             if(this._isMounted) {
-                console.log(data)
                 this.update(data)
             }
         })

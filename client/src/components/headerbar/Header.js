@@ -29,7 +29,6 @@ class Header extends React.Component {
         if(this.props.socket !== prevProps.socket ) {
             this.props.socket.on("sendNotification", data => {
                 if(this._isMounted){
-                    console.log(data)
                     this.setState((prevState => ({
                         notifications:[data, ...prevState.notifications]
                     })))

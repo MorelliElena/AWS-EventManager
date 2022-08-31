@@ -28,7 +28,7 @@ class App extends Component {
 
         session = () =>{
             if (sessionStorage.getItem("token")) {
-                if (!this.state.socket.id) {
+                if (!this.state.socket.connected) {
                     this.state.socket.connect(io("http://localhost:5005"), {'forceNew': true})
                 }
                 this.state.socket.emit("newUser", sessionStorage.getItem("token"))

@@ -1,0 +1,185 @@
+[{
+  "_id": {
+    "$oid": "62d9826907ca7d551c8d3d6a"
+  },
+  "username": "mora19396@gmail.com",
+  "password": "$2a$10$SU0V5meyZWEzsg63brJClOXTgTl7s35ekuS1RNeOiJIJ/GpW.FE7m",
+  "salt": "$2a$10$SU0V5meyZWEzsg63brJClO",
+  "name": "Elena",
+  "surname": "Morelli",
+  "birthday": {
+    "$date": {
+      "$numberLong": "827193600000"
+    }
+  },
+  "bookings": [],
+  "likes": [],
+  "isAdmin": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62d983e807ca7d551c8d3dae"
+  },
+  "username": "luca.bianchi@gmail.com",
+  "password": "$2a$10$8uNlS7ZH7GHlnQxf5mzd3uqCaY3A0./WUzjiU8PPkKNVH7N6z3T2W",
+  "salt": "$2a$10$8uNlS7ZH7GHlnQxf5mzd3u",
+  "name": "Luca",
+  "surname": "Bianchi",
+  "birthday": {
+    "$date": {
+      "$numberLong": "919382400000"
+    }
+  },
+  "bookings": [
+    {
+      "_id": {
+        "$oid": "630e25f877f81d38fc0deb5f"
+      },
+      "id_event": "630e25f877f81d38fc0deb5d",
+      "name": "Medicina food truck festival ",
+      "date": {
+        "$date": {
+          "$numberLong": "1665698400000"
+        }
+      },
+      "participants": 7,
+      "status": "edited",
+      "location": {
+        "address": "Via Libertà",
+        "city": "Medicina",
+        "province": "Bologna"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "630e2d9677f81d38fc0debbd"
+      },
+      "id_event": "630e2d9677f81d38fc0debba",
+      "name": "Mercatino Regionale Francese",
+      "date": {
+        "$date": {
+          "$numberLong": "1667080800000"
+        }
+      },
+      "participants": 2,
+      "status": "edited",
+      "location": {
+        "address": "Piazza del Popolo",
+        "city": "Faenza",
+        "province": "Ravenna"
+      }
+    }
+  ],
+  "likes": [
+    {
+      "_id": {
+        "$oid": "630f8f166eafa33c84618781"
+      },
+      "id_event": "630e2d9677f81d38fc0debba",
+      "name": "Mercatino Regionale Francese",
+      "date_start": {
+        "$date": {
+          "$numberLong": "1667001600000"
+        }
+      },
+      "date_finish": {
+        "$date": {
+          "$numberLong": "1667260800000"
+        }
+      },
+      "status": "edited",
+      "location": {
+        "address": "Piazza del Popolo",
+        "city": "Faenza",
+        "province": "Ravenna"
+      }
+    }
+  ],
+  "isAdmin": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630f68c82a167c5990a41a60"
+  },
+  "username": "mario.rossi@gmail.com",
+  "password": "$2a$10$rcOg21.c.wp6rl2qEnVhAuQ2g6Q9F/tK1Er85a2DxGqhIsV4xNc26",
+  "salt": "$2a$10$rcOg21.c.wp6rl2qEnVhAu",
+  "name": "Mario",
+  "surname": "Rossi",
+  "birthday": {
+    "$date": {
+      "$numberLong": "1235779200000"
+    }
+  },
+  "bookings": [
+    {
+      "_id": {
+        "$oid": "630e25f877f81d38fc0deb61"
+      },
+      "id_event": "630e25f877f81d38fc0deb5d",
+      "name": "Medicina food truck festival ",
+      "date": {
+        "$date": {
+          "$numberLong": "1665871200000"
+        }
+      },
+      "participants": 5,
+      "status": "edited",
+      "location": {
+        "address": "Via Libertà",
+        "city": "Medicina",
+        "province": "Bologna"
+      }
+    }
+  ],
+  "likes": [
+    {
+      "_id": {
+        "$oid": "630f8f386eafa33c846187b6"
+      },
+      "id_event": "630e2b8d77f81d38fc0deb94",
+      "name": "Baracchina Market",
+      "date_start": {
+        "$date": {
+          "$numberLong": "1663459200000"
+        }
+      },
+      "date_finish": {
+        "$date": {
+          "$numberLong": "1663459200000"
+        }
+      },
+      "status": "",
+      "location": {
+        "address": "Piazzale Giovanni Delle Bande, 10",
+        "city": "Imola",
+        "province": "Bologna"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "630f8f3c6eafa33c846187c7"
+      },
+      "id_event": "630e25f877f81d38fc0deb5d",
+      "name": "Medicina food truck festival ",
+      "date_start": {
+        "$date": {
+          "$numberLong": "1665705600000"
+        }
+      },
+      "date_finish": {
+        "$date": {
+          "$numberLong": "1665878400000"
+        }
+      },
+      "status": "edited",
+      "location": {
+        "address": "Via Libertà",
+        "city": "Medicina",
+        "province": "Bologna"
+      }
+    }
+  ],
+  "isAdmin": false,
+  "__v": 0
+}]
