@@ -2,14 +2,14 @@
   "_id": {
     "$oid": "62d9826907ca7d551c8d3d6a"
   },
-  "username": "mora19396@gmail.com",
-  "password": "$2a$10$SU0V5meyZWEzsg63brJClOXTgTl7s35ekuS1RNeOiJIJ/GpW.FE7m",
-  "salt": "$2a$10$SU0V5meyZWEzsg63brJClO",
-  "name": "Elena",
-  "surname": "Morelli",
+  "username": "andrea.verdi@gmail.com",
+  "password": "$2a$10$y9RoGGCQ3mCJ1DEan/L6TOWfZF7nM5phZMVZbnworZrole21p5oF2",
+  "salt": "$2a$10$y9RoGGCQ3mCJ1DEan/L6TO",
+  "name": "Andrea",
+  "surname": "Verdi",
   "birthday": {
     "$date": {
-      "$numberLong": "827193600000"
+      "$numberLong": "826848000000"
     }
   },
   "bookings": [],
@@ -21,8 +21,8 @@
     "$oid": "62d983e807ca7d551c8d3dae"
   },
   "username": "luca.bianchi@gmail.com",
-  "password": "$2a$10$8uNlS7ZH7GHlnQxf5mzd3uqCaY3A0./WUzjiU8PPkKNVH7N6z3T2W",
-  "salt": "$2a$10$8uNlS7ZH7GHlnQxf5mzd3u",
+  "password": "$2a$10$PtFys1pXLdWVvBhoqSdBbe1k9nybudbS.PCYhGUtwWsYMmU8HVpTS",
+  "salt": "$2a$10$PtFys1pXLdWVvBhoqSdBbe",
   "name": "Luca",
   "surname": "Bianchi",
   "birthday": {
@@ -102,8 +102,8 @@
     "$oid": "630f68c82a167c5990a41a60"
   },
   "username": "mario.rossi@gmail.com",
-  "password": "$2a$10$rcOg21.c.wp6rl2qEnVhAuQ2g6Q9F/tK1Er85a2DxGqhIsV4xNc26",
-  "salt": "$2a$10$rcOg21.c.wp6rl2qEnVhAu",
+  "password": "$2a$10$XwM/1vVxeBUrnQrUpDEF8OVUKOBMuYefJ0CgFXU6E/dT4XtG8JrMa",
+  "salt": "$2a$10$XwM/1vVxeBUrnQrUpDEF8O",
   "name": "Mario",
   "surname": "Rossi",
   "birthday": {
