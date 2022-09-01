@@ -50,6 +50,7 @@ let mapProfile = (user) => {
         username: user.username,
         password: user.password,
         name: user.name,
+        salt: user.salt,
         surname: user.surname,
         birthday: Util.mapDate(user.birthday),
         isAdmin: user.isAdmin,

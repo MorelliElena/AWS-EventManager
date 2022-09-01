@@ -77,7 +77,7 @@ class EventCreation extends React.Component{
                         }, () =>
                             this.props.handler2(success.description, false, alertType.SUCCESS, false, ev))
                     })
-            } else{
+            } else {
                 this.props.handler2("Le date non risultano essere valide", false, alertType.ERROR, true)
             }
         } else {
