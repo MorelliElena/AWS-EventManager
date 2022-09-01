@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import routes from "../routes/Routes";
 import Sidebar from "../sidebar/Sidebar";
 import Choice from "../../common/Choice";
@@ -40,7 +40,7 @@ class Registration extends React.Component {
             } else if(this.state.birthday >= Util.getCurrentDate()){
                 this.setState({hide:false,
                     message:"La data inserita non è valida", alertType:alertType.ERROR})
-            }else{
+            } else {
                 console.log(this.state.valueOf())
                 Api.addUser(this.state.email, bcrypt.hashSync(this.state.password, salt), salt, this.state.birthday,
                     this.state.name, this.state.surname, error => {
@@ -116,8 +116,10 @@ class Registration extends React.Component {
                                             onClick={this.handleSubmit}>
                                         Invia
                                     </Button>
-
                                 </div>
+                                <Link className="d-flex justify-content-center mt-3 registration" to={routes.login}>
+                                    Torna alla schermata di login
+                                </Link>
                             </div>
                         </div>
                 </div>
